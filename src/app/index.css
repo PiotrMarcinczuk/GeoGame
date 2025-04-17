@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+* {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-variation-settings: "wdth" 100;
+}
+
+@theme {
+  --spacing-1450: 1450px;
+}
