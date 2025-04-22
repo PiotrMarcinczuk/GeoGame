@@ -7,7 +7,7 @@ export default function Country() {
         <h1 className="text-3xl">Państwo</h1>
         <hr className="bg-white w-full mt-4" />
         <div className="bg-red-100 mt-2 h-25">
-          <img src="" alt="flag"></img>
+          <img src={pl} alt="flag"></img>
           <p className="text-3xl">Polska</p>
         </div>
       </div>
