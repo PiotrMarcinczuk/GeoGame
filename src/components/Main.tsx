@@ -1,27 +1,19 @@
-import { useState } from "react";
 import CustomInput from "./CustomInput";
 import Country from "./Country";
-import fetchData from "../utils/http";
-import useStats from "../hooks/useStats";
-import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 
 function Main() {
-  const [count, setCount] = useState(0);
-
-  const queryClient = useQueryClient();
-  const result = useQuery({
-    queryKey: ["countries"],
-    queryFn: fetchData,
-  });
-
-  const { stats, setStats } = useStats({ data: result.data });
-
+  const data = useSelector((state: any) => state.country);
+  console.log(data);
   return (
     <>
       <header></header>
       <main className="max-w-1450 mx-auto">
         <CustomInput />
-        <Country />
+        {/* {data &&
+          data.map((country: any, index: number) => {
+            return <Country key={index} {...country} />;
+          })} */}
       </main>
     </>
   );

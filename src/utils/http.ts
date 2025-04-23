@@ -1,20 +1,28 @@
 import axios from "axios";
+import countries_iso from "../assets/countries_iso.json";
+import { setCountryData } from "../counters/countrySlice";
 
-const fetchData = async () => {
+const fetchData = async (country: string | null) => {
+  console.log(country);
+  const seletedCountry = countries_iso.filter(
+    (item) => item.name_pl.toLowerCase() === country!.toLowerCase()
+  );
+  const codeISO = seletedCountry[0].alpha2;
   try {
     const responseUrbanP = await axios.get(
-      "https://api.worldbank.org/v2/country/PL/indicator/EG.ELC.ACCS.UR.ZS?format=json&per_page=5"
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/EG.ELC.ACCS.UR.ZS?format=json&per_page=5`
     );
     const responseImport = await axios.get(
-      "https://api.worldbank.org/v2/country/PL/indicator/NE.IMP.GNFS.ZS?format=json&per_page=5"
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NE.IMP.GNFS.ZS?format=json&per_page=5`
     );
     const responseExport = await axios.get(
-      "https://api.worldbank.org/v2/country/PL/indicator/NE.EXP.GNFS.ZS?format=json&per_page=5"
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NE.EXP.GNFS.ZS?format=json&per_page=5`
     );
+
     return {
       "EG.ELC.ACCS.UR.ZS": responseUrbanP.data[1],
-      Import: responseImport.data[1],
-      Export: responseExport.data[1],
+      "NE.EXP.GNFS.ZS": responseImport.data[1],
+      "NE.IMP.GNFS.ZS": responseExport.data[1],
     };
   } catch (error) {
     console.error("Error fetching data:", error);
