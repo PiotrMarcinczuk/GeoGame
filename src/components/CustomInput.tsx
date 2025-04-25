@@ -3,25 +3,23 @@ import { useRef, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchData from "../utils/http";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCountryData } from "../counters/countrySlice";
-import { set } from "@dotenvx/dotenvx";
 export default function CustomInput() {
   const searchValue = useRef<string | null>("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>();
 
   const dispatch = useDispatch();
-  const dataR = useSelector((state: any) => state.country);
 
   const queryClient = useQueryClient();
   const result = useQuery({
-    queryKey: ["countries"],
-    queryFn: () => fetchData(searchTerm),
+    queryKey: ["countries", searchTerm],
+    queryFn: () => fetchData(searchTerm || null),
     enabled: !!searchTerm,
   });
 
   useEffect(() => {
-    console.log(result.data);
     if (result.data) dispatch(setCountryData(result.data));
   }, [result.data]);
 
@@ -32,9 +30,11 @@ export default function CustomInput() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSearchTerm(searchValue.current);
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
 
-  console.log(searchTerm);
   return (
     <form
       onSubmit={handleSubmit}
@@ -43,8 +43,9 @@ export default function CustomInput() {
           handleSubmit(e);
         }
       }}
-      className="mt-10 w-full mx-auto max-w-[812px] relative">
+      className="mt-10 mb-10 w-full mx-auto max-w-[812px] relative">
       <input
+        ref={inputRef}
         onClick={(e: any) => {
           if (searchValue.current == "Wpisz nazwe państwa") {
             e.target.value = "";
@@ -54,9 +55,9 @@ export default function CustomInput() {
           searchValue ? "text-black" : "text-gray-500"
         }`}
         onChange={handleChange}
-        defaultValue={"Wpisz nazwe państwa"}
+        placeholder="Wpisz nazwe państwa"
       />
-      <button className="absolute bg-[#DED9D9] right-3 bottom-1/2 translate-y-1/2  w-16 h-16 rounded-full">
+      <button className="absolute bg-[#DED9D9] right-3 bottom-1/2 translate-y-1/2  w-16 h-16 rounded-full hover:cursor-pointer">
         <img src={arrow} alt="arrow" className="mx-auto" />
       </button>
     </form>
