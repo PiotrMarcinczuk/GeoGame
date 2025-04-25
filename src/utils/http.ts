@@ -1,6 +1,6 @@
 import axios from "axios";
 import countries_iso from "../assets/countries_iso.json";
-import { setCountryData } from "../counters/countrySlice";
+import { useDispatch } from "react-redux";
 
 const fetchData = async (country: string | null) => {
   const seletedCountry = countries_iso.filter(
@@ -46,4 +46,18 @@ const fetchData = async (country: string | null) => {
   }
 };
 
+const fetchCorrectCountry = async () => {
+  const today = new Date().toISOString().split("T")[0];
+
+  let hash = 0;
+  for (let i = 0; i < today.length; i++) {
+    hash += today.charCodeAt(i);
+  }
+
+  const index = hash % countries_iso.length;
+  const result = await fetchData(countries_iso[index].name_pl);
+  return result;
+};
+
+export { fetchCorrectCountry };
 export default fetchData;

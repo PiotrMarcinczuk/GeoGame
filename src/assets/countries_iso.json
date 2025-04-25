@@ -24,12 +24,6 @@
     "alpha3": "AIA"
   },
   {
-    "name": "Åland Islands",
-    "name_pl": "Wyspy Alandzkie",
-    "alpha2": "AX",
-    "alpha3": "ALA"
-  },
-  {
     "name": "Albania",
     "name_pl": "Albania",
     "alpha2": "AL",
@@ -64,18 +58,6 @@
     "name_pl": "Samoa Amerykańskie",
     "alpha2": "AS",
     "alpha3": "ASM"
-  },
-  {
-    "name": "Antarctica",
-    "name_pl": "Antarktyka",
-    "alpha2": "AQ",
-    "alpha3": "ATA"
-  },
-  {
-    "name": "French Southern Territories",
-    "name_pl": "Francuskie Terytoria Południowe",
-    "alpha2": "TF",
-    "alpha3": "ATF"
   },
   {
     "name": "Antigua and Barbuda",
@@ -120,12 +102,6 @@
     "alpha3": "BEN"
   },
   {
-    "name": "Bonaire, Sint Eustatius and Saba",
-    "name_pl": "Bonaire, Sint Eustatius i Saba",
-    "alpha2": "BQ",
-    "alpha3": "BES"
-  },
-  {
     "name": "Burkina Faso",
     "name_pl": "Burkina Faso",
     "alpha2": "BF",
@@ -160,12 +136,6 @@
     "name_pl": "Bośnia i Hercegowina",
     "alpha2": "BA",
     "alpha3": "BIH"
-  },
-  {
-    "name": "Saint Barthélemy",
-    "name_pl": "Saint-Barthélemy",
-    "alpha2": "BL",
-    "alpha3": "BLM"
   },
   {
     "name": "Belarus",
@@ -240,12 +210,6 @@
     "alpha3": "CAN"
   },
   {
-    "name": "Cocos (Keeling) Islands",
-    "name_pl": "Wyspy Kokosowe",
-    "alpha2": "CC",
-    "alpha3": "CCK"
-  },
-  {
     "name": "Switzerland",
     "name_pl": "Szwajcaria",
     "alpha2": "CH",
@@ -286,12 +250,6 @@
     "name_pl": "Kongo",
     "alpha2": "CG",
     "alpha3": "COG"
-  },
-  {
-    "name": "Cook Islands",
-    "name_pl": "Wyspy Cooka",
-    "alpha2": "CK",
-    "alpha3": "COK"
   },
   {
     "name": "Colombia",

@@ -1,14 +1,20 @@
 import arrow from "../assets/img/arrow.png";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchData from "../utils/http";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { setCountryData } from "../counters/countrySlice";
+import SuggestionList from "./SuggestionList";
+import countries_iso from "../assets/countries_iso.json";
+import { count } from "console";
+import { set } from "@dotenvx/dotenvx";
+
 export default function CustomInput() {
   const searchValue = useRef<string | null>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>();
+  const [suggestionArr, setSuggestionArr] = useState<any>();
 
   const dispatch = useDispatch();
 
@@ -25,18 +31,29 @@ export default function CustomInput() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchValue.current = event.target.value;
+    const filtered = countries_iso.filter((item) => {
+      return item.name_pl
+        .toLowerCase()
+        .includes(searchValue.current!.toLowerCase());
+    });
+    setSuggestionArr(filtered.slice(0, 5));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSearchTerm(searchValue.current);
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
-  };
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setSearchTerm(searchValue.current);
+      searchValue.current = "";
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+    },
+    []
+  );
 
   return (
     <form
+      autoComplete="off"
       onSubmit={handleSubmit}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
@@ -57,9 +74,17 @@ export default function CustomInput() {
         onChange={handleChange}
         placeholder="Wpisz nazwe państwa"
       />
+
       <button className="absolute bg-[#DED9D9] right-3 bottom-1/2 translate-y-1/2  w-16 h-16 rounded-full hover:cursor-pointer">
         <img src={arrow} alt="arrow" className="mx-auto" />
       </button>
+      {searchValue.current && suggestionArr && (
+        <SuggestionList
+          suggestionArr={suggestionArr}
+          searchValue={searchValue}
+          handleSubmit={handleSubmit}
+        />
+      )}
     </form>
   );
 }
