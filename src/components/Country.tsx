@@ -1,54 +1,56 @@
-import { useMemo, memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import Format from "../utils/Format";
+import WinnerPopup from "./WinnerPopup";
 
 const Country = memo(function Country({ country, isFirst }: any) {
-  const data = useSelector((state: any) => state.correctCountry);
+  const {
+    formatToMilions,
+    formatGDP,
+    compareCountries,
+    checkIfCountryIsCorrect,
+  } = Format();
+  const correctCountry = useSelector((state: any) => state.correctCountry);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
-  const formatToMilions = useMemo(() => {
-    return (value: number) => {
-      if (value >= 1000000) {
-        return (value / 1000000).toFixed(2) + "M";
-      } else if (value >= 1000) {
-        return (value / 1000).toFixed(2) + "K";
-      } else {
-        return value.toString();
-      }
-    };
-  }, []);
+  const correctCodeISO = correctCountry["NE.EXP.GNFS.ZS"][4].country.id;
+  const correctExportData =
+    correctCountry["NE.EXP.GNFS.ZS"][4].value?.toFixed(0);
+  const correctImportData =
+    correctCountry["NE.IMP.GNFS.ZS"][4].value?.toFixed(0);
+  const correctElectricityData =
+    correctCountry["EG.ELC.ACCS.UR.ZS"][4].value?.toFixed(0);
+  const correctGdpData = formatGDP(
+    Number(correctCountry["NY.GDP.PCAP.CD"][4].value?.toFixed(0))
+  );
+  const correctForestationData =
+    correctCountry["AG.LND.FRST.ZS"][4].value?.toFixed(0);
+  const correctResourcesData =
+    correctCountry["TX.VAL.MMTL.ZS.UN"][4].value?.toFixed(0);
+  const correctUrbanPDataBeforeFormat = correctCountry["SP.URB.TOTL"][4].value;
 
-  const formatGDP = useMemo(() => {
-    return (value: number) => {
-      let strValue = String(value);
-      if (strValue.length > 4 && strValue.length < 6) {
-        strValue =
-          strValue.slice(0, 2) + " " + strValue.slice(2, strValue.length);
-      }
-      if (strValue.length >= 6) {
-        strValue =
-          strValue.slice(0, 3) + " " + strValue.slice(3, strValue.length);
-      }
-      return strValue;
-    };
-  }, []);
   const countryName = country.countryName;
   if (!country["NE.EXP.GNFS.ZS"]) return null;
 
   const codeISO = country["NE.EXP.GNFS.ZS"][4].country.id;
-  const exportData = country["NE.EXP.GNFS.ZS"][4].value?.toFixed(1);
-  const importData = country["NE.IMP.GNFS.ZS"][4].value?.toFixed(1);
-  const electricityData = country["EG.ELC.ACCS.UR.ZS"][4].value?.toFixed(1);
+  const exportData = country["NE.EXP.GNFS.ZS"][4].value?.toFixed(0);
+  const importData = country["NE.IMP.GNFS.ZS"][4].value?.toFixed(0);
+  const electricityData = country["EG.ELC.ACCS.UR.ZS"][4].value?.toFixed(0);
   const gdpData = formatGDP(
     Number(country["NY.GDP.PCAP.CD"][4].value?.toFixed(0))
   );
-  const forestationData = country["AG.LND.FRST.ZS"][4].value?.toFixed(1);
-  const resourcesData = country["TX.VAL.MMTL.ZS.UN"][4].value?.toFixed(1);
-  const urbanPData = formatToMilions(
-    Number(country["SP.URB.TOTL"][4].value?.toFixed(0))
-  );
+  const forestationData = country["AG.LND.FRST.ZS"][4].value?.toFixed(0);
+  const resourcesData = country["TX.VAL.MMTL.ZS.UN"][4].value?.toFixed(0);
+  const urbanPDataBeforeFormat = country["SP.URB.TOTL"][4].value;
+  const urbanPData = formatToMilions(Number(urbanPDataBeforeFormat.toFixed(0)));
+
+  useEffect(() => {
+    checkIfCountryIsCorrect(country, correctCountry, setIsPopupVisible);
+  }, []);
 
   return (
-    <div className="flex w-full justify-center mt-2">
+    <div className="flex w-full justify-center font-semibold mt-2">
       <div className="text-center w-full mr-10">
         {isFirst && (
           <>
@@ -57,10 +59,14 @@ const Country = memo(function Country({ country, isFirst }: any) {
           </>
         )}
         <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 10000, y: 0 }}
-          transition={{ duration: 2 }}
-          className="bg-red-100 mt-2 flex flex-col items-center h-32">
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 100, x: 10 }}
+          transition={{ duration: 1 }}
+          className={`${
+            codeISO === correctCodeISO
+              ? "bg-custom-green/65"
+              : "bg-custom-red/65"
+          } mt-2 flex flex-col items-center h-32 border-1 border-white rounded-xs`}>
           <img
             src={`https://flagcdn.com/${codeISO.toLowerCase()}.svg`}
             alt="flag"
@@ -71,8 +77,8 @@ const Country = memo(function Country({ country, isFirst }: any) {
       <div className="flex -mx-2">
         <motion.div
           initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, y: 0 }}
-          transition={{ duration: 4 }}
+          animate={{ opacity: 100, x: 10 }}
+          transition={{ duration: 1 }}
           className="text-center mx-2 w-[110px]">
           {isFirst && (
             <>
@@ -80,14 +86,18 @@ const Country = memo(function Country({ country, isFirst }: any) {
               <hr className="bg-white w-full mt-4" />
             </>
           )}
-          <div className="bg-red-100 mt-2 h-32 flex items-center justify-center text-3xl">
+          <div
+            className={`${compareCountries(
+              Number(exportData),
+              Number(correctExportData)
+            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
             <p>{exportData ? exportData + "%" : "N/A"}</p>
           </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, y: 0 }}
-          transition={{ duration: 6 }}
+          animate={{ opacity: 100, x: 10 }}
+          transition={{ duration: 1 }}
           className="text-center mx-2 w-[110px]">
           {isFirst && (
             <>
@@ -95,14 +105,18 @@ const Country = memo(function Country({ country, isFirst }: any) {
               <hr className="bg-white w-full mt-4" />
             </>
           )}
-          <div className="bg-red-100 mt-2 h-32 flex items-center justify-center text-3xl">
+          <div
+            className={`${compareCountries(
+              Number(importData),
+              Number(correctImportData)
+            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
             <p>{importData ? importData + "%" : "N/A"}</p>
           </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, y: 0 }}
-          transition={{ duration: 8 }}
+          animate={{ opacity: 100, x: 10 }}
+          transition={{ duration: 1 }}
           className="text-center mx-2 w-[200px]">
           {isFirst && (
             <>
@@ -110,14 +124,18 @@ const Country = memo(function Country({ country, isFirst }: any) {
               <hr className="bg-white w-full mt-4" />
             </>
           )}
-          <div className="bg-red-100 mt-2 h-32 flex items-center justify-center text-3xl">
-            <p>{gdpData ? gdpData + " $" : "N/A"}</p>
+          <div
+            className={`${compareCountries(
+              Number(gdpData.replace(/\s+/g, "")),
+              Number(correctGdpData.replace(/\s+/g, ""))
+            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
+            <p>{gdpData ? gdpData : "N/A"}</p>
           </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, y: 0 }}
-          transition={{ duration: 2.1 }}
+          animate={{ opacity: 100, x: 10 }}
+          transition={{ duration: 1 }}
           className="text-center mx-2 w-[210px]">
           {isFirst && (
             <>
@@ -125,14 +143,18 @@ const Country = memo(function Country({ country, isFirst }: any) {
               <hr className="bg-white w-full mt-4" />
             </>
           )}
-          <div className="bg-red-100 mt-2 h-32 flex items-center justify-center text-3xl">
+          <div
+            className={`${compareCountries(
+              Number(electricityData),
+              Number(correctElectricityData)
+            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
             <p>{electricityData ? electricityData + "%" : "N/A"}</p>
           </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, y: 0 }}
-          transition={{ duration: 2.4 }}
+          animate={{ opacity: 100, x: 10 }}
+          transition={{ duration: 1 }}
           className="text-center mx-2 w-[140px]">
           {isFirst && (
             <>
@@ -140,14 +162,18 @@ const Country = memo(function Country({ country, isFirst }: any) {
               <hr className="bg-white w-full mt-4" />
             </>
           )}
-          <div className="bg-red-100 mt-2 h-32 flex items-center justify-center text-3xl">
+          <div
+            className={`${compareCountries(
+              Number(forestationData),
+              Number(correctForestationData)
+            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
             <p>{forestationData ? forestationData + "%" : "N/A"}</p>
           </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, y: 0 }}
-          transition={{ duration: 2.7 }}
+          animate={{ opacity: 100, x: 10 }}
+          transition={{ duration: 1 }}
           className="text-center mx-2 w-[120px]">
           {isFirst && (
             <>
@@ -155,14 +181,18 @@ const Country = memo(function Country({ country, isFirst }: any) {
               <hr className="bg-white w-full mt-4" />
             </>
           )}
-          <div className="bg-red-100 mt-2 h-32 flex items-center justify-center text-3xl">
+          <div
+            className={`${compareCountries(
+              Number(resourcesData),
+              Number(correctResourcesData)
+            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
             <p>{resourcesData ? resourcesData + "%" : "N/A"}</p>
           </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, y: 0 }}
-          transition={{ duration: 3.0 }}
+          animate={{ opacity: 100, x: 10 }}
+          transition={{ duration: 1 }}
           className="text-center mx-2 w-[230px]">
           {isFirst && (
             <>
@@ -170,11 +200,16 @@ const Country = memo(function Country({ country, isFirst }: any) {
               <hr className="bg-white w-full mt-4" />
             </>
           )}
-          <div className="bg-red-100 mt-2 h-32 flex items-center justify-center text-3xl">
+          <div
+            className={`${compareCountries(
+              Number(urbanPDataBeforeFormat),
+              Number(correctUrbanPDataBeforeFormat)
+            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
             <p>{urbanPData ? urbanPData : "N/A"}</p>
           </div>
         </motion.div>
       </div>
+      {isPopupVisible && <WinnerPopup setIsPopupVisible={setIsPopupVisible} />}
     </div>
   );
 });

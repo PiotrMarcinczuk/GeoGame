@@ -8,4 +8,10 @@
 
 @theme {
   --spacing-1450: 1450px;
+  --color-custom-red: #ff0000;
+  --color-custom-green: #15ff00;
+  --color-custom-yellow: #ff8800;
+}
+
+@layer base {
 }

@@ -1,19 +1,21 @@
 import CustomInput from "./CustomInput";
 import Country from "./Country";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCorrectCountry } from "../utils/http";
 import { setCorrectCountry } from "../counters/correctCountrySlice";
+import { setCountriesList } from "../counters/countriesListSlice";
+import { set } from "@dotenvx/dotenvx";
 function Main() {
   const data = useSelector((state: any) => state.country);
-  const [countryList, setCountryList] = useState<any>([]);
+  const countries = useSelector((state: any) => state.countries);
+  const [tempCountriesList, setTempCountriesList] = useState<any>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const res = async () => {
       const data = await fetchCorrectCountry();
-      console.log("Correct country data:", data);
       dispatch(setCorrectCountry(data));
     };
     res();
@@ -21,16 +23,20 @@ function Main() {
 
   useEffect(() => {
     if (data) {
-      setCountryList((prev: any) => [...prev, data]);
+      setTempCountriesList((prev: any) => [...prev, data]);
     }
   }, [data]);
+
+  useEffect(() => {
+    dispatch(setCountriesList(tempCountriesList));
+  }, [tempCountriesList]);
   return (
     <>
       <header></header>
       <main className="max-w-1450 mx-auto">
         <CustomInput />
-        {countryList.length > 0
-          ? countryList.map((country: any, index: number) => {
+        {countries
+          ? countries.map((country: any, index: number) => {
               return (
                 <Country
                   key={index}

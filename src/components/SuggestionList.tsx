@@ -6,7 +6,7 @@ export default function SuggestionList({
   handleSubmit,
 }: any) {
   return (
-    <ul className="absolute w-full">
+    <ul className="absolute w-full z-50">
       {suggestionArr &&
         suggestionArr.map((item: any, index: number) => {
           return (

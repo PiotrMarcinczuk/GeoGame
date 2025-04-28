@@ -3,20 +3,18 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchData from "../utils/http";
 import { useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCountryData } from "../counters/countrySlice";
 import SuggestionList from "./SuggestionList";
 import countries_iso from "../assets/countries_iso.json";
-import { count } from "console";
-import { set } from "@dotenvx/dotenvx";
 
 export default function CustomInput() {
   const searchValue = useRef<string | null>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>();
   const [suggestionArr, setSuggestionArr] = useState<any>();
-
   const dispatch = useDispatch();
+  const countries = useSelector((state: any) => state.countries);
 
   const queryClient = useQueryClient();
   const result = useQuery({
@@ -42,13 +40,27 @@ export default function CustomInput() {
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      countries.forEach((item: any) => {
+        console.log(item.countryName);
+      });
+      if (
+        countries.some(
+          (item: any) =>
+            item.countryName.toLowerCase() ===
+            searchValue.current!.toLowerCase()
+        )
+      ) {
+        searchValue.current = "";
+        return;
+      }
+
       setSearchTerm(searchValue.current);
       searchValue.current = "";
       if (inputRef.current) {
         inputRef.current.value = "";
       }
     },
-    []
+    [countries]
   );
 
   return (
