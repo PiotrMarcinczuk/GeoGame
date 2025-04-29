@@ -40,9 +40,6 @@ export default function CustomInput() {
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      countries.forEach((item: any) => {
-        console.log(item.countryName);
-      });
       if (
         countries.some(
           (item: any) =>
@@ -72,7 +69,7 @@ export default function CustomInput() {
           handleSubmit(e);
         }
       }}
-      className="mt-10 mb-10 w-full mx-auto max-w-[812px] relative">
+      className="mb-10 w-full mx-auto max-w-[812px] relative">
       <input
         ref={inputRef}
         onClick={(e: any) => {
@@ -87,7 +84,7 @@ export default function CustomInput() {
         placeholder="Wpisz nazwe państwa"
       />
 
-      <button className="absolute bg-[#DED9D9] right-3 bottom-1/2 translate-y-1/2  w-16 h-16 rounded-full hover:cursor-pointer">
+      <button className="absolute bg-[#DED9D9] hover:bg-gray-400 hover:scale-105 ease-in duration-100 right-3 bottom-1/2 translate-y-1/2  w-16 h-16 rounded-full hover:cursor-pointer">
         <img src={arrow} alt="arrow" className="mx-auto" />
       </button>
       {searchValue.current && suggestionArr && (

@@ -2,17 +2,11 @@ import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import Format from "../utils/Format";
-import WinnerPopup from "./WinnerPopup";
+import WinnerPopup from "./Popup";
 
-const Country = memo(function Country({ country, isFirst }: any) {
-  const {
-    formatToMilions,
-    formatGDP,
-    compareCountries,
-    checkIfCountryIsCorrect,
-  } = Format();
+const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
+  const { formatToMilions, formatGDP, compareCountries } = Format();
   const correctCountry = useSelector((state: any) => state.correctCountry);
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const correctCodeISO = correctCountry["NE.EXP.GNFS.ZS"][4].country.id;
   const correctExportData =
@@ -45,23 +39,36 @@ const Country = memo(function Country({ country, isFirst }: any) {
   const urbanPDataBeforeFormat = country["SP.URB.TOTL"][4].value;
   const urbanPData = formatToMilions(Number(urbanPDataBeforeFormat.toFixed(0)));
 
-  useEffect(() => {
-    checkIfCountryIsCorrect(country, correctCountry, setIsPopupVisible);
-  }, []);
+  const listVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: itemsDelay, // delay between children
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 },
+  };
 
   return (
-    <div className="flex w-full justify-center font-semibold mt-2">
-      <div className="text-center w-full mr-10">
+    <motion.li
+      initial="hidden"
+      animate="visible"
+      variants={listVariants}
+      className="w-full flex justify-between font-semibold mt-2">
+      <motion.div
+        variants={itemVariants}
+        className="text-center px-2 mr-3 w-4/30 ">
         {isFirst && (
           <>
             <h1 className="text-3xl">Państwo</h1>
             <hr className="bg-white w-full mt-4" />
           </>
         )}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 100, x: 10 }}
-          transition={{ duration: 1 }}
+        <div
           className={`${
             codeISO === correctCodeISO
               ? "bg-custom-green/65"
@@ -72,145 +79,114 @@ const Country = memo(function Country({ country, isFirst }: any) {
             alt="flag"
             className="w-22 h-16 py-1"></img>
           <p className="text-xl">{countryName}</p>
-        </motion.div>
-      </div>
-      <div className="flex -mx-2">
-        <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, x: 10 }}
-          transition={{ duration: 1 }}
-          className="text-center mx-2 w-[110px]">
-          {isFirst && (
-            <>
-              <h2 className="text-3xl">Eksport</h2>
-              <hr className="bg-white w-full mt-4" />
-            </>
-          )}
-          <div
-            className={`${compareCountries(
-              Number(exportData),
-              Number(correctExportData)
-            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
-            <p>{exportData ? exportData + "%" : "N/A"}</p>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, x: 10 }}
-          transition={{ duration: 1 }}
-          className="text-center mx-2 w-[110px]">
-          {isFirst && (
-            <>
-              <h2 className="text-3xl">Import</h2>
-              <hr className="bg-white w-full mt-4" />
-            </>
-          )}
-          <div
-            className={`${compareCountries(
-              Number(importData),
-              Number(correctImportData)
-            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
-            <p>{importData ? importData + "%" : "N/A"}</p>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, x: 10 }}
-          transition={{ duration: 1 }}
-          className="text-center mx-2 w-[200px]">
-          {isFirst && (
-            <>
-              <h2 className="text-3xl text-nowrap">PKB per capita</h2>
-              <hr className="bg-white w-full mt-4" />
-            </>
-          )}
-          <div
-            className={`${compareCountries(
-              Number(gdpData.replace(/\s+/g, "")),
-              Number(correctGdpData.replace(/\s+/g, ""))
-            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
-            <p>{gdpData ? gdpData : "N/A"}</p>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, x: 10 }}
-          transition={{ duration: 1 }}
-          className="text-center mx-2 w-[210px]">
-          {isFirst && (
-            <>
-              <h2 className="text-3xl">Elektryczność</h2>
-              <hr className="bg-white w-full mt-4" />
-            </>
-          )}
-          <div
-            className={`${compareCountries(
-              Number(electricityData),
-              Number(correctElectricityData)
-            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
-            <p>{electricityData ? electricityData + "%" : "N/A"}</p>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, x: 10 }}
-          transition={{ duration: 1 }}
-          className="text-center mx-2 w-[140px]">
-          {isFirst && (
-            <>
-              <h2 className="text-3xl">Zalesienie</h2>
-              <hr className="bg-white w-full mt-4" />
-            </>
-          )}
-          <div
-            className={`${compareCountries(
-              Number(forestationData),
-              Number(correctForestationData)
-            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
-            <p>{forestationData ? forestationData + "%" : "N/A"}</p>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, x: 10 }}
-          transition={{ duration: 1 }}
-          className="text-center mx-2 w-[120px]">
-          {isFirst && (
-            <>
-              <h2 className="text-3xl">Surowce</h2>
-              <hr className="bg-white w-full mt-4" />
-            </>
-          )}
-          <div
-            className={`${compareCountries(
-              Number(resourcesData),
-              Number(correctResourcesData)
-            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
-            <p>{resourcesData ? resourcesData + "%" : "N/A"}</p>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 100, x: 10 }}
-          transition={{ duration: 1 }}
-          className="text-center mx-2 w-[230px]">
-          {isFirst && (
-            <>
-              <h2 className="text-3xl text-nowrap">Ludność miejska</h2>
-              <hr className="bg-white w-full mt-4" />
-            </>
-          )}
-          <div
-            className={`${compareCountries(
-              Number(urbanPDataBeforeFormat),
-              Number(correctUrbanPDataBeforeFormat)
-            )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
-            <p>{urbanPData ? urbanPData : "N/A"}</p>
-          </div>
-        </motion.div>
-      </div>
-      {isPopupVisible && <WinnerPopup setIsPopupVisible={setIsPopupVisible} />}
-    </div>
+        </div>
+      </motion.div>
+      <motion.div variants={itemVariants} className="text-center  w-2/30">
+        {isFirst && (
+          <>
+            <h2 className="text-3xl">Eksport</h2>
+            <hr className="bg-white w-full mt-4" />
+          </>
+        )}
+        <div
+          className={`${compareCountries(
+            Number(exportData),
+            Number(correctExportData)
+          )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
+          <p>{exportData ? exportData + "%" : "N/A"}</p>
+        </div>
+      </motion.div>
+      <motion.div variants={itemVariants} className="text-center  w-2/30">
+        {isFirst && (
+          <>
+            <h2 className="text-3xl">Import</h2>
+            <hr className="bg-white w-full mt-4" />
+          </>
+        )}
+        <div
+          className={`${compareCountries(
+            Number(importData),
+            Number(correctImportData)
+          )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
+          <p>{importData ? importData + "%" : "N/A"}</p>
+        </div>
+      </motion.div>
+      <motion.div variants={itemVariants} className="text-center  w-4/30">
+        {isFirst && (
+          <>
+            <h2 className="text-3xl text-nowrap">PKB per capita</h2>
+            <hr className="bg-white w-full mt-4" />
+          </>
+        )}
+        <div
+          className={`${compareCountries(
+            Number(gdpData.replace(/\s+/g, "")),
+            Number(correctGdpData.replace(/\s+/g, ""))
+          )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
+          <p>{gdpData ? gdpData + " $" : "N/A"}</p>
+        </div>
+      </motion.div>
+      <motion.div variants={itemVariants} className="text-center  w-4/30">
+        {isFirst && (
+          <>
+            <h2 className="text-3xl ">Elektryczność</h2>
+            <hr className="bg-white w-full mt-4" />
+          </>
+        )}
+        <div
+          className={`${compareCountries(
+            Number(electricityData),
+            Number(correctElectricityData)
+          )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
+          <p>{electricityData ? electricityData + "%" : "N/A"}</p>
+        </div>
+      </motion.div>
+      <motion.div variants={itemVariants} className="text-center  w-3/30">
+        {isFirst && (
+          <>
+            <h2 className="text-3xl">Zalesienie</h2>
+            <hr className="bg-white w-full mt-4" />
+          </>
+        )}
+        <div
+          className={`${compareCountries(
+            Number(forestationData),
+            Number(correctForestationData)
+          )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
+          <p>{forestationData ? forestationData + "%" : "N/A"}</p>
+        </div>
+      </motion.div>
+      <motion.div variants={itemVariants} className="text-center  w-3/30">
+        {isFirst && (
+          <>
+            <h2 className="text-3xl">Surowce</h2>
+            <hr className="bg-white w-full mt-4" />
+          </>
+        )}
+        <div
+          className={`${compareCountries(
+            Number(resourcesData),
+            Number(correctResourcesData)
+          )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
+          <p>{resourcesData ? resourcesData + "%" : "N/A"}</p>
+        </div>
+      </motion.div>
+      <motion.div variants={itemVariants} className="text-center  w-5/30">
+        {isFirst && (
+          <>
+            <h2 className="text-3xl ">Ludność miejska</h2>
+            <hr className="bg-white w-full mt-4" />
+          </>
+        )}
+        <div
+          className={`${compareCountries(
+            Number(urbanPDataBeforeFormat),
+            Number(correctUrbanPDataBeforeFormat)
+          )} mt-2 h-32 flex items-center justify-center text-3xl border-1 border-white rounded-xs`}>
+          <p>{urbanPData ? urbanPData : "N/A"}</p>
+        </div>
+      </motion.div>
+    </motion.li>
   );
 });
 export default Country;
