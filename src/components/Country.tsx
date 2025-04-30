@@ -1,8 +1,7 @@
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import Format from "../utils/Format";
-import WinnerPopup from "./Popup";
 
 const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
   const { formatToMilions, formatGDP, compareCountries } = Format();

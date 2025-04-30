@@ -1,10 +1,9 @@
-import countries_iso from "../assets/countries_iso.json";
-
 export default function SuggestionList({
   suggestionArr,
   searchValue,
   handleSubmit,
 }: any) {
+  console.log(searchValue.current);
   return (
     <ul className="absolute w-full z-50">
       {suggestionArr &&

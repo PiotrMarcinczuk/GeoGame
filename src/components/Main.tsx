@@ -21,6 +21,7 @@ function Main() {
   const [helpPopupIsVisible, setHelpPopupIsVisible] = useState(false);
   const { checkIfCountryIsCorrect } = Format();
   const correctCountry = useSelector((state: any) => state.correctCountry);
+  const loadingState = useSelector((state: any) => state.loading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,12 +43,13 @@ function Main() {
       const isCorrect = checkIfCountryIsCorrect(
         tempCountriesList[tempCountriesList.length - 1],
         correctCountry,
+        itemsDelay,
         setWinnerPopupIsVisible
       );
       if (isCorrect) setTempCountriesList([]);
       dispatch(setCountriesList(tempCountriesList));
     }
-  }, [tempCountriesList]);
+  }, [tempCountriesList, countries]);
 
   return (
     <>
@@ -106,6 +108,7 @@ function Main() {
                 );
               })
             : null}
+
           {winnerPopupIsVisible && (
             <Popup
               setWinnerPopupIsVisible={setWinnerPopupIsVisible}

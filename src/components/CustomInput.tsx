@@ -1,31 +1,22 @@
 import arrow from "../assets/img/arrow.png";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { useQuery } from "@tanstack/react-query";
-import fetchData from "../utils/http";
-import { useQueryClient } from "@tanstack/react-query";
+import useCountrySearch from "../hooks/useCountrySearch";
 import { useDispatch, useSelector } from "react-redux";
 import { setCountryData } from "../counters/countrySlice";
+import { setLoading } from "../counters/loadingSlice";
 import SuggestionList from "./SuggestionList";
 import countries_iso from "../assets/countries_iso.json";
+import { set } from "@dotenvx/dotenvx";
 
 export default function CustomInput() {
   const searchValue = useRef<string | null>("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const [searchTerm, setSearchTerm] = useState<string | null>();
+  const [searchTerm, setSearchTerm] = useState<string | null>("");
   const [suggestionArr, setSuggestionArr] = useState<any>();
   const dispatch = useDispatch();
   const countries = useSelector((state: any) => state.countries);
 
-  const queryClient = useQueryClient();
-  const result = useQuery({
-    queryKey: ["countries", searchTerm],
-    queryFn: () => fetchData(searchTerm || null),
-    enabled: !!searchTerm,
-  });
-
-  useEffect(() => {
-    if (result.data) dispatch(setCountryData(result.data));
-  }, [result.data]);
+  const { isPending } = useCountrySearch(searchTerm, setSearchTerm);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchValue.current = event.target.value;
