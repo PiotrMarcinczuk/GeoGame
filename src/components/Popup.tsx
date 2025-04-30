@@ -1,13 +1,25 @@
 import { memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../hooks/reduxType";
 import { setCountriesList } from "../counters/countriesListSlice";
+import { RootState } from "../app/store";
+import { CountryData } from "../interfaces/stats";
+type PopupProps = {
+  setWinnerPopupIsVisible?: (value: boolean) => void;
+  setHelpPopupIsVisible?: (value: boolean) => void;
+  title: string;
+  textContent: string;
+  buttonText: string;
+};
+
 const Popup = memo(function Popup({
   setWinnerPopupIsVisible,
   setHelpPopupIsVisible,
   ...props
-}: any) {
-  const dispatch = useDispatch();
-  const countries = useSelector((state: any) => state.countries);
+}: PopupProps) {
+  const dispatch = useAppDispatch();
+  const countries = useAppSelector(
+    (state: RootState): CountryData => state.countries
+  );
 
   const handleClickButton = () => {
     if (setWinnerPopupIsVisible) setWinnerPopupIsVisible(false);

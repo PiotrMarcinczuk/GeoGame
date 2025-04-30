@@ -1,6 +1,5 @@
 import axios from "axios";
 import countries_iso from "../assets/countries_iso.json";
-import { useDispatch } from "react-redux";
 
 const fetchData = async (country: string | null) => {
   const seletedCountry = countries_iso.filter(
@@ -46,7 +45,34 @@ const fetchData = async (country: string | null) => {
   }
 };
 
+// const fetchCorrectCountry = async () => {
+//   const today = new Date().toISOString().split("T")[0];
+
+//   let hash = 0;
+//   for (let i = 0; i < today.length; i++) {
+//     hash += today.charCodeAt(i);
+//   }
+
+//   const index = hash % countries_iso.length;
+//   const result = await fetchData(countries_iso[index].name_pl);
+//   return result;
+
+// };
 const fetchCorrectCountry = async () => {
+  const checkStats = (country: string) => {
+    if (
+      !country["EG.ELC.ACCS.UR.ZS"][4].value ||
+      !country["NE.EXP.GNFS.ZS"][4].value ||
+      !country["NE.IMP.GNFS.ZS"][4].value ||
+      !country["NY.GDP.PCAP.CD"][4].value ||
+      !country["AG.LND.FRST.ZS"][4].value ||
+      !country["TX.VAL.MMTL.ZS.UN"][4].value ||
+      !country["SP.URB.TOTL"][4].value
+    ) {
+      return true;
+    }
+    return false;
+  };
   const today = new Date().toISOString().split("T")[0];
 
   let hash = 0;
@@ -55,7 +81,11 @@ const fetchCorrectCountry = async () => {
   }
 
   const index = hash % countries_iso.length;
-  const result = await fetchData(countries_iso[index].name_pl);
+  let result = await fetchData(countries_iso[index].name_pl);
+  console.log("index", result);
+  const mustMakeNewCountry = checkStats(result);
+  if (mustMakeNewCountry)
+    result = await fetchData(countries_iso[index + 1].name_pl);
   return result;
 };
 

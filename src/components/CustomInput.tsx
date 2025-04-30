@@ -1,20 +1,21 @@
 import arrow from "../assets/img/arrow.png";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import useCountrySearch from "../hooks/useCountrySearch";
-import { useDispatch, useSelector } from "react-redux";
-import { setCountryData } from "../counters/countrySlice";
-import { setLoading } from "../counters/loadingSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxType";
 import SuggestionList from "./SuggestionList";
 import countries_iso from "../assets/countries_iso.json";
-import { set } from "@dotenvx/dotenvx";
+import { CountryData, SugestionData } from "../interfaces/stats";
+import { RootState } from "../app/store";
 
 export default function CustomInput() {
   const searchValue = useRef<string | null>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>("");
-  const [suggestionArr, setSuggestionArr] = useState<any>();
-  const dispatch = useDispatch();
-  const countries = useSelector((state: any) => state.countries);
+  const [suggestionArr, setSuggestionArr] = useState<SugestionData[]>();
+  const dispatch = useAppDispatch();
+  const countries = useAppSelector(
+    (state: RootState): CountryData[] => state.countries
+  );
 
   const { isPending } = useCountrySearch(searchTerm, setSearchTerm);
 
@@ -25,15 +26,16 @@ export default function CustomInput() {
         .toLowerCase()
         .includes(searchValue.current!.toLowerCase());
     });
+    console.log(filtered.slice(0, 5));
     setSuggestionArr(filtered.slice(0, 5));
   };
-
+  console.log(countries);
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (
         countries.some(
-          (item: any) =>
+          (item: CountryData) =>
             item.countryName.toLowerCase() ===
             searchValue.current!.toLowerCase()
         )
@@ -63,9 +65,9 @@ export default function CustomInput() {
       className="mb-10 w-full mx-auto max-w-[812px] relative">
       <input
         ref={inputRef}
-        onClick={(e: any) => {
+        onClick={(e: React.MouseEvent<HTMLInputElement>) => {
           if (searchValue.current == "Wpisz nazwe państwa") {
-            e.target.value = "";
+            (e.target as HTMLInputElement).value = "";
           }
         }}
         className={`w-full h-20 rounded-[4rem] outline-0 bg-white text-4xl p-4 ${

@@ -1,13 +1,21 @@
+import { SugestionData } from "../interfaces/stats";
+
+type SuggestionListProps = {
+  suggestionArr: SugestionData[];
+  searchValue: React.RefObject<string>;
+  handleSubmit: (e: React.MouseEvent) => void;
+};
+
 export default function SuggestionList({
   suggestionArr,
   searchValue,
   handleSubmit,
-}: any) {
-  console.log(searchValue.current);
+}: SuggestionListProps) {
   return (
     <ul className="absolute w-full z-50">
       {suggestionArr &&
-        suggestionArr.map((item: any, index: number) => {
+        suggestionArr.map((item: SugestionData, index: number) => {
+          console.log(item);
           return (
             <li
               key={index}

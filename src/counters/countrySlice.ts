@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
+
 export const countrySlice = createSlice({
   name: "country",
   initialState: null,

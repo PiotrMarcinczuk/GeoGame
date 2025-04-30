@@ -2,10 +2,18 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import Format from "../utils/Format";
+import { CountryData } from "../interfaces/stats";
+import { RootState } from "../app/store";
+type CountryProps = {
+  country: CountryData;
+  itemsDelay: number;
+};
 
-const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
+const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
   const { formatToMilions, formatGDP, compareCountries } = Format();
-  const correctCountry = useSelector((state: any) => state.correctCountry);
+  const correctCountry = useSelector(
+    (state: RootState): CountryData => state.correctCountry
+  );
 
   const correctCodeISO = correctCountry["NE.EXP.GNFS.ZS"][4].country.id;
   const correctExportData =
@@ -35,7 +43,7 @@ const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
   );
   const forestationData = country["AG.LND.FRST.ZS"][4].value?.toFixed(0);
   const resourcesData = country["TX.VAL.MMTL.ZS.UN"][4].value?.toFixed(0);
-  const urbanPDataBeforeFormat = country["SP.URB.TOTL"][4].value;
+  const urbanPDataBeforeFormat = country["SP.URB.TOTL"][4].value || 0;
   const urbanPData = formatToMilions(Number(urbanPDataBeforeFormat.toFixed(0)));
 
   const listVariants = {
@@ -60,13 +68,13 @@ const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
       className="w-full flex justify-between font-semibold mt-2">
       <motion.div
         variants={itemVariants}
-        className="text-center px-2 mr-3 w-4/30 ">
-        {isFirst && (
+        className="text-center px-2 mr-3 w-4/30">
+        {/* {isFirst && (
           <>
             <h1 className="text-3xl">Państwo</h1>
             <hr className="bg-white w-full mt-4" />
           </>
-        )}
+        )} */}
         <div
           className={`${
             codeISO === correctCodeISO
@@ -80,13 +88,13 @@ const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
           <p className="text-xl">{countryName}</p>
         </div>
       </motion.div>
-      <motion.div variants={itemVariants} className="text-center  w-2/30">
-        {isFirst && (
+      <motion.div variants={itemVariants} className="text-center w-2/30">
+        {/* {isFirst && (
           <>
             <h2 className="text-3xl">Eksport</h2>
             <hr className="bg-white w-full mt-4" />
           </>
-        )}
+        )} */}
         <div
           className={`${compareCountries(
             Number(exportData),
@@ -95,13 +103,13 @@ const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
           <p>{exportData ? exportData + "%" : "N/A"}</p>
         </div>
       </motion.div>
-      <motion.div variants={itemVariants} className="text-center  w-2/30">
-        {isFirst && (
+      <motion.div variants={itemVariants} className="text-center w-2/30">
+        {/* {isFirst && (
           <>
             <h2 className="text-3xl">Import</h2>
             <hr className="bg-white w-full mt-4" />
           </>
-        )}
+        )} */}
         <div
           className={`${compareCountries(
             Number(importData),
@@ -110,13 +118,13 @@ const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
           <p>{importData ? importData + "%" : "N/A"}</p>
         </div>
       </motion.div>
-      <motion.div variants={itemVariants} className="text-center  w-4/30">
-        {isFirst && (
+      <motion.div variants={itemVariants} className="text-center w-4/30">
+        {/* {isFirst && (
           <>
             <h2 className="text-3xl text-nowrap">PKB per capita</h2>
             <hr className="bg-white w-full mt-4" />
           </>
-        )}
+        )} */}
         <div
           className={`${compareCountries(
             Number(gdpData.replace(/\s+/g, "")),
@@ -125,13 +133,13 @@ const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
           <p>{gdpData ? gdpData + " $" : "N/A"}</p>
         </div>
       </motion.div>
-      <motion.div variants={itemVariants} className="text-center  w-4/30">
-        {isFirst && (
+      <motion.div variants={itemVariants} className="text-center w-4/30">
+        {/* {isFirst && (
           <>
             <h2 className="text-3xl ">Elektryczność</h2>
             <hr className="bg-white w-full mt-4" />
           </>
-        )}
+        )} */}
         <div
           className={`${compareCountries(
             Number(electricityData),
@@ -140,13 +148,13 @@ const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
           <p>{electricityData ? electricityData + "%" : "N/A"}</p>
         </div>
       </motion.div>
-      <motion.div variants={itemVariants} className="text-center  w-3/30">
-        {isFirst && (
+      <motion.div variants={itemVariants} className="text-center w-3/30">
+        {/* {isFirst && (
           <>
             <h2 className="text-3xl">Zalesienie</h2>
             <hr className="bg-white w-full mt-4" />
           </>
-        )}
+        )} */}
         <div
           className={`${compareCountries(
             Number(forestationData),
@@ -155,13 +163,13 @@ const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
           <p>{forestationData ? forestationData + "%" : "N/A"}</p>
         </div>
       </motion.div>
-      <motion.div variants={itemVariants} className="text-center  w-3/30">
-        {isFirst && (
+      <motion.div variants={itemVariants} className="text-center w-3/30">
+        {/* {isFirst && (
           <>
             <h2 className="text-3xl">Surowce</h2>
             <hr className="bg-white w-full mt-4" />
           </>
-        )}
+        )} */}
         <div
           className={`${compareCountries(
             Number(resourcesData),
@@ -171,12 +179,12 @@ const Country = memo(function Country({ country, isFirst, itemsDelay }: any) {
         </div>
       </motion.div>
       <motion.div variants={itemVariants} className="text-center  w-5/30">
-        {isFirst && (
+        {/* {isFirst && (
           <>
             <h2 className="text-3xl ">Ludność miejska</h2>
             <hr className="bg-white w-full mt-4" />
           </>
-        )}
+        )} */}
         <div
           className={`${compareCountries(
             Number(urbanPDataBeforeFormat),

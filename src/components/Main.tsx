@@ -1,7 +1,7 @@
 import CustomInput from "./CustomInput";
 import Country from "./Country";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCorrectCountry } from "../utils/http";
 import { setCorrectCountry } from "../counters/correctCountrySlice";
@@ -11,17 +11,26 @@ import speedImg from "../assets/img/speed.png";
 import logo from "../assets/img/logo.png";
 import help from "../assets/img/help.png";
 import Popup from "./Popup";
-
+import { RootState } from "../app/store";
+import { CountryData } from "../interfaces/stats";
 function Main() {
-  const data = useSelector((state: any) => state.country);
-  const countries = useSelector((state: any) => state.countries);
-  const [itemsDelay, setItemsDelay] = useState(0.3);
-  const [tempCountriesList, setTempCountriesList] = useState<any>([]);
-  const [winnerPopupIsVisible, setWinnerPopupIsVisible] = useState(false);
-  const [helpPopupIsVisible, setHelpPopupIsVisible] = useState(false);
+  const data = useSelector((state: RootState): CountryData => state.country);
+  const countries = useSelector(
+    (state: RootState): CountryData[] => state.countries
+  );
+  const [itemsDelay, setItemsDelay] = useState<number>(0.3);
+  const [tempCountriesList, setTempCountriesList] = useState<CountryData[]>([]);
+  const [winnerPopupIsVisible, setWinnerPopupIsVisible] =
+    useState<boolean>(false);
+  const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const { checkIfCountryIsCorrect } = Format();
-  const correctCountry = useSelector((state: any) => state.correctCountry);
-  const loadingState = useSelector((state: any) => state.loading);
+  const correctCountry = useSelector(
+    (state: RootState): CountryData => state.correctCountry
+  );
+  const loadingState = useSelector(
+    (state: RootState): boolean => state.loading
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,7 +43,7 @@ function Main() {
 
   useEffect(() => {
     if (data) {
-      setTempCountriesList((prev: any) => [...prev, data]);
+      setTempCountriesList((prev: CountryData[]) => [...prev, data]);
     }
   }, [data]);
 
@@ -49,6 +58,7 @@ function Main() {
       if (isCorrect) setTempCountriesList([]);
       dispatch(setCountriesList(tempCountriesList));
     }
+    scrollRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [tempCountriesList, countries]);
 
   return (
@@ -95,20 +105,55 @@ function Main() {
             </p>
           </button>
         </div>
-        <ul>
+        {countries && countries[0] && (
+          <div className="w-full flex justify-between font-semibold mt-2 px-2">
+            <div className="text-center px-2 mr-3 w-4/30 -pr-6">
+              <h1 className="text-3xl">Państwo</h1>
+              <hr className="bg-white w-full mt-4" />
+            </div>
+            <div className="text-center w-2/30 ">
+              <h2 className="text-3xl">Eksport</h2>
+              <hr className="bg-white w-full mt-4" />
+            </div>
+            <div className="text-center w-2/30 ">
+              <h2 className="text-3xl">Import</h2>
+              <hr className="bg-white  mt-4" />
+            </div>
+            <div className="text-center w-4/30 ">
+              <h2 className="text-3xl text-nowrap">PKB per capita</h2>
+              <hr className="bg-white w-full mt-4" />
+            </div>
+            <div className="text-center  w-4/30 ">
+              <h2 className="text-3xl">Elektryczność</h2>
+              <hr className="bg-white w-full mt-4" />
+            </div>
+            <div className="text-center w-3/30 ">
+              <h2 className="text-3xl">Zalesienie</h2>
+              <hr className="bg-white w-full mt-4" />
+            </div>
+            <div className="text-center w-3/30 ">
+              <h2 className="text-3xl">Surowce</h2>
+              <hr className="bg-white w-full mt-4" />
+            </div>
+            <div className="text-center w-5/30 ">
+              <h2 className="text-3xl ">Ludność miejska</h2>
+              <hr className="bg-white w-full mt-4" />
+            </div>
+          </div>
+        )}
+        <ul className="max-h-[635px] px-2 overflow-y-auto">
           {countries
-            ? countries.map((country: any, index: number) => {
+            ? countries.map((country: CountryData, index: number) => {
                 return (
                   <Country
                     key={index}
                     country={country}
-                    isFirst={index === 0}
                     itemsDelay={itemsDelay}
                   />
                 );
               })
             : null}
-
+          <div ref={scrollRef} />
           {winnerPopupIsVisible && (
             <Popup
               setWinnerPopupIsVisible={setWinnerPopupIsVisible}

@@ -1,5 +1,25 @@
-export interface Stats {
-  "NE.IMP.GNFS.ZS": number; //Imports of goods and services (% of GDP)
-  "NE.EXP.GNFS.ZS": number; //Exports of goods and services (% of GDP)
-  "EG.ELC.ACCS.UR.ZS": number; //urban population with access to electricity (% of total population)
-}
+export type CountryData = {
+  countryName: string;
+  "AG.LND.FRST.ZS": IndicatorData[]; // Forest area
+  "EG.ELC.ACCS.UR.ZS": IndicatorData[]; // Electricity access
+  "NE.EXP.GNFS.ZS": IndicatorData[]; // Exports
+  "NE.IMP.GNFS.ZS": IndicatorData[]; // Imports
+  "NY.GDP.PCAP.CD": IndicatorData[]; // GDP per capita
+  "SP.URB.TOTL": IndicatorData[]; // Urban population
+  "TX.VAL.MMTL.ZS.UN": IndicatorData[]; // Raw materials
+};
+
+type IndicatorData = {
+  country: {
+    id: string;
+  };
+  year: number;
+  value: number | null;
+};
+
+export type SugestionData = {
+  alpha2: string;
+  alpha3: string;
+  name: string;
+  name_pl: string;
+};

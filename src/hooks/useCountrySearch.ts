@@ -1,17 +1,16 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import fetchData from "../utils/http";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "./reduxType";
 import { setCountryData } from "../counters/countrySlice";
 import { setLoading } from "../counters/loadingSlice";
 
 export default function useCountrySearch(
   searchTerm: string | null,
-  setSearchTerm: any
+  setSearchTerm: string | null | any
 ) {
-  console.log(searchTerm);
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { data, isPending, isError, error }: any = useQuery({
     queryKey: ["countries", searchTerm],
     queryFn: () => fetchData(searchTerm || null),
