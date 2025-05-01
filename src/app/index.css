@@ -13,5 +13,8 @@
   --color-custom-yellow: #ff8800;
 }
 
-@layer base {
+@plugin 'tailwind-scrollbar';
+@plugin 'tailwind-scrollbar' {
+  nocompatible: true;
+  preferredstrategy: "pseudoelements";
 }

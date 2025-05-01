@@ -3,6 +3,7 @@ import countryReducer from "../counters/countrySlice";
 import correctCountryReducer from "../counters/correctCountrySlice";
 import countriesListReducer from "../counters/countriesListSlice";
 import loadingReducer from "../counters/loadingSlice";
+import countOfAttemptReducer from "../counters/countOfAttempSlice";
 
 export default configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export default configureStore({
     correctCountry: correctCountryReducer,
     countries: countriesListReducer,
     loading: loadingReducer,
+    countOfAttempt: countOfAttemptReducer,
   },
 });
 

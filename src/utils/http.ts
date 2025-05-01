@@ -1,5 +1,6 @@
 import axios from "axios";
 import countries_iso from "../assets/countries_iso.json";
+import { CountryData } from "../interfaces/stats";
 
 const fetchData = async (country: string | null) => {
   const seletedCountry = countries_iso.filter(
@@ -59,7 +60,7 @@ const fetchData = async (country: string | null) => {
 
 // };
 const fetchCorrectCountry = async () => {
-  const checkStats = (country: string) => {
+  const checkStats = (country: CountryData) => {
     if (
       !country["EG.ELC.ACCS.UR.ZS"][4].value ||
       !country["NE.EXP.GNFS.ZS"][4].value ||
@@ -82,7 +83,6 @@ const fetchCorrectCountry = async () => {
 
   const index = hash % countries_iso.length;
   let result = await fetchData(countries_iso[index].name_pl);
-  console.log("index", result);
   const mustMakeNewCountry = checkStats(result);
   if (mustMakeNewCountry)
     result = await fetchData(countries_iso[index + 1].name_pl);

@@ -1,7 +1,7 @@
 import arrow from "../assets/img/arrow.png";
 import { useRef, useState, useCallback } from "react";
 import useCountrySearch from "../hooks/useCountrySearch";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxType";
+import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
 import SuggestionList from "./SuggestionList";
 import countries_iso from "../assets/countries_iso.json";
 import { CountryData, SugestionData } from "../interfaces/stats";
@@ -17,7 +17,7 @@ export default function CustomInput() {
     (state: RootState): CountryData[] => state.countries
   );
 
-  const { isPending } = useCountrySearch(searchTerm, setSearchTerm);
+  const { isFetching } = useCountrySearch(searchTerm, setSearchTerm);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchValue.current = event.target.value;
@@ -26,12 +26,11 @@ export default function CustomInput() {
         .toLowerCase()
         .includes(searchValue.current!.toLowerCase());
     });
-    console.log(filtered.slice(0, 5));
     setSuggestionArr(filtered.slice(0, 5));
   };
-  console.log(countries);
+
   const handleSubmit = useCallback(
-    async (event: React.FormEvent<HTMLFormElement>) => {
+    async (event: any) => {
       event.preventDefault();
       if (
         countries.some(

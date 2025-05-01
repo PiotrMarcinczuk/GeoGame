@@ -1,6 +1,6 @@
-import { set } from "@dotenvx/dotenvx";
 import { useMemo } from "react";
 import { CountryData } from "../interfaces/stats";
+
 export default function Format() {
   const formatToMilions = useMemo(() => {
     return (value: number) => {
@@ -16,8 +16,8 @@ export default function Format() {
 
   const formatGDP = useMemo(() => {
     return (value: number) => {
+      if (!value) return false;
       let strValue = String(value);
-      if (!strValue) return "N/A";
       if (strValue.length > 4 && strValue.length < 6) {
         strValue =
           strValue.slice(0, 2) + " " + strValue.slice(2, strValue.length);
@@ -26,18 +26,20 @@ export default function Format() {
         strValue =
           strValue.slice(0, 3) + " " + strValue.slice(3, strValue.length);
       }
+      console.log("strValue", strValue);
       return strValue;
     };
   }, []);
 
   const compareCountries = (value: number, correctValue: number) => {
+    console.log("value", value === correctValue);
     if (value > correctValue) {
       return "bg-custom-yellow/65";
     }
     if (value < correctValue) {
       return "bg-custom-red/65";
     }
-    if (value) return "bg-custom-green/65";
+    if (value === correctValue) return "bg-custom-green/65";
     return "bg-custom-red/65";
   };
 

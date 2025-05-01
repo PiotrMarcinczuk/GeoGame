@@ -1,8 +1,8 @@
 import { memo } from "react";
-import { useAppSelector, useAppDispatch } from "../hooks/reduxType";
+import { useAppSelector, useAppDispatch } from "../hooks/useReduxType";
 import { setCountriesList } from "../counters/countriesListSlice";
-import { RootState } from "../app/store";
-import { CountryData } from "../interfaces/stats";
+import { resetCountOfAttempt } from "../counters/countOfAttempSlice";
+
 type PopupProps = {
   setWinnerPopupIsVisible?: (value: boolean) => void;
   setHelpPopupIsVisible?: (value: boolean) => void;
@@ -17,14 +17,15 @@ const Popup = memo(function Popup({
   ...props
 }: PopupProps) {
   const dispatch = useAppDispatch();
-  const countries = useAppSelector(
-    (state: RootState): CountryData => state.countries
-  );
+  const countOfAttempt = useAppSelector((state) => state.countOfAttempt);
 
   const handleClickButton = () => {
-    if (setWinnerPopupIsVisible) setWinnerPopupIsVisible(false);
+    if (setWinnerPopupIsVisible) {
+      setWinnerPopupIsVisible(false);
+      dispatch(setCountriesList([]));
+      dispatch(resetCountOfAttempt());
+    }
     if (setHelpPopupIsVisible) setHelpPopupIsVisible(false);
-    if (setWinnerPopupIsVisible) dispatch(setCountriesList([]));
   };
 
   const arr = props.textContent.split(",");
@@ -50,6 +51,9 @@ const Popup = memo(function Popup({
           <p className="w-full text-4xl text-center mt-4">
             {props.textContent}
           </p>
+        )}
+        {setWinnerPopupIsVisible && (
+          <p className="text-4xl mt-10">Liczba prób: {countOfAttempt}</p>
         )}
         <button
           onClick={() => handleClickButton()}

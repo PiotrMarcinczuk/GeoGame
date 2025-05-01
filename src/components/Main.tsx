@@ -1,8 +1,7 @@
 import CustomInput from "./CustomInput";
 import Country from "./Country";
-import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
 import { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
 import { fetchCorrectCountry } from "../utils/http";
 import { setCorrectCountry } from "../counters/correctCountrySlice";
 import { setCountriesList } from "../counters/countriesListSlice";
@@ -10,12 +9,15 @@ import Format from "../utils/Format";
 import speedImg from "../assets/img/speed.png";
 import logo from "../assets/img/logo.png";
 import help from "../assets/img/help.png";
+import website from "../assets/img/website.png";
+import github from "../assets/img/github.png";
 import Popup from "./Popup";
 import { RootState } from "../app/store";
 import { CountryData } from "../interfaces/stats";
+
 function Main() {
-  const data = useSelector((state: RootState): CountryData => state.country);
-  const countries = useSelector(
+  const data = useAppSelector((state: RootState): CountryData => state.country);
+  const countries = useAppSelector(
     (state: RootState): CountryData[] => state.countries
   );
   const [itemsDelay, setItemsDelay] = useState<number>(0.3);
@@ -25,13 +27,12 @@ function Main() {
   const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { checkIfCountryIsCorrect } = Format();
-  const correctCountry = useSelector(
+  const correctCountry = useAppSelector(
     (state: RootState): CountryData => state.correctCountry
   );
-  const loadingState = useSelector(
-    (state: RootState): boolean => state.loading
-  );
-  const dispatch = useDispatch();
+  const loading = useAppSelector((state: RootState): boolean => state.loading);
+  console.log("loading", loading);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const res = async () => {
@@ -59,7 +60,8 @@ function Main() {
       dispatch(setCountriesList(tempCountriesList));
     }
     scrollRef.current!.scrollIntoView({ behavior: "smooth" });
-  }, [tempCountriesList, countries]);
+    console.log("Eee");
+  }, [tempCountriesList, countries, loading]);
 
   return (
     <>
@@ -141,15 +143,18 @@ function Main() {
             </div>
           </div>
         )}
-        <ul className="max-h-[635px] px-2 overflow-y-auto">
+
+        <ul className="max-h-[535px] px-2 scrollbar  scrollbar-w-[1px] scrollbar-thumb-green-400   scrollbar-thumb-rounded-2xl overflow-y-scroll">
           {countries
             ? countries.map((country: CountryData, index: number) => {
                 return (
-                  <Country
-                    key={index}
-                    country={country}
-                    itemsDelay={itemsDelay}
-                  />
+                  <div key={index} className="flex flex-col">
+                    <Country country={country} itemsDelay={itemsDelay} />
+
+                    {loading && index === countries.length - 1 && (
+                      <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
+                    )}
+                  </div>
                 );
               })
             : null}
@@ -164,6 +169,20 @@ function Main() {
           )}
         </ul>
       </main>
+      <footer className="absolute left-4 bottom-4">
+        <div className="flex -mx-2 bg-gray-200/10 rounded-lg p-2">
+          <div
+            className="w-16 mx-2 hover:cursor-pointer hover:scale-105 ease-out duration-250"
+            onClick={() => window.open("https://piotr-marcinczuk.pl")}>
+            <img src={website} alt="website_icon" />
+          </div>
+          <div
+            className="w-16 mx-2 hover:cursor-pointer hover:scale-105 ease-out duration-250"
+            onClick={() => window.open("https://github.com/PiotrMarcinczuk")}>
+            <img src={github} alt="website_icon" />
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

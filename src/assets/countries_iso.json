@@ -186,12 +186,6 @@
     "alpha3": "BTN"
   },
   {
-    "name": "Bouvet Island",
-    "name_pl": "Wyspa Bouveta",
-    "alpha2": "BV",
-    "alpha3": "BVT"
-  },
-  {
     "name": "Botswana",
     "name_pl": "Botswana",
     "alpha2": "BW",
@@ -288,12 +282,6 @@
     "alpha3": "CUW"
   },
   {
-    "name": "Christmas Island",
-    "name_pl": "Wyspa Bożego Narodzenia",
-    "alpha2": "CX",
-    "alpha3": "CXR"
-  },
-  {
     "name": "Cayman Islands",
     "name_pl": "Kajmany",
     "alpha2": "KY",
@@ -366,12 +354,6 @@
     "alpha3": "ERI"
   },
   {
-    "name": "Western Sahara",
-    "name_pl": "Sahara Zachodnia",
-    "alpha2": "EH",
-    "alpha3": "ESH"
-  },
-  {
     "name": "Spain",
     "name_pl": "Hiszpania",
     "alpha2": "ES",
@@ -400,12 +382,6 @@
     "name_pl": "Fidżi",
     "alpha2": "FJ",
     "alpha3": "FJI"
-  },
-  {
-    "name": "Falkland Islands (Malvinas)",
-    "name_pl": "Falklandy",
-    "alpha2": "FK",
-    "alpha3": "FLK"
   },
   {
     "name": "France",
@@ -444,12 +420,6 @@
     "alpha3": "GEO"
   },
   {
-    "name": "Guernsey",
-    "name_pl": "Guernsey",
-    "alpha2": "GG",
-    "alpha3": "GGY"
-  },
-  {
     "name": "Ghana",
     "name_pl": "Ghana",
     "alpha2": "GH",
@@ -466,12 +436,6 @@
     "name_pl": "Gwinea",
     "alpha2": "GN",
     "alpha3": "GIN"
-  },
-  {
-    "name": "Guadeloupe",
-    "name_pl": "Gwadelupa",
-    "alpha2": "GP",
-    "alpha3": "GLP"
   },
   {
     "name": "Gambia",
@@ -516,12 +480,6 @@
     "alpha3": "GTM"
   },
   {
-    "name": "French Guiana",
-    "name_pl": "Gujana Francuska",
-    "alpha2": "GF",
-    "alpha3": "GUF"
-  },
-  {
     "name": "Guam",
     "name_pl": "Guam",
     "alpha2": "GU",
@@ -538,12 +496,6 @@
     "name_pl": "Hongkong",
     "alpha2": "HK",
     "alpha3": "HKG"
-  },
-  {
-    "name": "Heard Island and McDonald Islands",
-    "name_pl": "Wyspy Heard i McDonalda",
-    "alpha2": "HM",
-    "alpha3": "HMD"
   },
   {
     "name": "Honduras",
@@ -577,7 +529,7 @@
   },
   {
     "name": "Isle of Man",
-    "name_pl": "Wyspa Man",
+    "name_pl": "Man",
     "alpha2": "IM",
     "alpha3": "IMN"
   },
@@ -586,12 +538,6 @@
     "name_pl": "Indie",
     "alpha2": "IN",
     "alpha3": "IND"
-  },
-  {
-    "name": "British Indian Ocean Territory",
-    "name_pl": "Brytyjskie Terytorium Oceanu Indyjskiego",
-    "alpha2": "IO",
-    "alpha3": "IOT"
   },
   {
     "name": "Ireland",
@@ -634,12 +580,6 @@
     "name_pl": "Jamajka",
     "alpha2": "JM",
     "alpha3": "JAM"
-  },
-  {
-    "name": "Jersey",
-    "name_pl": "Jersey",
-    "alpha2": "JE",
-    "alpha3": "JEY"
   },
   {
     "name": "Jordan",
@@ -774,12 +714,6 @@
     "alpha3": "MAC"
   },
   {
-    "name": "Saint Martin (French part)",
-    "name_pl": "Saint-Martin",
-    "alpha2": "MF",
-    "alpha3": "MAF"
-  },
-  {
     "name": "Morocco",
     "name_pl": "Maroko",
     "alpha2": "MA",
@@ -876,18 +810,6 @@
     "alpha3": "MRT"
   },
   {
-    "name": "Montserrat",
-    "name_pl": "Montserrat",
-    "alpha2": "MS",
-    "alpha3": "MSR"
-  },
-  {
-    "name": "Martinique",
-    "name_pl": "Martynika",
-    "alpha2": "MQ",
-    "alpha3": "MTQ"
-  },
-  {
     "name": "Mauritius",
     "name_pl": "Mauritius",
     "alpha2": "MU",
@@ -904,12 +826,6 @@
     "name_pl": "Malezja",
     "alpha2": "MY",
     "alpha3": "MYS"
-  },
-  {
-    "name": "Mayotte",
-    "name_pl": "Majotta",
-    "alpha2": "YT",
-    "alpha3": "MYT"
   },
   {
     "name": "Namibia",
@@ -930,12 +846,6 @@
     "alpha3": "NER"
   },
   {
-    "name": "Norfolk Island",
-    "name_pl": "Wyspa Norfolk",
-    "alpha2": "NF",
-    "alpha3": "NFK"
-  },
-  {
     "name": "Nigeria",
     "name_pl": "Nigeria",
     "alpha2": "NG",
@@ -946,12 +856,6 @@
     "name_pl": "Nikaragua",
     "alpha2": "NI",
     "alpha3": "NIC"
-  },
-  {
-    "name": "Niue",
-    "name_pl": "Niue",
-    "alpha2": "NU",
-    "alpha3": "NIU"
   },
   {
     "name": "Netherlands",
@@ -1000,12 +904,6 @@
     "name_pl": "Panama",
     "alpha2": "PA",
     "alpha3": "PAN"
-  },
-  {
-    "name": "Pitcairn",
-    "name_pl": "Pitcairn",
-    "alpha2": "PN",
-    "alpha3": "PCN"
   },
   {
     "name": "Peru",
@@ -1080,12 +978,6 @@
     "alpha3": "QAT"
   },
   {
-    "name": "Réunion",
-    "name_pl": "Reunion",
-    "alpha2": "RE",
-    "alpha3": "REU"
-  },
-  {
     "name": "Romania",
     "name_pl": "Rumunia",
     "alpha2": "RO",
@@ -1128,24 +1020,6 @@
     "alpha3": "SGP"
   },
   {
-    "name": "South Georgia and the South Sandwich Islands",
-    "name_pl": "Georgia Południowa i Sandwich Południowy",
-    "alpha2": "GS",
-    "alpha3": "SGS"
-  },
-  {
-    "name": "Saint Helena, Ascension and Tristan da Cunha",
-    "name_pl": "Święta Helena",
-    "alpha2": "SH",
-    "alpha3": "SHN"
-  },
-  {
-    "name": "Svalbard and Jan Mayen",
-    "name_pl": "Svalbard",
-    "alpha2": "SJ",
-    "alpha3": "SJM"
-  },
-  {
     "name": "Solomon Islands",
     "name_pl": "Wyspy Salomona",
     "alpha2": "SB",
@@ -1174,12 +1048,6 @@
     "name_pl": "Somalia",
     "alpha2": "SO",
     "alpha3": "SOM"
-  },
-  {
-    "name": "Saint Pierre and Miquelon",
-    "name_pl": "Saint-Pierre i Miquelon",
-    "alpha2": "PM",
-    "alpha3": "SPM"
   },
   {
     "name": "Serbia",
@@ -1278,12 +1146,6 @@
     "alpha3": "TJK"
   },
   {
-    "name": "Tokelau",
-    "name_pl": "Tokelau",
-    "alpha2": "TK",
-    "alpha3": "TKL"
-  },
-  {
     "name": "Turkmenistan",
     "name_pl": "Turkmenistan",
     "alpha2": "TM",
@@ -1326,12 +1188,6 @@
     "alpha3": "TUV"
   },
   {
-    "name": "Taiwan, Province of China",
-    "name_pl": "Tajwan",
-    "alpha2": "TW",
-    "alpha3": "TWN"
-  },
-  {
     "name": "Tanzania, United Republic of",
     "name_pl": "Tanzania",
     "alpha2": "TZ",
@@ -1350,12 +1206,6 @@
     "alpha3": "UKR"
   },
   {
-    "name": "United States Minor Outlying Islands",
-    "name_pl": "Dalekie Wyspy Mniejsze Stanów Zjednoczonych",
-    "alpha2": "UM",
-    "alpha3": "UMI"
-  },
-  {
     "name": "Uruguay",
     "name_pl": "Urugwaj",
     "alpha2": "UY",
@@ -1372,12 +1222,6 @@
     "name_pl": "Uzbekistan",
     "alpha2": "UZ",
     "alpha3": "UZB"
-  },
-  {
-    "name": "Holy See (Vatican City State)",
-    "name_pl": "Watykan",
-    "alpha2": "VA",
-    "alpha3": "VAT"
   },
   {
     "name": "Saint Vincent and the Grenadines",
@@ -1414,12 +1258,6 @@
     "name_pl": "Vanuatu",
     "alpha2": "VU",
     "alpha3": "VUT"
-  },
-  {
-    "name": "Wallis and Futuna",
-    "name_pl": "Wallis i Futuna",
-    "alpha2": "WF",
-    "alpha3": "WLF"
   },
   {
     "name": "Samoa",
