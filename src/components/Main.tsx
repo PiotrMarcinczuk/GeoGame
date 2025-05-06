@@ -107,51 +107,65 @@ function Main() {
             </p>
           </button>
         </div>
-        {/* {countries && countries[0] && (
-          <div className="mx-auto flex justify-between font-bold lg:font-semibold mt-2 px-2 md:text-sm xl:text-xl 2xl:text-3xl">
-            <div className="text-center px-2 mr-3 w-4/30 -pr-6">
-              <h1>Państwo</h1>
+        {countries && countries[0] && (
+          <div className="w-full text-center col-span-8 grid grid-cols-8 gap-2 mt-4 mb-4 sm:px-2 text-xs sm:text-base lg:text-2xl font-semibold">
+            <div className="grid mr-3">
+              <h2 className="text-nowrap text-center">Państwo</h2>
               <hr className="bg-white w-full mt-4" />
             </div>
-            <div className="text-center lg:w-4/30">
-              <h2 className="text-nowrap hidden lg:block">Największe miasto</h2>
+            <div>
+              <h2 className="text-nowrap text-center hidden lg:block">
+                Największe miasto
+              </h2>
               <h2 className="block lg:hidden">🏙️</h2>
               <hr className="bg-white w-full mt-4" />
             </div>
-            <div className="text-center lg:w-2/30">
-              <h2 className="text-nowrap hidden lg:block">Import</h2>
+            <div>
+              <h2 className="text-nowrap text-center hidden lg:block">
+                Import
+              </h2>
               <h2 className="block lg:hidden">🚢</h2>
-              <hr className="bg-white  mt-4" />
+              <hr className="bg-white w-full mt-4" />
             </div>
-            <div className="text-center lg:w-4/30">
-              <h2 className="text-nowrap hidden lg:block">PKB per capita</h2>
+            <div>
+              <h2 className="text-nowrap text-center hidden lg:block">
+                PKB per capita
+              </h2>
               <h2 className="block lg:hidden">💰</h2>
               <hr className="bg-white w-full mt-4" />
             </div>
-            <div className="text-center lg:w-4/30">
-              <h2 className="text-nowrap hidden lg:block">Elektryczność</h2>
+            <div>
+              <h2 className="text-nowrap text-center hidden lg:block">
+                Elektryczność
+              </h2>
               <h2 className="block lg:hidden">⚡</h2>
               <hr className="bg-white w-full mt-4" />
             </div>
-            <div className="text-center lg:w-3/30">
-              <h2 className="text-nowrap hidden lg:block">Zalesienie</h2>
+            <div>
+              <h2 className="text-nowrap text-center hidden lg:block">
+                Zalesienie
+              </h2>
               <h2 className="block lg:hidden">🌲</h2>
               <hr className="bg-white w-full mt-4" />
             </div>
-            <div className="text-center lg:w-3/30">
-              <h2 className="text-nowrap hidden lg:block">Surowce</h2>
+            <div>
+              <h2 className="text-nowrap text-center hidden lg:block">
+                Surowce
+              </h2>
               <h2 className="block lg:hidden">⛏️</h2>
               <hr className="bg-white w-full mt-4" />
             </div>
-            <div className="text-center lg:w-5/30">
-              <h2 className="text-nowrap hidden lg:block">Ludność miejska</h2>
+            <div>
+              <h2 className="text-nowrap text-center hidden lg:block">
+                Ludność miejska
+              </h2>
               <h2 className="block lg:hidden">🏢</h2>
               <hr className="bg-white w-full mt-4" />
             </div>
           </div>
-        )} */}
+        )}
 
-        <ul className="max-h-[535px] px-2 scrollbar  scrollbar-w-[1px] scrollbar-thumb-green-400   scrollbar-thumb-rounded-2xl overflow-y-scroll">
+        <ul className="max-h-[535px] sm:px-2 scrollbar  scrollbar-w-[1px] scrollbar-thumb-green-400  scrollbar-thumb-rounded-2xl overflow-y-scroll overflow-x-hidden">
           {countries
             ? countries.map((country: CountryData, index: number) => {
                 return (
@@ -172,7 +186,6 @@ function Main() {
                 );
               })
             : null}
-
           {loading && countries.length < 1 && (
             <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
           )}
