@@ -6,6 +6,7 @@ import SuggestionList from "./SuggestionList";
 import countries_iso from "../assets/countries_iso.json";
 import { CountryData, SugestionData } from "../interfaces/stats";
 import { RootState } from "../app/store";
+import isEqual from "lodash.isequal"; // check prev state with new state
 
 export default function CustomInput() {
   const searchValue = useRef<string | null>("");
@@ -16,6 +17,7 @@ export default function CustomInput() {
   const countries = useAppSelector(
     (state: RootState): CountryData[] => state.countries
   );
+  const loading = useAppSelector((state: RootState): boolean => state.loading);
 
   const { isFetching } = useCountrySearch(searchTerm, setSearchTerm);
 
@@ -26,7 +28,9 @@ export default function CustomInput() {
         .toLowerCase()
         .includes(searchValue.current!.toLowerCase());
     });
-    setSuggestionArr(filtered.slice(0, 5));
+    if (!isEqual(filtered, suggestionArr)) {
+      setSuggestionArr(filtered.slice(0, 5));
+    }
   };
 
   const handleSubmit = useCallback(
@@ -55,13 +59,13 @@ export default function CustomInput() {
   return (
     <form
       autoComplete="off"
-      onSubmit={handleSubmit}
+      onSubmit={loading ? (e) => e.preventDefault() : handleSubmit}
       onKeyDown={(e) => {
-        if (e.key === "Enter") {
+        if (e.key === "Enter" && !loading) {
           handleSubmit(e);
         }
       }}
-      className="mb-10 w-full mx-auto max-w-[812px] relative">
+      className="mb-10 w-3/4 lg:w-full mx-auto max-w-[812px] relative">
       <input
         ref={inputRef}
         onClick={(e: React.MouseEvent<HTMLInputElement>) => {
@@ -69,7 +73,7 @@ export default function CustomInput() {
             (e.target as HTMLInputElement).value = "";
           }
         }}
-        className={`w-full h-20 rounded-[4rem] outline-0 bg-white text-4xl p-4 ${
+        className={`w-full h-20 rounded-[4rem] outline-0 bg-white text-2xl md:text-4xl p-4 ${
           searchValue ? "text-black" : "text-gray-500"
         }`}
         onChange={handleChange}
@@ -83,7 +87,7 @@ export default function CustomInput() {
         <SuggestionList
           suggestionArr={suggestionArr}
           searchValue={searchValue}
-          handleSubmit={handleSubmit}
+          handleSubmit={loading ? (e) => e.preventDefault() : handleSubmit}
         />
       )}
     </form>

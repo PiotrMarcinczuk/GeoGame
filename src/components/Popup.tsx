@@ -41,7 +41,7 @@ const Popup = memo(function Popup({
           arr.map((item: string, index: number) => {
             let titleAndContent = item.split("-");
             return (
-              <p key={index} className="w-full text-4xl  mt-4">
+              <p key={index} className="w-full text-4xl  mt-8">
                 <span className="font-semibold">{titleAndContent[0]}</span> -
                 {titleAndContent[1]}
               </p>

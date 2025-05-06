@@ -2,7 +2,7 @@ export type CountryData = {
   countryName: string;
   "AG.LND.FRST.ZS": IndicatorData[]; // Forest area
   "EG.ELC.ACCS.UR.ZS": IndicatorData[]; // Electricity access
-  "NE.EXP.GNFS.ZS": IndicatorData[]; // Exports
+  "EN.URB.LCTY.UR.ZS": IndicatorData[]; // Exports
   "NE.IMP.GNFS.ZS": IndicatorData[]; // Imports
   "NY.GDP.PCAP.CD": IndicatorData[]; // GDP per capita
   "SP.URB.TOTL": IndicatorData[]; // Urban population

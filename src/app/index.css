@@ -18,3 +18,36 @@
   nocompatible: true;
   preferredstrategy: "pseudoelements";
 }
+
+.custom-before-higher {
+  position: relative;
+}
+
+.custom-before-higher::before {
+  content: "";
+  position: absolute;
+  bottom: 10px;
+  display: inline-block;
+  background-image: url("../assets/img/arr.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+}
+
+.custom-before-lower {
+  position: relative;
+}
+
+.custom-before-lower::before {
+  content: "";
+  position: absolute;
+  bottom: 10px;
+  display: inline-block;
+  background-image: url("../assets/img/arr.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: rotate(180deg);
+  width: 20px;
+  height: 20px;
+}

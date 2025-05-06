@@ -8,32 +8,32 @@ const fetchData = async (country: string | null) => {
   );
   const codeISO = seletedCountry[0].alpha2;
   try {
-    const responseUrbanP = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/EG.ELC.ACCS.UR.ZS?format=json&per_page=5`
+    const responseElectricity = await axios.get(
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/EG.ELC.ACCS.UR.ZS?date=2021&format=json`
     );
-    const responseImport = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NE.IMP.GNFS.ZS?format=json&per_page=5`
+    const responsePopulationLargestCity = await axios.get(
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/EN.URB.LCTY.UR.ZS?date=2021&format=json`
     );
     const responseExport = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NE.EXP.GNFS.ZS?format=json&per_page=5`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NE.EXP.GNFS.ZS?date=2021&format=json`
     );
     const responseGDP = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.PCAP.CD?format=json&per_page=5`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.PCAP.CD?date=2021&format=json`
     );
     const responseForestation = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/AG.LND.FRST.ZS?format=json&per_page=5`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/AG.LND.FRST.ZS?date=2021&format=json`
     );
     const responseResources = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.TOTL.RT.ZS?format=json&per_page=5`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.TOTL.RT.ZS?date=2021&format=json`
     );
     const responseUrabnP = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/SP.URB.TOTL?format=json&per_page=5`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/SP.URB.TOTL?date=2021&format=json`
     );
 
     return {
       countryName: seletedCountry[0].name_pl,
-      "EG.ELC.ACCS.UR.ZS": responseUrbanP.data[1],
-      "NE.EXP.GNFS.ZS": responseImport.data[1],
+      "EG.ELC.ACCS.UR.ZS": responseElectricity.data[1],
+      "EN.URB.LCTY.UR.ZS": responsePopulationLargestCity.data[1],
       "NE.IMP.GNFS.ZS": responseExport.data[1],
       "NY.GDP.PCAP.CD": responseGDP.data[1],
       "AG.LND.FRST.ZS": responseForestation.data[1],
@@ -62,13 +62,13 @@ const fetchData = async (country: string | null) => {
 const fetchCorrectCountry = async () => {
   const checkStats = (country: CountryData) => {
     if (
-      !country["EG.ELC.ACCS.UR.ZS"][4].value ||
-      !country["NE.EXP.GNFS.ZS"][4].value ||
-      !country["NE.IMP.GNFS.ZS"][4].value ||
-      !country["NY.GDP.PCAP.CD"][4].value ||
-      !country["AG.LND.FRST.ZS"][4].value ||
-      !country["TX.VAL.MMTL.ZS.UN"][4].value ||
-      !country["SP.URB.TOTL"][4].value
+      !country["EG.ELC.ACCS.UR.ZS"][0].value ||
+      !country["EN.URB.LCTY.UR.ZS"][0].value ||
+      !country["NE.IMP.GNFS.ZS"][0].value ||
+      !country["NY.GDP.PCAP.CD"][0].value ||
+      !country["AG.LND.FRST.ZS"][0].value ||
+      !country["TX.VAL.MMTL.ZS.UN"][0].value ||
+      !country["SP.URB.TOTL"][0].value
     ) {
       return true;
     }

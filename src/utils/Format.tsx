@@ -26,32 +26,30 @@ export default function Format() {
         strValue =
           strValue.slice(0, 3) + " " + strValue.slice(3, strValue.length);
       }
-      console.log("strValue", strValue);
       return strValue;
     };
   }, []);
 
   const compareCountries = (value: number, correctValue: number) => {
-    console.log("value", value === correctValue);
     if (value > correctValue) {
-      return "bg-custom-yellow/65";
+      return "bg-custom-yellow/65 custom-before-higher";
     }
     if (value < correctValue) {
-      return "bg-custom-red/65";
+      return "bg-custom-red/65 custom-before-lower";
     }
     if (value === correctValue) return "bg-custom-green/65";
-    return "bg-custom-red/65";
+    return "bg-custom-red/65 custom-before-lower";
   };
 
   const extractCountryData = (obj: CountryData) => ({
-    codeISO: obj["NE.EXP.GNFS.ZS"][4].country.id,
-    exportData: obj["NE.EXP.GNFS.ZS"][4].value?.toFixed(0),
-    importData: obj["NE.IMP.GNFS.ZS"][4].value?.toFixed(0),
-    electricityData: obj["EG.ELC.ACCS.UR.ZS"][4].value?.toFixed(0),
-    gdpData: formatGDP(Number(obj["NY.GDP.PCAP.CD"][4].value?.toFixed(0))),
-    forestationData: obj["AG.LND.FRST.ZS"][4].value?.toFixed(0),
-    resourcesData: obj["TX.VAL.MMTL.ZS.UN"][4].value?.toFixed(0),
-    urbanPData: obj["SP.URB.TOTL"][4].value,
+    codeISO: obj["EN.URB.LCTY.UR.ZS"][0].country.id,
+    exportData: obj["EN.URB.LCTY.UR.ZS"][0].value?.toFixed(0),
+    importData: obj["NE.IMP.GNFS.ZS"][0].value?.toFixed(0),
+    electricityData: obj["EG.ELC.ACCS.UR.ZS"][0].value?.toFixed(0),
+    gdpData: formatGDP(Number(obj["NY.GDP.PCAP.CD"][0].value?.toFixed(0))),
+    forestationData: obj["AG.LND.FRST.ZS"][0].value?.toFixed(0),
+    resourcesData: obj["TX.VAL.MMTL.ZS.UN"][0].value?.toFixed(0),
+    urbanPData: obj["SP.URB.TOTL"][0].value,
   });
 
   const checkIfCountryIsCorrect = (
