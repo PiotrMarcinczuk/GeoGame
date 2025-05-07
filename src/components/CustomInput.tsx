@@ -1,5 +1,5 @@
 import arrow from "../assets/img/arrow.png";
-import { useRef, useState, useCallback, memo, useEffect } from "react";
+import { useRef, useState, useCallback } from "react";
 import useCountrySearch from "../hooks/useCountrySearch";
 import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
 import SuggestionList from "./SuggestionList";

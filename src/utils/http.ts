@@ -46,19 +46,6 @@ const fetchData = async (country: string | null) => {
   }
 };
 
-// const fetchCorrectCountry = async () => {
-//   const today = new Date().toISOString().split("T")[0];
-
-//   let hash = 0;
-//   for (let i = 0; i < today.length; i++) {
-//     hash += today.charCodeAt(i);
-//   }
-
-//   const index = hash % countries_iso.length;
-//   const result = await fetchData(countries_iso[index].name_pl);
-//   return result;
-
-// };
 const fetchCorrectCountry = async () => {
   const checkStats = (country: CountryData) => {
     if (

@@ -1,7 +1,7 @@
 import CustomInput from "./CustomInput";
 import Country from "./Country";
 import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { fetchCorrectCountry } from "../utils/http";
 import { setCorrectCountry } from "../counters/correctCountrySlice";
 import { setCountriesList } from "../counters/countriesListSlice";
@@ -14,7 +14,6 @@ import github from "../assets/img/github.png";
 import Popup from "./Popup";
 import { RootState } from "../app/store";
 import { CountryData } from "../interfaces/stats";
-import { SugestionData } from "../interfaces/stats";
 
 function Main() {
   const data = useAppSelector((state: RootState): CountryData => state.country);
