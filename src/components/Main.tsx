@@ -88,7 +88,11 @@ function Main() {
               setHelpPopupIsVisible((prev) => !prev);
             }}
             className="w-12 h-12 md:w-24 md:h-24 absolute left-10 md:left-0 top-22 md:top-auto bottom-1/2 md:bottom-auto cursor-pointer hover:scale-105 ease-out duration-250 bg-white/50 hover:bg-gray-400 rounded-full">
-            <img src={help} alt="help_icon" className="mx-auto" />
+            <img
+              src={help}
+              alt="help_icon"
+              className="mx-auto w-9 h-9 md:w-auto md:h-auto"
+            />
           </button>
           <CustomInput />
           <button
@@ -104,12 +108,12 @@ function Main() {
               } mx-auto `}
             />
             <p className="group-hover:scale-95 ease-out duration-250 text-sm lg:text-base">
-              Prędkość: x{itemsDelay * 10}
+              Zmień na: x{itemsDelay * 10}
             </p>
           </button>
         </div>
         {countries && countries[0] && (
-          <div className="w-full text-center col-span-8 grid grid-cols-8 gap-2 mt-20 md:mt-4 mb-4 sm:px-2 text-2xl lg:text-base xl:text-2xl font-semibold">
+          <div className="w-full text-center col-span-8 grid grid-cols-8 gap-2 mt-16 sm:mt-20 md:mt-4 mb-4 sm:px-2 text-2xl lg:text-base xl:text-2xl font-semibold">
             <div className="grid md:mr-3">
               <h2 className="text-nowrap text-center hidden lg:block">
                 Państwo

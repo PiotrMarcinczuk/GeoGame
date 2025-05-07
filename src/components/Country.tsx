@@ -76,11 +76,11 @@ const Country = memo(function Country({
         <motion.div
           variants={itemVariants}
           className="text-center sm:mr-3 relative ">
-          <div className="px-2 flex flex-col items-center h-20 lg:h-32 border-1 border-white rounded-xs bg-gray-300/20">
+          <div className="px-2 flex flex-col items-center justify-center h-20 lg:h-32 border-1 border-white/30 md:border-white rounded-xs bg-gray-300/20">
             <img
               src={`https://flagcdn.com/${codeISO.toLowerCase()}.svg`}
               alt="flag"
-              className="w-22 h-16 py-1"></img>
+              className="lg:w-22 lg:h-16 py-1"></img>
             <p className="text-xs lg:text-xl hidden lg:block">{countryName}</p>
           </div>
         </motion.div>
@@ -89,7 +89,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(largestCityPopulation),
               Number(correctExportData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 text-sm md:text-base lg:text-3xl border-1 border-white rounded-xs`}>
+            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 text-sm md:text-base lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
             <p>{largestCityPopulation ? largestCityPopulation + "%" : "N/A"}</p>
           </div>
         </motion.div>
@@ -98,7 +98,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(importData),
               Number(correctImportData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white rounded-xs`}>
+            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
             <p>{importData ? importData + "%" : "N/A"}</p>
           </div>
         </motion.div>
@@ -107,7 +107,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(gdpData && gdpData.replace(/\s+/g, "")),
               Number(correctGdpData && correctGdpData.replace(/\s+/g, ""))
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 text-xs md:text-base lg:text-3xl border-1 border-white rounded-xs`}>
+            )} h-20 lg:h-32 flex md:items-center justify-center px-1 lg:px-0 text-xs md:text-base lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
             <p>{gdpData ? gdpData + " $" : "N/A"}</p>
           </div>
         </motion.div>
@@ -116,7 +116,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(electricityData),
               Number(correctElectricityData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white rounded-xs`}>
+            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
             <p>{electricityData ? electricityData + "%" : "N/A"}</p>
           </div>
         </motion.div>
@@ -125,7 +125,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(forestationData),
               Number(correctForestationData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white rounded-xs`}>
+            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
             <p>{forestationData ? forestationData + "%" : "N/A"}</p>
           </div>
         </motion.div>
@@ -134,7 +134,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(resourcesData),
               Number(correctResourcesData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white rounded-xs`}>
+            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
             <p>{resourcesData ? resourcesData + "%" : "N/A"}</p>
           </div>
         </motion.div>
@@ -143,7 +143,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(urbanPDataBeforeFormat),
               Number(correctUrbanPDataBeforeFormat)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 text-wrap lg:px-0 text-xs md:text-base lg:text-3xl border-1 border-white rounded-xs`}>
+            )} h-20 lg:h-32 flex items-center justify-center px-1 text-wrap lg:px-0 text-xs md:text-base lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
             <p>{urbanPData ? urbanPData : "N/A"}</p>
           </div>
         </motion.div>

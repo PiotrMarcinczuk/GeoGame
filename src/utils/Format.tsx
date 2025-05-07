@@ -5,9 +5,9 @@ export default function Format() {
   const formatToMilions = useMemo(() => {
     return (value: number) => {
       if (value >= 1000000) {
-        return (value / 1000000).toFixed(2) + "M";
+        return (value / 1000000).toFixed(2) + " M";
       } else if (value >= 1000) {
-        return (value / 1000).toFixed(2) + "K";
+        return (value / 1000).toFixed(2) + " K";
       } else {
         return value.toString();
       }
@@ -32,13 +32,13 @@ export default function Format() {
 
   const compareCountries = (value: number, correctValue: number) => {
     if (value > correctValue) {
-      return "bg-custom-yellow/65 custom-before-higher";
+      return "bg-custom-yellow/50 md:bg-custom-yellow/65 custom-before-higher";
     }
     if (value < correctValue) {
-      return "bg-custom-red/65 custom-before-lower";
+      return "bg-custom-red/50 md:bg-custom-red/65 custom-before-lower";
     }
     if (value === correctValue) return "bg-custom-green/65";
-    return "bg-custom-red/65 custom-before-lower";
+    return "bg-custom-red/50 md:bg-custom-red/65 custom-before-lower";
   };
 
   const extractCountryData = (obj: CountryData) => ({
