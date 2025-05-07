@@ -113,7 +113,7 @@ function Main() {
           </button>
         </div>
         {countries && countries[0] && (
-          <div className="w-full text-center col-span-8 grid grid-cols-8 gap-2 mt-16 sm:mt-20 md:mt-4 mb-4 sm:px-2 text-2xl lg:text-base xl:text-2xl font-semibold">
+          <div className="w-full text-center col-span-8 grid grid-cols-8 gap-2 mt-16 sm:mt-20 md:mt-4 mb-4 sm:px-2 text-2xl lg:text-lg customXL:text-xl 2xl:text-2xl font-semibold">
             <div className="grid md:mr-3">
               <h2 className="text-nowrap text-center hidden lg:block">
                 Państwo
