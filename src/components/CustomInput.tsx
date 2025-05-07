@@ -1,5 +1,5 @@
 import arrow from "../assets/img/arrow.png";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, memo, useEffect } from "react";
 import useCountrySearch from "../hooks/useCountrySearch";
 import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
 import SuggestionList from "./SuggestionList";
@@ -8,7 +8,7 @@ import { CountryData, SugestionData } from "../interfaces/stats";
 import { RootState } from "../app/store";
 import isEqual from "lodash.isequal"; // check prev state with new state
 
-export default function CustomInput() {
+const CustomInput = function CustomInput() {
   const searchValue = useRef<string | null>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>("");
@@ -18,8 +18,7 @@ export default function CustomInput() {
     (state: RootState): CountryData[] => state.countries
   );
   const loading = useAppSelector((state: RootState): boolean => state.loading);
-
-  const { isFetching } = useCountrySearch(searchTerm, setSearchTerm);
+  useCountrySearch(searchTerm, setSearchTerm);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchValue.current = event.target.value;
@@ -65,9 +64,14 @@ export default function CustomInput() {
           handleSubmit(e);
         }
       }}
-      className="mb-10 w-3/4 lg:w-full mx-auto max-w-[812px] relative">
+      className="mb-10 w-full md:w-3/4 lg:w-full mx-auto max-w-[812px] relative">
       <input
         ref={inputRef}
+        onBlur={(e) => {
+          setTimeout(() => {
+            setSuggestionArr([]);
+          }, 100);
+        }}
         onClick={(e: React.MouseEvent<HTMLInputElement>) => {
           if (searchValue.current == "Wpisz nazwe państwa") {
             (e.target as HTMLInputElement).value = "";
@@ -92,4 +96,6 @@ export default function CustomInput() {
       )}
     </form>
   );
-}
+};
+
+export default CustomInput;

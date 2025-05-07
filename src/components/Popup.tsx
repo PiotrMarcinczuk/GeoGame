@@ -2,6 +2,7 @@ import { memo } from "react";
 import { useAppSelector, useAppDispatch } from "../hooks/useReduxType";
 import { setCountriesList } from "../counters/countriesListSlice";
 import { resetCountOfAttempt } from "../counters/countOfAttempSlice";
+import { setCountryData } from "../counters/countrySlice";
 
 type PopupProps = {
   setWinnerPopupIsVisible?: (value: boolean) => void;
@@ -23,6 +24,7 @@ const Popup = memo(function Popup({
     if (setWinnerPopupIsVisible) {
       setWinnerPopupIsVisible(false);
       dispatch(setCountriesList([]));
+      dispatch(setCountryData(null));
       dispatch(resetCountOfAttempt());
     }
     if (setHelpPopupIsVisible) setHelpPopupIsVisible(false);

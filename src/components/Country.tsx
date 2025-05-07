@@ -81,7 +81,7 @@ const Country = memo(function Country({
               src={`https://flagcdn.com/${codeISO.toLowerCase()}.svg`}
               alt="flag"
               className="w-22 h-16 py-1"></img>
-            <p className="text-xs lg:text-xl">{countryName}</p>
+            <p className="text-xs lg:text-xl hidden lg:block">{countryName}</p>
           </div>
         </motion.div>
         <motion.div variants={itemVariants} className="text-center ">
@@ -89,7 +89,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(largestCityPopulation),
               Number(correctExportData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white rounded-xs`}>
+            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 text-sm md:text-base lg:text-3xl border-1 border-white rounded-xs`}>
             <p>{largestCityPopulation ? largestCityPopulation + "%" : "N/A"}</p>
           </div>
         </motion.div>
@@ -107,7 +107,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(gdpData && gdpData.replace(/\s+/g, "")),
               Number(correctGdpData && correctGdpData.replace(/\s+/g, ""))
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white rounded-xs`}>
+            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 text-xs md:text-base lg:text-3xl border-1 border-white rounded-xs`}>
             <p>{gdpData ? gdpData + " $" : "N/A"}</p>
           </div>
         </motion.div>
@@ -143,7 +143,7 @@ const Country = memo(function Country({
             className={`${compareCountries(
               Number(urbanPDataBeforeFormat),
               Number(correctUrbanPDataBeforeFormat)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white rounded-xs text-xs`}>
+            )} h-20 lg:h-32 flex items-center justify-center px-1 text-wrap lg:px-0 text-xs md:text-base lg:text-3xl border-1 border-white rounded-xs`}>
             <p>{urbanPData ? urbanPData : "N/A"}</p>
           </div>
         </motion.div>

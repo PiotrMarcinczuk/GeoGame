@@ -9,7 +9,9 @@ import store from "./store";
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <QueryClientProvider client={new QueryClient()}>
-      <Main />
+      <StrictMode>
+        <Main />
+      </StrictMode>
     </QueryClientProvider>
   </Provider>
 );

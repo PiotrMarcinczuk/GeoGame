@@ -23,31 +23,12 @@
   position: relative;
 }
 
-.custom-before-higher::before {
-  content: "";
-  position: absolute;
-  bottom: 10px;
-  display: inline-block;
-  background-image: url("../assets/img/arr.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 20px;
-  height: 20px;
-}
+@layer {
+  .custom-before-higher {
+    @apply before:content-[''] before:absolute before:bottom-2 before:inline-block before:bg-[url("../assets/img/arr.png")] before:bg-no-repeat before:bg-cover before:w-3 before:h-3 md:before:w-5 md:before:h-5;
+  }
 
-.custom-before-lower {
-  position: relative;
-}
-
-.custom-before-lower::before {
-  content: "";
-  position: absolute;
-  bottom: 10px;
-  display: inline-block;
-  background-image: url("../assets/img/arr.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  transform: rotate(180deg);
-  width: 20px;
-  height: 20px;
+  .custom-before-lower {
+    @apply before:content-[''] before:absolute before:bottom-2 before:inline-block before:bg-[url("../assets/img/arr.png")] before:bg-no-repeat before:bg-cover before:rotate-180 before:w-3 before:h-3 md:before:w-5 md:before:h-5;
+  }
 }

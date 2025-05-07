@@ -68,7 +68,7 @@ export default function Format() {
         correctCountryData[key as keyof typeof correctCountryData]
       ) {
         isMatch = false;
-        return;
+        return isMatch;
       }
       isMatch = true;
     }

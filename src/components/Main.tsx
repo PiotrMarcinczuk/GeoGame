@@ -1,7 +1,7 @@
 import CustomInput from "./CustomInput";
 import Country from "./Country";
 import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { fetchCorrectCountry } from "../utils/http";
 import { setCorrectCountry } from "../counters/correctCountrySlice";
 import { setCountriesList } from "../counters/countriesListSlice";
@@ -14,6 +14,7 @@ import github from "../assets/img/github.png";
 import Popup from "./Popup";
 import { RootState } from "../app/store";
 import { CountryData } from "../interfaces/stats";
+import { SugestionData } from "../interfaces/stats";
 
 function Main() {
   const data = useAppSelector((state: RootState): CountryData => state.country);
@@ -21,17 +22,16 @@ function Main() {
     (state: RootState): CountryData[] => state.countries
   );
   const [itemsDelay, setItemsDelay] = useState<number>(0.3);
-  const [tempCountriesList, setTempCountriesList] = useState<CountryData[]>([]);
   const [winnerPopupIsVisible, setWinnerPopupIsVisible] =
     useState<boolean>(false);
   const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { checkIfCountryIsCorrect } = Format();
   const correctCountry = useAppSelector(
     (state: RootState): CountryData => state.correctCountry
   );
   const loading = useAppSelector((state: RootState): boolean => state.loading);
   const dispatch = useAppDispatch();
+  const { checkIfCountryIsCorrect } = Format();
   const firstCountryCodeISO =
     countries[0]?.["EN.URB.LCTY.UR.ZS"]?.[0]?.country?.id;
 
@@ -44,24 +44,25 @@ function Main() {
   }, []);
 
   useEffect(() => {
-    if (data) {
-      setTempCountriesList((prev: CountryData[]) => [...prev, data]);
+    if (
+      data &&
+      !countries.some((c: CountryData) => c.countryName === data.countryName)
+    ) {
+      dispatch(setCountriesList([...countries, data]));
     }
-  }, [data]);
+  }, [data, countries, dispatch]);
 
   useEffect(() => {
-    if (tempCountriesList.length > 0) {
-      const isCorrect = checkIfCountryIsCorrect(
-        tempCountriesList[tempCountriesList.length - 1],
+    if (countries.length > 0) {
+      checkIfCountryIsCorrect(
+        countries[countries.length - 1],
         correctCountry,
         itemsDelay,
         setWinnerPopupIsVisible
       );
-      if (isCorrect) setTempCountriesList([]);
-      dispatch(setCountriesList(tempCountriesList));
     }
     scrollRef.current!.scrollIntoView({ behavior: "smooth" });
-  }, [tempCountriesList, countries, loading]);
+  }, [data, countries, loading]);
 
   return (
     <section className="h-screen">
@@ -81,12 +82,12 @@ function Main() {
         </div>
       </header>
       <main className="mx-auto max-w-[1850px] px-2 w-full">
-        <div className="flex relative max-w-1450 mx-auto">
+        <div className="flex flex-col relative max-w-1450 mx-auto">
           <button
             onClick={() => {
               setHelpPopupIsVisible((prev) => !prev);
             }}
-            className="w-12 h-12 md:w-24 md:h-24 absolute left-0 bottom-1/2 md:bottom-auto cursor-pointer hover:scale-105 ease-out duration-250 bg-white/50 hover:bg-gray-400 rounded-full">
+            className="w-12 h-12 md:w-24 md:h-24 absolute left-10 md:left-0 top-22 md:top-auto bottom-1/2 md:bottom-auto cursor-pointer hover:scale-105 ease-out duration-250 bg-white/50 hover:bg-gray-400 rounded-full">
             <img src={help} alt="help_icon" className="mx-auto" />
           </button>
           <CustomInput />
@@ -94,7 +95,7 @@ function Main() {
             onClick={() => {
               setItemsDelay((prev) => (prev === 0.3 ? 0.1 : 0.3));
             }}
-            className="group w-12 h-12 md:w-24 md:h-24 absolute right-0 bottom-1/2 md:bottom-auto cursor-pointer hover:scale-105 ease-out duration-250 bg-white/50 hover:bg-gray-400 rounded-full">
+            className="group w-12 h-12 md:w-24 md:h-24 absolute right-10 md:right-0 top-22 md:top-auto bottom-1/2 md:bottom-auto cursor-pointer hover:scale-105 ease-out duration-250 bg-white/50 hover:bg-gray-400 rounded-full">
             <img
               src={speedImg}
               alt="speed_icon"
@@ -108,9 +109,12 @@ function Main() {
           </button>
         </div>
         {countries && countries[0] && (
-          <div className="w-full text-center col-span-8 grid grid-cols-8 gap-2 mt-4 mb-4 sm:px-2 text-xs sm:text-base lg:text-2xl font-semibold">
-            <div className="grid mr-3">
-              <h2 className="text-nowrap text-center">Państwo</h2>
+          <div className="w-full text-center col-span-8 grid grid-cols-8 gap-2 mt-20 md:mt-4 mb-4 sm:px-2 text-2xl lg:text-base xl:text-2xl font-semibold">
+            <div className="grid md:mr-3">
+              <h2 className="text-nowrap text-center hidden lg:block">
+                Państwo
+              </h2>
+              <h2 className="block lg:hidden">🏳️</h2>
               <hr className="bg-white w-full mt-4" />
             </div>
             <div>
@@ -165,7 +169,7 @@ function Main() {
           </div>
         )}
 
-        <ul className="max-h-[535px] sm:px-2 scrollbar  scrollbar-w-[1px] scrollbar-thumb-green-400  scrollbar-thumb-rounded-2xl overflow-y-scroll overflow-x-hidden">
+        <ul className="max-h-[200px] md:max-h-[475px] sm:px-2 scrollbar  scrollbar-w-[1px] scrollbar-thumb-green-400  scrollbar-thumb-rounded-2xl overflow-y-scroll overflow-x-hidden">
           {countries
             ? countries.map((country: CountryData, index: number) => {
                 return (
@@ -200,15 +204,15 @@ function Main() {
           )}
         </ul>
       </main>
-      <footer className="absolute left-4 bottom-4">
-        <div className="flex -mx-2 bg-gray-200/10 rounded-lg p-2">
+      <footer className="fixed w-full md:w-auto md:bottom-4 md:left-4 bottom-0">
+        <div className="flex justify-center -mx-2 bg-gray-200/10 rounded-lg p-2">
           <div
-            className="w-16 mx-2 hover:cursor-pointer hover:scale-105 ease-out duration-250"
+            className="w-8 lg:w-16 mx-2 hover:cursor-pointer hover:scale-105 ease-out duration-250"
             onClick={() => window.open("https://piotr-marcinczuk.pl")}>
             <img src={website} alt="website_icon" />
           </div>
           <div
-            className="w-16 mx-2 hover:cursor-pointer hover:scale-105 ease-out duration-250"
+            className="w-8 lg:w-16 mx-2 hover:cursor-pointer hover:scale-105 ease-out duration-250"
             onClick={() => window.open("https://github.com/PiotrMarcinczuk")}>
             <img src={github} alt="website_icon" />
           </div>

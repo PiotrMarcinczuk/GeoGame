@@ -22,14 +22,15 @@ export default function useCountrySearch(
     if (data) {
       dispatch(setCountryData(data));
       dispatch(incrementCountOfAttempt());
+      setSearchTerm(); // propably not needed, but just in case
     }
 
     setSearchTerm(null);
-  }, [data, isPending]);
+  }, [data, dispatch, setSearchTerm]);
 
   useEffect(() => {
     dispatch(setLoading(isFetching));
-  }, [isFetching]);
+  }, [isFetching, dispatch]);
 
   return { data, isFetching, isError, error };
 }
