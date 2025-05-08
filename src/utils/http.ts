@@ -7,27 +7,28 @@ const fetchData = async (country: string | null) => {
     (item) => item.name_pl.toLowerCase() === country!.toLowerCase()
   );
   const codeISO = seletedCountry[0].alpha2;
+  const year = 2021;
   try {
     const responseElectricity = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/EG.ELC.ACCS.UR.ZS?date=2021&format=json`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/EG.ELC.ACCS.UR.ZS?date=${year}&format=json`
     );
     const responsePopulationLargestCity = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/EN.URB.LCTY.UR.ZS?date=2021&format=json`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/EN.URB.LCTY.UR.ZS?date=${year}&format=json`
     );
     const responseExport = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NE.EXP.GNFS.ZS?date=2021&format=json`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NE.EXP.GNFS.ZS?date=${year}&format=json`
     );
     const responseGDP = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.PCAP.CD?date=2021&format=json`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.PCAP.CD?date=${year}&format=json`
     );
     const responseForestation = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/AG.LND.FRST.ZS?date=2021&format=json`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/AG.LND.FRST.ZS?date=${year}&format=json`
     );
     const responseResources = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.TOTL.RT.ZS?date=2021&format=json`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.TOTL.RT.ZS?date=${year}&format=json`
     );
     const responseUrabnP = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/SP.URB.TOTL?date=2021&format=json`
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/SP.URB.TOTL?date=${year}&format=json`
     );
 
     return {
