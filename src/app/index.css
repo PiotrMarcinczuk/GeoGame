@@ -24,10 +24,12 @@
   position: relative;
 }
 
-.test {
-  background-color: rgba(255, 255, 255, 0.41);
-}
-
+/* .test {
+  width: 200px;
+  height: 200px;
+  background: #f59e0b;
+  clip-path: path("M 200 0 L 200 200 L 50 200 A 50 50 0 0 0 50 0 L 200 0 Z");
+} */
 /* @layer {
   .custom-before-higher {
     @apply before:content-[''] before:absolute before:bottom-2 before:inline-block before:bg-[url("../assets/img/arr.png")] before:bg-no-repeat before:bg-cover before:w-3 before:h-3 md:before:w-5 md:before:h-5;
