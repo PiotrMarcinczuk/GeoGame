@@ -18,7 +18,7 @@ import { CountryData } from "../interfaces/stats";
 function Main() {
   const data = useAppSelector((state: RootState): CountryData => state.country);
   const countries = useAppSelector(
-    (state: RootState): CountryData[] => state.countries
+    (state: RootState): CountryData[] => state.countries,
   );
   const [itemsDelay, setItemsDelay] = useState<number>(0.3);
   const [winnerPopupIsVisible, setWinnerPopupIsVisible] =
@@ -26,7 +26,7 @@ function Main() {
   const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const correctCountry = useAppSelector(
-    (state: RootState): CountryData => state.correctCountry
+    (state: RootState): CountryData => state.correctCountry,
   );
   const loading = useAppSelector((state: RootState): boolean => state.loading);
   const dispatch = useAppDispatch();
@@ -57,14 +57,19 @@ function Main() {
         countries[countries.length - 1],
         correctCountry,
         itemsDelay,
-        setWinnerPopupIsVisible
+        setWinnerPopupIsVisible,
       );
     }
     scrollRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [data, countries, loading]);
 
-  return (
-    <section className="h-screen">
+  return <section></section>;
+}
+
+export default Main;
+
+{
+  /* <section className="h-screen">
       {helpPopupIsVisible && (
         <Popup
           setHelpPopupIsVisible={setHelpPopupIsVisible}
@@ -221,8 +226,5 @@ function Main() {
           </div>
         </div>
       </footer>
-    </section>
-  );
+    </section> */
 }
-
-export default Main;
