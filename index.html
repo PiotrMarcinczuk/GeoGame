@@ -7,15 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
-    <title>Vite + React</title>
+    <title>GeoGAME</title>
   </head>
-  <body
-    class="bg-linear-to-t from-gray-600 to-gray-400 md:bg-[url(../assets/img/bg.webp)] bg-cover bg-no-repeat"
-  >
-    <div id="root"></div>
+  <body class="bg-[url(../assets/img/bg.webp)] bg-cover bg-fixed bg-no-repeat">
+    <div class="backdrop-blur-xl w-full h-full fixed"></div>
+    <div class="z-50 relative" id="root"></div>
     <script type="module" src="./src/app/main.jsx"></script>
   </body>
 </html>

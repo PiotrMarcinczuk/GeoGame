@@ -1,69 +1,96 @@
 import CustomInput from "./CustomInput";
-import Country from "./Country";
-import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
-import { useEffect, useState, useRef } from "react";
-import { fetchCorrectCountry } from "../utils/http";
-import { setCorrectCountry } from "../counters/correctCountrySlice";
-import { setCountriesList } from "../counters/countriesListSlice";
-import Format from "../utils/Format";
-import speedImg from "../assets/img/speed.png";
-import logo from "../assets/img/logo.png";
-import help from "../assets/img/help.png";
-import website from "../assets/img/website.png";
-import github from "../assets/img/github.png";
-import Popup from "./Popup";
-import { RootState } from "../app/store";
-import { CountryData } from "../interfaces/stats";
+// import Country from "./Country";
+// import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
+// import { useEffect, useState, useRef } from "react";
+// import { fetchCorrectCountry } from "../utils/http";
+// import { setCorrectCountry } from "../counters/correctCountrySlice";
+// import { setCountriesList } from "../counters/countriesListSlice";
+// import Format from "../utils/Format";
+// import speedImg from "../assets/img/speed.png";
+// import logo from "../assets/img/logo.png";
+// import help from "../assets/img/help.png";
+// import website from "../assets/img/website.png";
+// import github from "../assets/img/github.png";
+// import Popup from "./Popup";
+import green from "../assets/img/h1.svg";
+import red from "../assets/img/h2.svg";
+import orange from "../assets/img/h3.svg";
+
+// import { RootState } from "../app/store";
+// import { CountryData } from "../interfaces/stats";
 
 function Main() {
-  const data = useAppSelector((state: RootState): CountryData => state.country);
-  const countries = useAppSelector(
-    (state: RootState): CountryData[] => state.countries,
+  // const data = useAppSelector((state: RootState): CountryData => state.country);
+  // const countries = useAppSelector(
+  //   (state: RootState): CountryData[] => state.countries,
+  // );
+  // const [itemsDelay, setItemsDelay] = useState<number>(0.3);
+  // const [winnerPopupIsVisible, setWinnerPopupIsVisible] =
+  //   useState<boolean>(false);
+  // const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
+  // const scrollRef = useRef<HTMLDivElement>(null);
+  // const correctCountry = useAppSelector(
+  //   (state: RootState): CountryData => state.correctCountry,
+  // );
+  // const loading = useAppSelector((state: RootState): boolean => state.loading);
+  // const dispatch = useAppDispatch();
+  // const { checkIfCountryIsCorrect } = Format();
+  // const firstCountryCodeISO =
+  //   countries[0]?.["EN.URB.LCTY.UR.ZS"]?.[0]?.country?.id;
+
+  // useEffect(() => {
+  //   const res = async () => {
+  //     const data = await fetchCorrectCountry();
+  //     dispatch(setCorrectCountry(data));
+  //   };
+  //   res();
+  // }, []);
+
+  // useEffect(() => {
+  //   if (
+  //     data &&
+  //     !countries.some((c: CountryData) => c.countryName === data.countryName)
+  //   ) {
+  //     dispatch(setCountriesList([...countries, data]));
+  //   }
+  // }, [data, countries, dispatch]);
+
+  // useEffect(() => {
+  //   if (countries.length > 0) {
+  //     checkIfCountryIsCorrect(
+  //       countries[countries.length - 1],
+  //       correctCountry,
+  //       itemsDelay,
+  //       setWinnerPopupIsVisible,
+  //     );
+  //   }
+  //   scrollRef.current!.scrollIntoView({ behavior: "smooth" });
+  // }, [data, countries, loading]);
+
+  return (
+    <section className="py-36 text-white max-w-[1366px] mx-auto">
+      <div className="flex justify-center items-center w-full">
+        <h1 className="text-7xl font-bold">GeoGAME</h1>
+      </div>
+      <div className="w-full max-w-[1135px] w-full mx-auto -translate-y-1/2 flex flex-col items-end">
+        <div className="translate-y-1/3  inline-flex flex-col border-xs hover:text-black hover:bg-white hover:cursor-pointer transition-all duration-300 ease-out">
+          <p className="text-2xl mb-2 text-center">How to play?</p>
+          <div className="flex justify-between w-[220px]">
+            <div className="border-xs bg-[#0D9E12] py-4 px-6 flex item-center justify-center">
+              <img src={green} alt="red_incorrect"></img>
+            </div>
+            <div className="border-xs bg-[#FFA600] py-4 px-6 flex item-center justify-center">
+              <img src={red} alt="green_correct"></img>
+            </div>
+            <div className="border-xs bg-[#FF0000] py-4 px-6 flex item-center justify-center">
+              <img src={orange} alt="orange_incorrect"></img>
+            </div>
+          </div>
+        </div>
+        <CustomInput />
+      </div>
+    </section>
   );
-  const [itemsDelay, setItemsDelay] = useState<number>(0.3);
-  const [winnerPopupIsVisible, setWinnerPopupIsVisible] =
-    useState<boolean>(false);
-  const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const correctCountry = useAppSelector(
-    (state: RootState): CountryData => state.correctCountry,
-  );
-  const loading = useAppSelector((state: RootState): boolean => state.loading);
-  const dispatch = useAppDispatch();
-  const { checkIfCountryIsCorrect } = Format();
-  const firstCountryCodeISO =
-    countries[0]?.["EN.URB.LCTY.UR.ZS"]?.[0]?.country?.id;
-
-  useEffect(() => {
-    const res = async () => {
-      const data = await fetchCorrectCountry();
-      dispatch(setCorrectCountry(data));
-    };
-    res();
-  }, []);
-
-  useEffect(() => {
-    if (
-      data &&
-      !countries.some((c: CountryData) => c.countryName === data.countryName)
-    ) {
-      dispatch(setCountriesList([...countries, data]));
-    }
-  }, [data, countries, dispatch]);
-
-  useEffect(() => {
-    if (countries.length > 0) {
-      checkIfCountryIsCorrect(
-        countries[countries.length - 1],
-        correctCountry,
-        itemsDelay,
-        setWinnerPopupIsVisible,
-      );
-    }
-    scrollRef.current!.scrollIntoView({ behavior: "smooth" });
-  }, [data, countries, loading]);
-
-  return <section></section>;
 }
 
 export default Main;

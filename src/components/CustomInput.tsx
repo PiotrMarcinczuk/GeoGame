@@ -1,4 +1,4 @@
-import arrow from "../assets/img/arrow.png";
+import arrow from "../assets/img/arrow.svg";
 import { useRef, useState, useCallback } from "react";
 import useCountrySearch from "../hooks/useCountrySearch";
 import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
@@ -15,7 +15,7 @@ const CustomInput = function CustomInput() {
   const [suggestionArr, setSuggestionArr] = useState<SugestionData[]>();
   const dispatch = useAppDispatch();
   const countries = useAppSelector(
-    (state: RootState): CountryData[] => state.countries
+    (state: RootState): CountryData[] => state.countries,
   );
   const loading = useAppSelector((state: RootState): boolean => state.loading);
   useCountrySearch(searchTerm, setSearchTerm);
@@ -39,7 +39,7 @@ const CustomInput = function CustomInput() {
         countries.some(
           (item: CountryData) =>
             item.countryName.toLowerCase() ===
-            searchValue.current!.toLowerCase()
+            searchValue.current!.toLowerCase(),
         )
       ) {
         searchValue.current = "";
@@ -52,7 +52,7 @@ const CustomInput = function CustomInput() {
         inputRef.current.value = "";
       }
     },
-    [countries]
+    [countries],
   );
 
   return (
@@ -64,7 +64,8 @@ const CustomInput = function CustomInput() {
           handleSubmit(e);
         }
       }}
-      className="mb-10 w-full md:w-3/4 lg:w-full mx-auto max-w-[812px] relative">
+      className="max-w-[1135px] bg-white text-3xl w-full mx-auto flex mt-25 p-3"
+    >
       <input
         ref={inputRef}
         onBlur={(e) => {
@@ -73,20 +74,19 @@ const CustomInput = function CustomInput() {
           }, 100);
         }}
         onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-          if (searchValue.current == "Wpisz nazwe państwa") {
+          if (searchValue.current == "Enter country name...") {
             (e.target as HTMLInputElement).value = "";
           }
         }}
-        className={`w-full h-20 rounded-[4rem] outline-0 bg-white text-2xl md:text-4xl p-4 ${
-          searchValue ? "text-black" : "text-gray-500"
-        }`}
+        id="country"
+        className={`outline-none ${searchValue ? "text-black" : "text-[#929090]"}`}
         onChange={handleChange}
-        placeholder="Wpisz nazwe państwa"
+        placeholder="Enter country name..."
       />
-
-      <button className="absolute bg-[#DED9D9] hover:bg-gray-400 hover:scale-105 ease-in duration-100 right-3 bottom-1/2 translate-y-1/2  w-16 h-16 rounded-full hover:cursor-pointer">
-        <img src={arrow} alt="arrow" className="mx-auto" />
+      <button className="bg-white rounded-full ">
+        <img src={arrow} alt="arrow_nav" />
       </button>
+
       {searchValue.current && suggestionArr && (
         <SuggestionList
           suggestionArr={suggestionArr}
