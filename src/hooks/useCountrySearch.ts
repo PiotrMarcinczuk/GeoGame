@@ -8,7 +8,7 @@ import { setLoading } from "../counters/loadingSlice";
 
 export default function useCountrySearch(
   searchTerm: string | null,
-  setSearchTerm: string | null | any
+  setSearchTerm: string | null | any,
 ) {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();

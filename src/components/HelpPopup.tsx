@@ -4,7 +4,7 @@ export default function HelpPopup({ setHelpPopupIsVisible }: any) {
   return (
     <>
       <div className="fixed left-0 top-0 w-screen h-screen bg-white/50 backdrop-blur-3xl z-50"></div>
-      <section className="max-w-[1366px] max-h-[856px] h-full flex fixed z-50 w-full mx-auto p-10 text-black text-xl bg-white rounded-sm">
+      <section className="max-w-[1366px] max-h-[856px] h-full flex fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-full mx-auto p-10 text-black text-xl bg-white rounded-sm">
         <div className="flex justify-between flex-col h-full">
           <div className="flex flex-col -my-2">
             <div className="flex items-center my-2">

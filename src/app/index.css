@@ -20,6 +20,10 @@
   preferredstrategy: "pseudoelements";
 }
 
+@theme {
+  --text-28: 1.7rem;
+}
+
 /* .custom-before-higher {
   position: relative;
 } */

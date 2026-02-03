@@ -23,7 +23,7 @@ const CustomInput = function CustomInput() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchValue.current = event.target.value;
     const filtered = countries_iso.filter((item) => {
-      return item.name_pl
+      return item.name
         .toLowerCase()
         .includes(searchValue.current!.toLowerCase());
     });

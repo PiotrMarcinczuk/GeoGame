@@ -19,12 +19,12 @@ export default function SuggestionList({
             <li
               key={index}
               onClick={(e) => {
-                searchValue!.current = item.name_pl;
+                searchValue!.current = item.name;
                 handleSubmit(e);
               }}
               className="pl-3 py-2 bg-white text-black hover:cursor-pointer hover:bg-[#E7E7E7] transition-all duration-300 ease-out"
             >
-              {item.name_pl}
+              {item.name}
             </li>
           );
         })}

@@ -17,7 +17,7 @@ const Country = memo(function Country({
 }: CountryProps) {
   const { formatToMilions, formatGDP, compareCountries } = Format();
   const correctCountry = useSelector(
-    (state: RootState): CountryData => state.correctCountry
+    (state: RootState): CountryData => state.correctCountry,
   );
 
   const correctCodeISO = correctCountry["AG.LND.FRST.ZS"][0].country.id;
@@ -28,7 +28,7 @@ const Country = memo(function Country({
   const correctElectricityData =
     correctCountry["EG.ELC.ACCS.UR.ZS"][0].value?.toFixed(0);
   const correctGdpData = formatGDP(
-    Number(correctCountry["NY.GDP.PCAP.CD"][0].value?.toFixed(0))
+    Number(correctCountry["NY.GDP.PCAP.CD"][0].value?.toFixed(0)),
   );
   const correctForestationData =
     correctCountry["AG.LND.FRST.ZS"][0].value?.toFixed(0);
@@ -45,7 +45,7 @@ const Country = memo(function Country({
   const importData = country["NE.IMP.GNFS.ZS"][0].value?.toFixed(0);
   const electricityData = country["EG.ELC.ACCS.UR.ZS"][0].value?.toFixed(0);
   const gdpData = formatGDP(
-    Number(country["NY.GDP.PCAP.CD"][0].value?.toFixed(0))
+    Number(country["NY.GDP.PCAP.CD"][0].value?.toFixed(0)),
   );
   const forestationData = country["AG.LND.FRST.ZS"][0].value?.toFixed(0);
   const resourcesData = country["TX.VAL.MMTL.ZS.UN"][0].value?.toFixed(0);
@@ -71,80 +71,87 @@ const Country = memo(function Country({
       initial="hidden"
       animate="visible"
       variants={listVariants}
-      className="w-full grid grid-cols-8 gap-1 sm:gap-2 font-semibold relative mt-2">
-      <div className="grid grid-cols-8 gap-1 sm:gap-2 w-full col-span-8">
+      className="w-full mt-4 flex"
+    >
+      <div className="flex justify-between w-full items-center">
         <motion.div
           variants={itemVariants}
-          className="text-center sm:mr-3 relative ">
-          <div className="px-2 flex flex-col items-center justify-center h-20 lg:h-32 border-1 border-white/30 md:border-white rounded-xs bg-gray-300/20">
-            <img
-              src={`https://flagcdn.com/${codeISO.toLowerCase()}.svg`}
-              alt="flag"
-              className="lg:w-22 lg:h-16 py-1"></img>
-            <p className="text-xs lg:text-xl hidden lg:block">{countryName}</p>
-          </div>
+          className="bg-white/40 flex flex-col justify-center items-center px-2 py-2 w-[8%]"
+        >
+          <img
+            src={`https://flagcdn.com/${codeISO.toLowerCase()}.svg`}
+            alt="flag"
+            className="w-16"
+          ></img>
+          <p className="font-medium text-center mt-1">{countryName}</p>
         </motion.div>
-        <motion.div variants={itemVariants} className="text-center ">
+        <motion.div variants={itemVariants} className="w-[12%] h-full">
           <div
-            className={`${compareCountries(
+            className={`p-4 h-full rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
               Number(largestCityPopulation),
-              Number(correctExportData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 text-sm md:text-base lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
-            <p>{largestCityPopulation ? largestCityPopulation + "%" : "N/A"}</p>
+              Number(correctExportData),
+            )} `}
+          >
+            <p className="text-center">
+              {largestCityPopulation ? largestCityPopulation + "%" : "N/A"}
+            </p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="text-center ">
+        <motion.div variants={itemVariants} className="w-[7%] h-full">
           <div
-            className={`${compareCountries(
+            className={`p-4 h-full rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
               Number(importData),
-              Number(correctImportData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
-            <p>{importData ? importData + "%" : "N/A"}</p>
+              Number(correctImportData),
+            )} `}
+          >
+            <p className="text-center">
+              {importData ? importData + "%" : "N/A"}
+            </p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="text-center ">
+        <motion.div variants={itemVariants} className="w-[14%] h-full">
           <div
-            className={`${compareCountries(
+            className={`h-full p-4 rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
               Number(gdpData && gdpData.replace(/\s+/g, "")),
-              Number(correctGdpData && correctGdpData.replace(/\s+/g, ""))
-            )} h-20 lg:h-32 flex md:items-center justify-center px-1 lg:px-0 text-xs md:text-base lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
-            <p>{gdpData ? gdpData + " $" : "N/A"}</p>
+              Number(correctGdpData && correctGdpData.replace(/\s+/g, "")),
+            )} `}
+          >
+            <p className="text-center">{gdpData ? gdpData + " $" : "N/A"}</p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="text-center ">
+
+        <motion.div variants={itemVariants} className="w-[13%] h-full">
           <div
-            className={`${compareCountries(
-              Number(electricityData),
-              Number(correctElectricityData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
-            <p>{electricityData ? electricityData + "%" : "N/A"}</p>
-          </div>
-        </motion.div>
-        <motion.div variants={itemVariants} className="text-center ">
-          <div
-            className={`${compareCountries(
+            className={`h-full p-4 rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
               Number(forestationData),
-              Number(correctForestationData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
-            <p>{forestationData ? forestationData + "%" : "N/A"}</p>
+              Number(correctForestationData),
+            )} `}
+          >
+            <p className="text-center">
+              {forestationData ? forestationData + "%" : "N/A"}
+            </p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="text-center ">
+        <motion.div variants={itemVariants} className="w-[17%] h-full">
           <div
-            className={`${compareCountries(
+            className={`h-full p-4 rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
               Number(resourcesData),
-              Number(correctResourcesData)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 lg:px-0 lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
-            <p>{resourcesData ? resourcesData + "%" : "N/A"}</p>
+              Number(correctResourcesData),
+            )} `}
+          >
+            <p className="text-center">
+              {resourcesData ? resourcesData + "%" : "N/A"}
+            </p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="text-center ">
+        <motion.div variants={itemVariants} className="w-[17%]">
           <div
-            className={`${compareCountries(
+            className={`h-full p-4 rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
               Number(urbanPDataBeforeFormat),
-              Number(correctUrbanPDataBeforeFormat)
-            )} h-20 lg:h-32 flex items-center justify-center px-1 text-wrap lg:px-0 text-xs md:text-base lg:text-3xl border-1 border-white/30 md:border-white rounded-xs`}>
-            <p>{urbanPData ? urbanPData : "N/A"}</p>
+              Number(correctUrbanPDataBeforeFormat),
+            )} `}
+          >
+            <p className="text-center">{urbanPData ? urbanPData : "N/A"}</p>
           </div>
         </motion.div>
       </div>
