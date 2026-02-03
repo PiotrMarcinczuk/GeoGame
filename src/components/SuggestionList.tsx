@@ -12,7 +12,7 @@ export default function SuggestionList({
   handleSubmit,
 }: SuggestionListProps) {
   return (
-    <ul className="flex flex-col w-full bg-red-200 z-50">
+    <ul className="flex absolute -bottom-1 left-0 translate-y-full flex-col w-full bg-white z-50">
       {suggestionArr &&
         suggestionArr.map((item: SugestionData, index: number) => {
           return (
@@ -22,7 +22,7 @@ export default function SuggestionList({
                 searchValue!.current = item.name_pl;
                 handleSubmit(e);
               }}
-              className="mt-6 bg-white text-black hover:cursor-pointer hover:bg-[#E7E7E7] transition-all duration-300 ease-out"
+              className="pl-3 py-2 bg-white text-black hover:cursor-pointer hover:bg-[#E7E7E7] transition-all duration-300 ease-out"
             >
               {item.name_pl}
             </li>

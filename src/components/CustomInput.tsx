@@ -64,26 +64,26 @@ const CustomInput = function CustomInput() {
           handleSubmit(e);
         }
       }}
-      className="max-w-[1135px] bg-white text-3xl w-full mx-auto flex mt-25 p-3"
+      className="max-w-[1135px] relative text-3xl w-full mx-auto flex mt-25"
     >
       <input
         ref={inputRef}
-        onBlur={(e) => {
-          setTimeout(() => {
-            setSuggestionArr([]);
-          }, 100);
-        }}
+        // onBlur={(e) => {
+        //   setTimeout(() => {
+        //     setSuggestionArr([]);
+        //   }, 100);
+        // }}
         onClick={(e: React.MouseEvent<HTMLInputElement>) => {
           if (searchValue.current == "Enter country name...") {
             (e.target as HTMLInputElement).value = "";
           }
         }}
         id="country"
-        className={`outline-none  ${searchValue ? "text-black" : "text-[#929090]"}`}
+        className={`outline-none bg-white p-3 w-full ${searchValue ? "text-black" : "text-[#929090]"}`}
         onChange={handleChange}
         placeholder="Enter country name..."
       />
-      <button className="bg-white rounded-full ">
+      <button className="bg-white rounded-r-2xl p-3 ml-2 hover:bg-[#ECECEC] hover:cursor-pointer tranistion-all duration-300 ease-out">
         <img src={arrow} alt="arrow_nav" />
       </button>
 

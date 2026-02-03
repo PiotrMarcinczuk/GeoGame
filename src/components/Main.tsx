@@ -1,7 +1,7 @@
 import CustomInput from "./CustomInput";
 // import Country from "./Country";
 // import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
-// import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 // import { fetchCorrectCountry } from "../utils/http";
 // import { setCorrectCountry } from "../counters/correctCountrySlice";
 // import { setCountriesList } from "../counters/countriesListSlice";
@@ -12,6 +12,7 @@ import CustomInput from "./CustomInput";
 // import website from "../assets/img/website.png";
 // import github from "../assets/img/github.png";
 // import Popup from "./Popup";
+import HelpPopup from "./HelpPopup";
 import green from "../assets/img/h1.svg";
 import red from "../assets/img/h2.svg";
 import orange from "../assets/img/h3.svg";
@@ -27,7 +28,7 @@ function Main() {
   // const [itemsDelay, setItemsDelay] = useState<number>(0.3);
   // const [winnerPopupIsVisible, setWinnerPopupIsVisible] =
   //   useState<boolean>(false);
-  // const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
+  const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
   // const scrollRef = useRef<HTMLDivElement>(null);
   // const correctCountry = useAppSelector(
   //   (state: RootState): CountryData => state.correctCountry,
@@ -69,11 +70,17 @@ function Main() {
 
   return (
     <section className="py-36 text-white max-w-[1366px] mx-auto">
+      {helpPopupIsVisible && (
+        <HelpPopup setHelpPopupIsVisible={setHelpPopupIsVisible} />
+      )}
       <div className="flex justify-center items-center w-full">
         <h1 className="text-7xl font-bold">GeoGAME</h1>
       </div>
       <div className="w-full max-w-[1135px] w-full mx-auto -translate-y-1/2 flex flex-col items-end">
-        <div className="translate-y-1/3  inline-flex flex-col border-xs hover:text-black hover:bg-white hover:cursor-pointer transition-all duration-300 ease-out">
+        <div
+          onClick={() => setHelpPopupIsVisible((prev: boolean) => !prev)}
+          className="translate-y-1/3  inline-flex flex-col border-xs hover:text-black hover:bg-white hover:cursor-pointer transition-all duration-500 ease-out p-1"
+        >
           <p className="text-2xl mb-2 text-center">How to play?</p>
           <div className="flex justify-between w-[220px]">
             <div className="border-xs bg-[#0D9E12] py-4 px-6 flex item-center justify-center">

@@ -33,10 +33,16 @@ const Popup = memo(function Popup({
   const arr = props.textContent.split(",");
   arr.forEach((item: string) => {
     let t = item.split("-");
+    console.log(t);
   });
 
-  return (
-    <div className="z-40 flex bg-black/50 items-center justify-center top-0 left-0 fixed w-full h-full p-4">
+  return <div>{setHelpPopupIsVisible && <div>d</div>}</div>;
+});
+
+export default Popup;
+
+{
+  /* <div className="z-40 flex bg-black/50 items-center justify-center top-0 left-0 fixed w-full h-full p-4">
       <div className="w-full lg:w-2/3 flex flex-col justify-center items-center min-h-96 p-8 bg-white/90 rounded-lg">
         <h2 className="lg:text-6xl font-bold ">{props.title}</h2>
         {setHelpPopupIsVisible &&
@@ -63,8 +69,5 @@ const Popup = memo(function Popup({
           {props.buttonText}
         </button>
       </div>
-    </div>
-  );
-});
-
-export default Popup;
+    </div> */
+}
