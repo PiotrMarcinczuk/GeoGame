@@ -56,7 +56,7 @@ export default function Format() {
     countryObj: CountryData,
     correctCountryObj: CountryData,
     itemsDelay: number,
-    setIsPopupVisible: (value: boolean) => void
+    setWinnerPopupIsVisible: (value: boolean) => void,
   ) => {
     const countryData = extractCountryData(countryObj);
     const correctCountryData = extractCountryData(correctCountryObj);
@@ -74,9 +74,12 @@ export default function Format() {
     }
 
     if (isMatch) {
-      setTimeout(() => {
-        setIsPopupVisible(true);
-      }, itemsDelay * 10000 - itemsDelay * 1300);
+      setTimeout(
+        () => {
+          setWinnerPopupIsVisible(true);
+        },
+        itemsDelay * 10000 - itemsDelay * 1300,
+      );
     }
     return isMatch;
   };

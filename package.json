@@ -19,6 +19,7 @@
     "framer-motion": "^12.9.2",
     "lodash.isequal": "^4.5.0",
     "react": "^19.0.0",
+    "react-confetti-explosion": "^3.0.3",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "tailwindcss": "^4.1.4"

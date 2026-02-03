@@ -11,11 +11,12 @@ import HelpPopup from "./HelpPopup";
 import green from "../assets/img/h1.svg";
 import orange from "../assets/img/h2.svg";
 import red from "../assets/img/h3.svg";
-
+import ConfettiExplosion from "react-confetti-explosion";
 import { RootState } from "../app/store";
 import { CountryData } from "../interfaces/stats";
 
 function Main() {
+  const [isWinner, setIsWinner] = useState(false);
   const data = useAppSelector((state: RootState): CountryData => state.country);
   const countries = useAppSelector(
     (state: RootState): CountryData[] => state.countries,
@@ -53,20 +54,43 @@ function Main() {
 
   useEffect(() => {
     if (countries.length > 0) {
-      checkIfCountryIsCorrect(
+      const result = checkIfCountryIsCorrect(
         countries[countries.length - 1],
         correctCountry,
-        1,
-        () => {
-          console.log(1);
-        },
+        0.25,
+        setWinnerPopupIsVisible,
       );
+      if (result) {
+        setTimeout(() => {
+          setIsWinner(true);
+        }, 1200);
+      }
     }
     // scrollRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [data, countries, loading]);
 
   return (
     <main>
+      {isWinner && (
+        <>
+          <div className="absolute left-0 top-0">
+            <ConfettiExplosion
+              force={0.8}
+              duration={2000}
+              particleCount={100}
+              width={1600}
+            />
+          </div>
+          <div className="absolute right-0 top-0">
+            <ConfettiExplosion
+              force={0.8}
+              duration={2000}
+              particleCount={100}
+              width={1600}
+            />
+          </div>
+        </>
+      )}
       <section className="pt-36 text-white max-w-[1366px] mx-auto">
         {helpPopupIsVisible && (
           <HelpPopup setHelpPopupIsVisible={setHelpPopupIsVisible} />
@@ -146,7 +170,10 @@ function Main() {
           <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
         )}
         {winnerPopupIsVisible && (
-          <WinnerPopup setWinnerPopupIsVisible={setWinnerPopupIsVisible} />
+          <WinnerPopup
+            setWinnerPopupIsVisible={setWinnerPopupIsVisible}
+            setIsWinner={setIsWinner}
+          />
         )}
       </ul>
     </main>

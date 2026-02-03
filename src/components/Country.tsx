@@ -25,8 +25,6 @@ const Country = memo(function Country({
     correctCountry["EN.URB.LCTY.UR.ZS"][0].value?.toFixed(0);
   const correctImportData =
     correctCountry["NE.IMP.GNFS.ZS"][0].value?.toFixed(0);
-  const correctElectricityData =
-    correctCountry["EG.ELC.ACCS.UR.ZS"][0].value?.toFixed(0);
   const correctGdpData = formatGDP(
     Number(correctCountry["NY.GDP.PCAP.CD"][0].value?.toFixed(0)),
   );
@@ -43,7 +41,6 @@ const Country = memo(function Country({
   const largestCityPopulation =
     country["EN.URB.LCTY.UR.ZS"][0].value?.toFixed(0);
   const importData = country["NE.IMP.GNFS.ZS"][0].value?.toFixed(0);
-  const electricityData = country["EG.ELC.ACCS.UR.ZS"][0].value?.toFixed(0);
   const gdpData = formatGDP(
     Number(country["NY.GDP.PCAP.CD"][0].value?.toFixed(0)),
   );
