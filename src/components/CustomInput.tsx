@@ -1,7 +1,7 @@
 import arrow from "../assets/img/arrow.svg";
 import { useRef, useState, useCallback } from "react";
 import useCountrySearch from "../hooks/useCountrySearch";
-import { useAppDispatch, useAppSelector } from "../hooks/useReduxType";
+import { useAppSelector } from "../hooks/useReduxType";
 import SuggestionList from "./SuggestionList";
 import countries_iso from "../assets/countries_iso.json";
 import { CountryData, SugestionData } from "../interfaces/stats";
@@ -13,11 +13,10 @@ const CustomInput = function CustomInput() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>("");
   const [suggestionArr, setSuggestionArr] = useState<SugestionData[]>();
-  const dispatch = useAppDispatch();
   const countries = useAppSelector(
     (state: RootState): CountryData[] => state.countries,
   );
-  console.log(countries);
+
   const loading = useAppSelector((state: RootState): boolean => state.loading);
   useCountrySearch(searchTerm, setSearchTerm);
 
@@ -28,21 +27,29 @@ const CustomInput = function CustomInput() {
         .toLowerCase()
         .includes(searchValue.current!.toLowerCase());
     });
+
     if (!isEqual(filtered, suggestionArr)) {
       setSuggestionArr(filtered.slice(0, 5));
     }
   };
 
   const handleSubmit = useCallback(
-    async (event: any) => {
+    async (event: any, flag = false) => {
       event.preventDefault();
-      if (
-        countries.some(
-          (item: CountryData) =>
-            item.countryName.toLowerCase() ===
-            searchValue.current!.toLowerCase(),
-        )
-      ) {
+
+      if (flag) searchValue.current = event.currentTarget.textContent;
+
+      const previous = countries.some(
+        (item: CountryData) =>
+          item.countryName.toLowerCase() === searchValue.current!.toLowerCase(),
+      );
+
+      const isExist = suggestionArr?.some(
+        (item) =>
+          item.name.toLowerCase() === searchValue.current?.toLowerCase(),
+      );
+      console.log(isExist);
+      if (previous || suggestionArr!.length < 1 || !isExist) {
         searchValue.current = "";
         return;
       }
@@ -53,7 +60,7 @@ const CustomInput = function CustomInput() {
         inputRef.current.value = "";
       }
     },
-    [countries],
+    [countries, suggestionArr],
   );
 
   return (

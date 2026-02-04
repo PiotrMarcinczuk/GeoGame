@@ -5,6 +5,7 @@ type SuggestionListProps = {
   searchValue: React.RefObject<string | null> | null;
   handleSubmit: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLElement>,
+    flag: boolean,
   ) => void;
 };
 
@@ -24,7 +25,7 @@ export default function SuggestionList({
               role="button"
               onClick={(e) => {
                 searchValue!.current = item.name;
-                handleSubmit(e);
+                handleSubmit(e, true);
               }}
               onMouseEnter={() => {
                 currentActive.current = item.name;
@@ -32,7 +33,7 @@ export default function SuggestionList({
               onKeyDown={(e) => {
                 if (e.key === "Enter" && currentActive.current == item.name) {
                   searchValue!.current = item.name;
-                  handleSubmit(e);
+                  handleSubmit(e, true);
                 }
               }}
               className="pl-3 py-2 bg-white text-black hover:cursor-pointer hover:bg-[#E7E7E7] transition-all duration-300 ease-out"
