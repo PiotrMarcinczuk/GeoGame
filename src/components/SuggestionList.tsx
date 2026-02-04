@@ -21,7 +21,7 @@ export default function SuggestionList({
   return (
     <ul
       ref={ulRef}
-      className="flex absolute -bottom-1 left-0 translate-y-full flex-col w-full bg-white z-50"
+      className="flex absolute -bottom-1 left-0 translate-y-full flex-col w-full bg-white"
     >
       {suggestionArr &&
         suggestionArr.map((item: SugestionData, index: number) => {

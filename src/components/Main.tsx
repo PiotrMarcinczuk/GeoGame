@@ -96,10 +96,10 @@ function Main() {
         <div className="flex justify-center items-center w-full">
           <h1 className="text-7xl font-bold">GeoGAME</h1>
         </div>
-        <div className="w-full max-w-[1135px] w-full mx-auto -translate-y-1/2 flex flex-col items-end">
+        <div className="w-full max-w-[1135px] w-full mx-auto -translate-y-full flex flex-col items-end">
           <div
             onClick={() => setHelpPopupIsVisible((prev: boolean) => !prev)}
-            className="translate-y-1/3  inline-flex flex-col border-xs hover:text-black hover:bg-white hover:cursor-pointer transition-all duration-500 ease-out p-1"
+            className="inline-flex flex-col border-xs hover:text-black hover:bg-white hover:cursor-pointer transition-all duration-500 ease-out p-1"
           >
             <p className="text-2xl mb-2 text-center">How to play?</p>
             <div className="flex justify-between w-[220px]">
@@ -114,11 +114,11 @@ function Main() {
               </div>
             </div>
           </div>
-          <CustomInput />
         </div>
+        <CustomInput />
       </section>
       {countries && countries[0] && (
-        <div className="w-full bg-white/80 max-w-[1366px] w-full mx-auto -mt-12">
+        <div className="w-full bg-white/80 max-w-[1366px] w-full mx-auto mt-16">
           <div className="flex justify-between p-2">
             <h2 className="text-28 font-semibold w-[8%] text-center">
               Country
@@ -143,7 +143,7 @@ function Main() {
         </div>
       )}
 
-      <ul className="w-full max-w-[1366px] w-full mx-auto mb-6">
+      <ul className="w-full max-w-[1366px] w-full mx-auto mb-6 z-10">
         {countries
           ? countries.map((country: CountryData, index: number) => {
               return (
@@ -158,7 +158,7 @@ function Main() {
             })
           : null}
         {loading && countries.length < 1 && (
-          <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4 z-10"></div>
+          <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
         )}
         <div ref={scrollRef} />
         {winnerPopupIsVisible && (

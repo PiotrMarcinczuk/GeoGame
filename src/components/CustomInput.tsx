@@ -111,7 +111,7 @@ const CustomInput = function CustomInput() {
           );
         }
       }}
-      className="max-w-[1135px] relative text-3xl w-full mx-auto flex mt-25"
+      className="max-w-[1135px] relative text-3xl w-full mx-auto flex -mt-8 z-50"
     >
       <input
         autoComplete="off"
