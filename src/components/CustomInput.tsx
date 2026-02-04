@@ -9,13 +9,12 @@ import { RootState } from "../app/store";
 import isEqual from "lodash.isequal"; // check prev state with new state
 
 const CustomInput = function CustomInput() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const currentActive = useRef<null | undefined | string>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const ulRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
   const dropdownRef = useRef<HTMLFormElement>(null);
-  const searchValue = useRef<string | null>("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const searchValue = useRef<string | null>("s");
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>("");
   const [suggestionArr, setSuggestionArr] = useState<SugestionData[]>();
   const countries = useAppSelector(
@@ -60,6 +59,7 @@ const CustomInput = function CustomInput() {
       }
 
       setSearchTerm(searchValue.current);
+      setActiveIndex(-1);
       searchValue.current = "";
       if (inputRef.current) {
         inputRef.current.value = "";
@@ -135,6 +135,7 @@ const CustomInput = function CustomInput() {
           suggestionArr={suggestionArr}
           searchValue={searchValue}
           ulRef={ulRef}
+          inputRef={inputRef}
           activeIndex={activeIndex}
           handleSubmit={loading ? (e) => e.preventDefault() : handleSubmit}
         />

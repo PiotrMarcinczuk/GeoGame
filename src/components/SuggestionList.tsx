@@ -4,6 +4,7 @@ type SuggestionListProps = {
   suggestionArr: SugestionData[];
   searchValue: React.RefObject<string | null> | null;
   ulRef: React.RefObject<HTMLUListElement | null>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   activeIndex: number;
   handleSubmit: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLElement>,
@@ -15,6 +16,7 @@ export default function SuggestionList({
   suggestionArr,
   searchValue,
   ulRef,
+  inputRef,
   activeIndex,
   handleSubmit,
 }: SuggestionListProps) {
@@ -39,7 +41,7 @@ export default function SuggestionList({
                 searchValue!.current = e.currentTarget.textContent;
               }}
               onMouseLeave={() => {
-                searchValue!.current = "";
+                searchValue!.current = inputRef.current!.value;
               }}
               className={`${activeIndex === index ? "bg-[#E7E7E7]" : "bg-white hover:bg-[#E7E7E7]"} pl-3 py-2 text-black hover:cursor-pointer hover:bg-[#E7E7E7] transition-all duration-300 ease-out`}
             >
