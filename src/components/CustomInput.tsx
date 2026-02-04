@@ -1,5 +1,5 @@
 import arrow from "../assets/img/arrow.svg";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import useCountrySearch from "../hooks/useCountrySearch";
 import { useAppSelector } from "../hooks/useReduxType";
 import SuggestionList from "./SuggestionList";
@@ -9,6 +9,11 @@ import { RootState } from "../app/store";
 import isEqual from "lodash.isequal"; // check prev state with new state
 
 const CustomInput = function CustomInput() {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const currentActive = useRef<null | undefined | string>(null);
+  const ulRef = useRef<HTMLUListElement>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(-1);
+  const dropdownRef = useRef<HTMLFormElement>(null);
   const searchValue = useRef<string | null>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>("");
@@ -27,7 +32,7 @@ const CustomInput = function CustomInput() {
         .toLowerCase()
         .includes(searchValue.current!.toLowerCase());
     });
-
+    setIsOpen(true); // posibble bugs
     if (!isEqual(filtered, suggestionArr)) {
       setSuggestionArr(filtered.slice(0, 5));
     }
@@ -48,7 +53,7 @@ const CustomInput = function CustomInput() {
         (item) =>
           item.name.toLowerCase() === searchValue.current?.toLowerCase(),
       );
-      console.log(isExist);
+
       if (previous || suggestionArr!.length < 1 || !isExist) {
         searchValue.current = "";
         return;
@@ -63,24 +68,54 @@ const CustomInput = function CustomInput() {
     [countries, suggestionArr],
   );
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!ulRef.current) return;
+    const li = ulRef.current.children[activeIndex] as HTMLLIElement | undefined;
+    if (!li) return;
+    searchValue.current = li.textContent;
+  }, [activeIndex]);
+
   return (
     <form
       autoComplete="off"
       onSubmit={loading ? (e) => e.preventDefault() : handleSubmit}
+      ref={dropdownRef}
       onKeyDown={(e) => {
         if (e.key === "Enter" && !loading) {
           handleSubmit(e);
+        }
+        if (!suggestionArr) return;
+        if (e.key === "ArrowDown") {
+          setActiveIndex((prev) =>
+            prev < suggestionArr!.length - 1 ? prev + 1 : 0,
+          );
+        }
+        if (e.key === "ArrowUp") {
+          setActiveIndex((prev) =>
+            prev < 1 ? suggestionArr!.length - 1 : prev - 1,
+          );
         }
       }}
       className="max-w-[1135px] relative text-3xl w-full mx-auto flex mt-25"
     >
       <input
+        autoComplete="off"
         ref={inputRef}
-        // onBlur={(e) => {
-        //   setTimeout(() => {
-        //     setSuggestionArr([]);
-        //   }, 100);
-        // }}
         onClick={(e: React.MouseEvent<HTMLInputElement>) => {
           if (searchValue.current == "Enter country name...") {
             (e.target as HTMLInputElement).value = "";
@@ -95,10 +130,12 @@ const CustomInput = function CustomInput() {
         <img src={arrow} alt="arrow_nav" />
       </button>
 
-      {searchValue.current && suggestionArr && (
+      {searchValue.current && suggestionArr && isOpen && (
         <SuggestionList
           suggestionArr={suggestionArr}
           searchValue={searchValue}
+          ulRef={ulRef}
+          activeIndex={activeIndex}
           handleSubmit={loading ? (e) => e.preventDefault() : handleSubmit}
         />
       )}

@@ -7,14 +7,9 @@ import { RootState } from "../app/store";
 type CountryProps = {
   country: CountryData;
   itemsDelay: number;
-  isFirst?: boolean;
 };
 
-const Country = memo(function Country({
-  country,
-  itemsDelay,
-  isFirst,
-}: CountryProps) {
+const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
   const { formatToMilions, formatGDP, compareCountries } = Format();
   const correctCountry = useSelector(
     (state: RootState): CountryData => state.correctCountry,
@@ -68,7 +63,7 @@ const Country = memo(function Country({
       initial="hidden"
       animate="visible"
       variants={listVariants}
-      className="w-full mt-4 flex"
+      className="w-full mt-4 flex "
     >
       <div className="flex justify-between w-full items-center">
         <motion.div
@@ -141,7 +136,7 @@ const Country = memo(function Country({
             </p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="w-[17%]">
+        <motion.div variants={itemVariants} className="w-[17%] h-full">
           <div
             className={`h-full p-4 rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
               Number(urbanPDataBeforeFormat),

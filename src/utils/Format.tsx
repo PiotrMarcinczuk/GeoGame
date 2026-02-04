@@ -32,20 +32,20 @@ export default function Format() {
 
   const compareCountries = (value: number, correctValue: number) => {
     if (value > correctValue) {
-      return "bg-custom-yellow/50 md:bg-custom-yellow/65 custom-before-higher";
+      return "bg-[#FFA600]/80";
     }
     if (value < correctValue) {
-      return "bg-custom-red/50 md:bg-custom-red/65 custom-before-lower";
+      return "bg-[#FF0000]/80";
     }
-    if (value === correctValue) return "bg-custom-green/65";
-    return "bg-custom-red/50 md:bg-custom-red/65 custom-before-lower";
+    if (value === correctValue) return "bg-[#00FF09]/80";
+    if (isNaN(value) && isNaN(correctValue)) return "bg-[#00FF09]/80";
+    return "bg-[#FF0000]/80";
   };
 
   const extractCountryData = (obj: CountryData) => ({
     codeISO: obj["EN.URB.LCTY.UR.ZS"][0].country.id,
     exportData: obj["EN.URB.LCTY.UR.ZS"][0].value?.toFixed(0),
     importData: obj["NE.IMP.GNFS.ZS"][0].value?.toFixed(0),
-    electricityData: obj["EG.ELC.ACCS.UR.ZS"][0].value?.toFixed(0),
     gdpData: formatGDP(Number(obj["NY.GDP.PCAP.CD"][0].value?.toFixed(0))),
     forestationData: obj["AG.LND.FRST.ZS"][0].value?.toFixed(0),
     resourcesData: obj["TX.VAL.MMTL.ZS.UN"][0].value?.toFixed(0),

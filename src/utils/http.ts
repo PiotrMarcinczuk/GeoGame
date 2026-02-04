@@ -7,11 +7,9 @@ const fetchData = async (country: string | null) => {
     (item) => item.name.toLowerCase() === country!.toLowerCase(),
   );
   const codeISO = seletedCountry[0].alpha2;
-  const year = 2021;
+  const year = 2024;
+  const ForestationAndResourcesYear = 2021;
   try {
-    const responseElectricity = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/EG.ELC.ACCS.UR.ZS?date=${year}&format=json`,
-    );
     const responsePopulationLargestCity = await axios.get(
       `https://api.worldbank.org/v2/country/${codeISO}/indicator/EN.URB.LCTY.UR.ZS?date=${year}&format=json`,
     );
@@ -22,10 +20,10 @@ const fetchData = async (country: string | null) => {
       `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.PCAP.CD?date=${year}&format=json`,
     );
     const responseForestation = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/AG.LND.FRST.ZS?date=${year}&format=json`,
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/AG.LND.FRST.ZS?date=${ForestationAndResourcesYear}&format=json`,
     );
     const responseResources = await axios.get(
-      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.TOTL.RT.ZS?date=${year}&format=json`,
+      `https://api.worldbank.org/v2/country/${codeISO}/indicator/NY.GDP.TOTL.RT.ZS?date=${ForestationAndResourcesYear}&format=json`,
     );
     const responseUrabnP = await axios.get(
       `https://api.worldbank.org/v2/country/${codeISO}/indicator/SP.URB.TOTL?date=${year}&format=json`,
@@ -33,7 +31,6 @@ const fetchData = async (country: string | null) => {
 
     return {
       countryName: seletedCountry[0].name,
-      "EG.ELC.ACCS.UR.ZS": responseElectricity.data[1],
       "EN.URB.LCTY.UR.ZS": responsePopulationLargestCity.data[1],
       "NE.IMP.GNFS.ZS": responseExport.data[1],
       "NY.GDP.PCAP.CD": responseGDP.data[1],
@@ -50,7 +47,6 @@ const fetchData = async (country: string | null) => {
 const fetchCorrectCountry = async () => {
   const checkStats = (country: CountryData) => {
     if (
-      !country["EG.ELC.ACCS.UR.ZS"][0].value ||
       !country["EN.URB.LCTY.UR.ZS"][0].value ||
       !country["NE.IMP.GNFS.ZS"][0].value ||
       !country["NY.GDP.PCAP.CD"][0].value ||

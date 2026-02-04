@@ -150,7 +150,7 @@
     "alpha3": "BMU"
   },
   {
-    "name": "Bolivia, Plurinational State of",
+    "name": "Bolivia",
     "name_pl": "Boliwia",
     "alpha2": "BO",
     "alpha3": "BOL"
@@ -168,7 +168,7 @@
     "alpha3": "BRB"
   },
   {
-    "name": "Brunei Darussalam",
+    "name": "Brunei",
     "name_pl": "Brunei",
     "alpha2": "BN",
     "alpha3": "BRN"
@@ -216,7 +216,7 @@
     "alpha3": "CHN"
   },
   {
-    "name": "Côte d'Ivoire",
+    "name": "Ivory Coast",
     "name_pl": "Wybrzeże Kości Słoniowej",
     "alpha2": "CI",
     "alpha3": "CIV"
@@ -228,7 +228,7 @@
     "alpha3": "CMR"
   },
   {
-    "name": "Congo, The Democratic Republic of the",
+    "name": "Congo",
     "name_pl": "Demokratyczna Republika Konga",
     "alpha2": "CD",
     "alpha3": "COD"
@@ -270,7 +270,7 @@
     "alpha3": "CUB"
   },
   {
-    "name": "Curaçao",
+    "name": "Curacao",
     "name_pl": "Curaçao",
     "alpha2": "CW",
     "alpha3": "CUW"
@@ -390,7 +390,7 @@
     "alpha3": "FRO"
   },
   {
-    "name": "Micronesia, Federated States of",
+    "name": "Micronesia",
     "name_pl": "Mikronezja",
     "alpha2": "FM",
     "alpha3": "FSM"
@@ -402,7 +402,7 @@
     "alpha3": "GAB"
   },
   {
-    "name": "United Kingdom",
+    "name": "Great Britain",
     "name_pl": "Wielka Brytania",
     "alpha2": "GB",
     "alpha3": "GBR"
@@ -540,7 +540,7 @@
     "alpha3": "IRL"
   },
   {
-    "name": "Iran, Islamic Republic of",
+    "name": "Iran",
     "name_pl": "Iran",
     "alpha2": "IR",
     "alpha3": "IRN"
@@ -624,7 +624,7 @@
     "alpha3": "KNA"
   },
   {
-    "name": "Korea, Republic of",
+    "name": "South Korea",
     "name_pl": "Korea Południowa",
     "alpha2": "KR",
     "alpha3": "KOR"
@@ -636,7 +636,7 @@
     "alpha3": "KWT"
   },
   {
-    "name": "Lao People's Democratic Republic",
+    "name": "Laos",
     "name_pl": "Laos",
     "alpha2": "LA",
     "alpha3": "LAO"
@@ -720,7 +720,7 @@
     "alpha3": "MCO"
   },
   {
-    "name": "Moldova, Republic of",
+    "name": "Moldova",
     "name_pl": "Mołdawia",
     "alpha2": "MD",
     "alpha3": "MDA"
@@ -936,7 +936,7 @@
     "alpha3": "PRI"
   },
   {
-    "name": "Korea, Democratic People's Republic of",
+    "name": "North Korea",
     "name_pl": "Korea Północna",
     "alpha2": "KP",
     "alpha3": "PRK"
@@ -954,7 +954,7 @@
     "alpha3": "PRY"
   },
   {
-    "name": "Palestine, State of",
+    "name": "Palestine",
     "name_pl": "Palestyna",
     "alpha2": "PS",
     "alpha3": "PSE"
@@ -978,7 +978,7 @@
     "alpha3": "ROU"
   },
   {
-    "name": "Russian Federation",
+    "name": "Russia",
     "name_pl": "Rosja",
     "alpha2": "RU",
     "alpha3": "RUS"
@@ -1092,7 +1092,7 @@
     "alpha3": "SWZ"
   },
   {
-    "name": "Sint Maarten (Dutch part)",
+    "name": "Sint Maarten",
     "name_pl": "Sint Maarten",
     "alpha2": "SX",
     "alpha3": "SXM"
@@ -1104,7 +1104,7 @@
     "alpha3": "SYC"
   },
   {
-    "name": "Syrian Arab Republic",
+    "name": "Syria",
     "name_pl": "Syria",
     "alpha2": "SY",
     "alpha3": "SYR"

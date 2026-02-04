@@ -91,10 +91,8 @@ function Main() {
           </div>
         </>
       )}
+
       <section className="pt-36 text-white max-w-[1366px] mx-auto">
-        {helpPopupIsVisible && (
-          <HelpPopup setHelpPopupIsVisible={setHelpPopupIsVisible} />
-        )}
         <div className="flex justify-center items-center w-full">
           <h1 className="text-7xl font-bold">GeoGAME</h1>
         </div>
@@ -105,13 +103,13 @@ function Main() {
           >
             <p className="text-2xl mb-2 text-center">How to play?</p>
             <div className="flex justify-between w-[220px]">
-              <div className="border-xs bg-[#0D9E12] py-4 px-6 flex item-center justify-center">
-                <img src={green} alt="red_incorrect"></img>
+              <div className="border-xs bg-[#00FF09]/80 py-4 px-6 flex item-center justify-center">
+                <img src={green} alt="green_correct"></img>
               </div>
-              <div className="border-xs bg-[#FFA600] py-4 px-6 flex item-center justify-center">
-                <img src={red} alt="green_correct"></img>
+              <div className="border-xs bg-[#FF0000]/80 py-4 px-6 flex item-center justify-center">
+                <img src={red} alt="red_incorrect"></img>
               </div>
-              <div className="border-xs bg-[#FF0000] py-4 px-6 flex item-center justify-center">
+              <div className="border-xs bg-[#FFA600]/80 py-4 px-6 flex item-center justify-center">
                 <img src={orange} alt="orange_incorrect"></img>
               </div>
             </div>
@@ -120,7 +118,7 @@ function Main() {
         </div>
       </section>
       {countries && countries[0] && (
-        <div className="w-full bg-white/80 max-w-[1366px] w-full mx-auto">
+        <div className="w-full bg-white/80 max-w-[1366px] w-full mx-auto -mt-12">
           <div className="flex justify-between p-2">
             <h2 className="text-28 font-semibold w-[8%] text-center">
               Country
@@ -145,19 +143,12 @@ function Main() {
         </div>
       )}
 
-      <ul className="w-full max-w-[1366px] w-full mx-auto">
+      <ul className="w-full max-w-[1366px] w-full mx-auto mb-6">
         {countries
           ? countries.map((country: CountryData, index: number) => {
               return (
-                <div key={index} className="flex flex-col">
-                  <Country
-                    country={country}
-                    itemsDelay={0.2}
-                    isFirst={
-                      country["EN.URB.LCTY.UR.ZS"]?.[0]?.country?.id ===
-                      firstCountryCodeISO
-                    }
-                  />
+                <div key={index} className="flex flex-col mx-2">
+                  <Country country={country} itemsDelay={0.2} />
 
                   {loading && index === countries.length - 1 && (
                     <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
@@ -167,13 +158,17 @@ function Main() {
             })
           : null}
         {loading && countries.length < 1 && (
-          <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
+          <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4 z-10"></div>
         )}
+        <div ref={scrollRef} />
         {winnerPopupIsVisible && (
           <WinnerPopup
             setWinnerPopupIsVisible={setWinnerPopupIsVisible}
             setIsWinner={setIsWinner}
           />
+        )}
+        {helpPopupIsVisible && (
+          <HelpPopup setHelpPopupIsVisible={setHelpPopupIsVisible} />
         )}
       </ul>
     </main>
