@@ -66,7 +66,7 @@ function Main() {
         }, 1200);
       }
     }
-    // scrollRef.current!.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [data, countries, loading]);
 
   return (
