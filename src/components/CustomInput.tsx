@@ -17,6 +17,7 @@ const CustomInput = function CustomInput() {
   const countries = useAppSelector(
     (state: RootState): CountryData[] => state.countries,
   );
+  console.log(countries);
   const loading = useAppSelector((state: RootState): boolean => state.loading);
   useCountrySearch(searchTerm, setSearchTerm);
 
