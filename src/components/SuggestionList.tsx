@@ -1,16 +1,5 @@
-import { SugestionData } from "../interfaces/stats";
-import { useEffect, useRef } from "react";
-type SuggestionListProps = {
-  suggestionArr: SugestionData[];
-  searchValue: React.RefObject<string | null> | null;
-  ulRef: React.RefObject<HTMLUListElement | null>;
-  inputRef: React.RefObject<HTMLInputElement | null>;
-  activeIndex: number;
-  handleSubmit: (
-    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLElement>,
-    flag: boolean,
-  ) => void;
-};
+import { SuggestionListProps } from "./SuggestionList.types";
+import { SugestionData } from "../interfaces/shared.types";
 
 export default function SuggestionList({
   suggestionArr,

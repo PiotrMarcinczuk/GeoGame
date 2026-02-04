@@ -1,13 +1,14 @@
 import { memo } from "react";
+
 import { useSelector } from "react-redux";
+import { RootState } from "../interfaces/shared.types";
+
 import { motion } from "framer-motion";
+
 import Format from "../utils/Format";
-import { CountryData } from "../interfaces/stats";
-import { RootState } from "../app/store";
-type CountryProps = {
-  country: CountryData;
-  itemsDelay: number;
-};
+
+import { CountryData } from "../interfaces/shared.types";
+import { CountryProps } from "./Country.types";
 
 const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
   const { formatToMilions, formatGDP, compareCountries } = Format();
@@ -15,7 +16,6 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
     (state: RootState): CountryData => state.correctCountry,
   );
 
-  const correctCodeISO = correctCountry["AG.LND.FRST.ZS"][0].country.id;
   const correctExportData =
     correctCountry["EN.URB.LCTY.UR.ZS"][0].value?.toFixed(0);
   const correctImportData =

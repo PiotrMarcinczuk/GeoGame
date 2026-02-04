@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { CountryData } from "../interfaces/stats";
+
+import { CountryData } from "../interfaces/shared.types";
 
 export default function Format() {
   const formatToMilions = useMemo(() => {

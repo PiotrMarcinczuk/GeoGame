@@ -1,6 +1,8 @@
+import { HelpPopupProps } from "./HelpPopup.types";
+
 import close from "../assets/img/close.svg";
 
-export default function HelpPopup({ setHelpPopupIsVisible }: any) {
+export default function HelpPopup({ setHelpPopupIsVisible }: HelpPopupProps) {
   return (
     <>
       <div className="fixed left-0 top-0 w-screen h-screen bg-white/50 backdrop-blur-3xl z-50"></div>

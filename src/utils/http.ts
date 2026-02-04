@@ -1,6 +1,8 @@
 import axios from "axios";
+
 import countries_iso from "../assets/countries_iso.json";
-import { CountryData } from "../interfaces/stats";
+
+import { CountryData } from "../interfaces/shared.types";
 
 const fetchData = async (country: string | null) => {
   const seletedCountry = countries_iso.filter(
@@ -44,32 +46,21 @@ const fetchData = async (country: string | null) => {
   }
 };
 
+// this function is maybe broken
 const fetchCorrectCountry = async () => {
-  const checkStats = (country: CountryData) => {
-    if (
-      !country["EN.URB.LCTY.UR.ZS"][0].value ||
-      !country["NE.IMP.GNFS.ZS"][0].value ||
-      !country["NY.GDP.PCAP.CD"][0].value ||
-      !country["AG.LND.FRST.ZS"][0].value ||
-      !country["TX.VAL.MMTL.ZS.UN"][0].value ||
-      !country["SP.URB.TOTL"][0].value
-    ) {
-      return true;
-    }
-    return false;
-  };
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString("en-CA", {
+    timeZone: "Europe/Warsaw",
+  });
 
   let hash = 0;
   for (let i = 0; i < today.length; i++) {
-    hash += today.charCodeAt(i);
+    hash = today.charCodeAt(i) + ((hash << 5) - hash);
+    hash |= 0;
   }
 
   const index = hash % countries_iso.length;
   let result = await fetchData(countries_iso[index].name);
-  const mustMakeNewCountry = checkStats(result);
-  if (mustMakeNewCountry)
-    result = await fetchData(countries_iso[index + 1].name);
+
   return result;
 };
 

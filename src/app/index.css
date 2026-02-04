@@ -23,17 +23,3 @@
 @theme {
   --text-28: 1.7rem;
 }
-
-/* .custom-before-higher {
-  position: relative;
-} */
-
-/* @layer {
-  .custom-before-higher {
-    @apply before:content-[''] before:absolute before:bottom-2 before:inline-block before:bg-[url("../assets/img/arr.png")] before:bg-no-repeat before:bg-cover before:w-3 before:h-3 md:before:w-5 md:before:h-5;
-  }
-
-  .custom-before-lower {
-    @apply before:content-[''] before:absolute before:bottom-2 before:inline-block before:bg-[url("../assets/img/arr.png")] before:bg-no-repeat before:bg-cover before:rotate-180 before:w-3 before:h-3 md:before:w-5 md:before:h-5;
-  }
-} */

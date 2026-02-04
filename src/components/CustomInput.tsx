@@ -1,26 +1,35 @@
-import arrow from "../assets/img/arrow.svg";
 import { useRef, useState, useCallback, useEffect } from "react";
+
 import useCountrySearch from "../hooks/useCountrySearch";
 import { useAppSelector } from "../hooks/useReduxType";
+
 import SuggestionList from "./SuggestionList";
-import countries_iso from "../assets/countries_iso.json";
-import { CountryData, SugestionData } from "../interfaces/stats";
-import { RootState } from "../app/store";
+
+import {
+  RootState,
+  CountryData,
+  SugestionData,
+} from "../interfaces/shared.types";
+
 import isEqual from "lodash.isequal"; // check prev state with new state
+
+import countries_iso from "../assets/countries_iso.json";
+import arrow from "../assets/img/arrow.svg";
 
 const CustomInput = function CustomInput() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const ulRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
+  const [searchTerm, setSearchTerm] = useState<string | null>("");
+  const [suggestionArr, setSuggestionArr] = useState<SugestionData[]>();
+
+  const ulRef = useRef<HTMLUListElement>(null);
   const dropdownRef = useRef<HTMLFormElement>(null);
   const searchValue = useRef<string | null>("s");
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string | null>("");
-  const [suggestionArr, setSuggestionArr] = useState<SugestionData[]>();
+
   const countries = useAppSelector(
     (state: RootState): CountryData[] => state.countries,
   );
-
   const loading = useAppSelector((state: RootState): boolean => state.loading);
   useCountrySearch(searchTerm, setSearchTerm);
 

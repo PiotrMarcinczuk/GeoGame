@@ -3,13 +3,10 @@ import { setCountriesList } from "../counters/countriesListSlice";
 import { resetCountOfAttempt } from "../counters/countOfAttempSlice";
 import { setCountryData } from "../counters/countrySlice";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
-import { CountryData } from "../interfaces/stats";
 
-type WinPopupProps = {
-  setWinnerPopupIsVisible: (value: boolean) => void;
-  setIsWinner: (value: boolean) => void;
-};
+import { CountryData, RootState } from "../interfaces/shared.types";
+
+import { WinPopupProps } from "./WinnerPopup.types";
 
 export default function WinnerPopup({
   setWinnerPopupIsVisible,
