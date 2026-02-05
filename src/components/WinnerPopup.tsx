@@ -31,25 +31,29 @@ export default function WinnerPopup({
   return (
     <>
       <div className="fixed left-0 top-0 w-screen h-screen bg-white/50 backdrop-blur-3xl z-50"></div>
-      <section className="max-w-[900px] max-h-[500px] h-full flex flex-col items-center justify-center fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-full mx-auto p-10 text-black text-xl bg-white rounded-sm">
-        <p className="text-5xl">Congratulations you did it! </p>
-        <div className="flex items-center justify-center bg-[#D2D2D2]/50 p-2 rounded-xs">
-          <div>
-            <img
-              src={`https://flagcdn.com/${codeISO.toLowerCase()}.svg`}
-              alt="flag"
-              className="w-16"
-            ></img>
+      <section className="max-w-[900px] w-full max-h-[442px] h-full flex flex-col fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 mx-auto text-black text-xl">
+        <div className="bg-white rounded-sm mx-2 px-2 py-4 flex flex-col justify-center items-center">
+          <p className="text-2xl sm:text-4xl md:text-5xl text-center font-semibold">
+            Congratulations you guessed today’s country correctly!{" "}
+          </p>
+          <div className="flex items-center mt-4 justify-center bg-[#F2F2F2]/50 p-2 rounded-sm">
+            <div>
+              <img
+                src={`https://flagcdn.com/${codeISO.toLowerCase()}.svg`}
+                alt="flag"
+                className="w-16"
+              ></img>
+            </div>
+            <p className="ml-2">You guessed: {correctCountry.countryName}</p>
           </div>
-          <p className="ml-2">You guessed: {correctCountry.countryName}</p>
+          <p className="text-xl mt-2">Number of attempts: {countOfAttempt}</p>
+          <button
+            className="text-2xl font-medium mt-10 px-20 md:px-16 py-4 bg-[#2BFF00] rounded-sm hover:cursor-pointer tranistion-all hover:bg-[#7AF961] duration-300 ease-out"
+            onClick={() => handleClickButton()}
+          >
+            GG
+          </button>
         </div>
-        <p className="text-3xl mt-6">Number of attempts: {countOfAttempt}</p>
-        <button
-          className="text-2xl font-medium mt-10 px-6 py-3 bg-red-200 rounded-sm hover:cursor-pointer tranistion-all duration-300 ease-out"
-          onClick={() => handleClickButton()}
-        >
-          GG
-        </button>
       </section>
     </>
   );

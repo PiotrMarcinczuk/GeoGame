@@ -90,6 +90,9 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
         <motion.div
           variants={itemVariants}
           onHoverStart={() => setActiveCountry(countryName)}
+          onClick={() =>
+            setActiveCountry((prev) => (prev === null ? countryName : null))
+          }
           onHoverEnd={() => setActiveCountry(null)}
           className="relative bg-white/40 flex flex-col justify-center items-center px-2 py-2 w-[111px] min-h-[71px]"
         >

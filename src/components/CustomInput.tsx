@@ -132,7 +132,7 @@ const CustomInput = function CustomInput() {
             }
           }}
           id="country"
-          className={`mx-2 xl:mx-0 outline-none bg-white p-3 w-full ${searchValue ? "text-black" : "text-[#929090]"}`}
+          className={`mx-2 xl:mx-0 text-xl sm:text-2xl outline-none rounded-l-xs bg-white p-3 w-full ${searchValue ? "text-black" : "text-[#929090]"}`}
           onChange={handleChange}
           placeholder="Enter country name..."
         />

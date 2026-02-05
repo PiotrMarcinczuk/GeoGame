@@ -71,7 +71,8 @@ function Main() {
         }, 1200);
       }
     }
-    scrollRef.current!.scrollIntoView({ behavior: "smooth" });
+    if (scrollRef.current)
+      scrollRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [data, countries, loading]);
 
   return (
@@ -122,9 +123,9 @@ function Main() {
         </div>
         <CustomInput />
       </section>
-      <section className="max-w-[1366px] mx-auto overflow-x-auto">
-        <div className="min-w-[1366px]">
-          {countries && countries[0] && (
+      {countries && countries[0] && (
+        <section className="max-w-[1366px] mx-auto overflow-x-auto">
+          <div className="min-w-[1366px]">
             <div className="w-full bg-white/80 mt-8 lg:mt-16 mx-2 1370:mx-0">
               <div className="flex justify-between p-2 text-xl font-semibold ">
                 <h2 className="w-[111px] text-center shrink">Country</h2>
@@ -140,29 +141,32 @@ function Main() {
                 </h2>
               </div>
             </div>
-          )}
 
-          <ul className="w-full max-w-[1366px] w-full mx-auto mb-6 z-10">
-            {countries
-              ? countries.map((country: CountryData, index: number) => {
-                  return (
-                    <div key={index} className="flex flex-col mx-2">
-                      <Country country={country} itemsDelay={0.2} />
+            <ul className="w-full max-w-[1366px] w-full mx-auto mb-6 z-10">
+              {countries
+                ? countries.map((country: CountryData, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex flex-col justify-start mx-2"
+                      >
+                        <Country country={country} itemsDelay={0.2} />
 
-                      {loading && index === countries.length - 1 && (
-                        <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
-                      )}
-                    </div>
-                  );
-                })
-              : null}
-            {loading && countries.length < 1 && (
-              <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
-            )}
-            <div ref={scrollRef} />
-          </ul>
-        </div>
-      </section>
+                        {loading && index === countries.length - 1 && (
+                          <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mt-4"></div>
+                        )}
+                      </div>
+                    );
+                  })
+                : null}
+              {loading && countries.length < 1 && (
+                <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
+              )}
+              <div ref={scrollRef} />
+            </ul>
+          </div>
+        </section>
+      )}
 
       {winnerPopupIsVisible && (
         <WinnerPopup
