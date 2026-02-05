@@ -23,14 +23,14 @@ import red from "../assets/img/h3.svg";
 
 function Main() {
   const [isWinner, setIsWinner] = useState(false);
+  const [winnerPopupIsVisible, setWinnerPopupIsVisible] =
+    useState<boolean>(false);
+  const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
   const data = useAppSelector((state: RootState): CountryData => state.country);
   const countries = useAppSelector(
     (state: RootState): CountryData[] => state.countries,
   );
 
-  const [winnerPopupIsVisible, setWinnerPopupIsVisible] =
-    useState<boolean>(false);
-  const [helpPopupIsVisible, setHelpPopupIsVisible] = useState<boolean>(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const correctCountry = useAppSelector(
     (state: RootState): CountryData => state.correctCountry,
@@ -38,8 +38,6 @@ function Main() {
   const loading = useAppSelector((state: RootState): boolean => state.loading);
   const dispatch = useAppDispatch();
   const { checkIfCountryIsCorrect } = Format();
-  const firstCountryCodeISO =
-    countries[0]?.["EN.URB.LCTY.UR.ZS"]?.[0]?.country?.id;
 
   useEffect(() => {
     const res = async () => {
@@ -99,14 +97,14 @@ function Main() {
         </>
       )}
 
-      <section className="pt-36 text-white max-w-[1366px] mx-auto">
+      <section className="pt-36 text-white max-w-[1366px] mx-auto flex lg:noflex flex-col">
         <div className="flex justify-center items-center w-full">
           <h1 className="text-7xl font-bold">GeoGAME</h1>
         </div>
-        <div className="w-full max-w-[1135px] w-full mx-auto -translate-y-full flex flex-col items-end">
+        <div className="w-full max-w-[1135px] w-full mx-auto lg:-translate-y-full flex flex-col items-center lg:items-end">
           <div
             onClick={() => setHelpPopupIsVisible((prev: boolean) => !prev)}
-            className="inline-flex flex-col border-xs hover:text-black hover:bg-white hover:cursor-pointer transition-all duration-500 ease-out p-1"
+            className="inline-flex flex-col border-xs hover:text-black hover:bg-white hover:cursor-pointer transition-all duration-500 ease-out p-1 mx-2 xl:mx-0"
           >
             <p className="text-2xl mb-2 text-center">How to play?</p>
             <div className="flex justify-between w-[220px]">
@@ -124,60 +122,57 @@ function Main() {
         </div>
         <CustomInput />
       </section>
-      {countries && countries[0] && (
-        <div className="w-full bg-white/80 max-w-[1366px] w-full mx-auto mt-16">
-          <div className="flex justify-between p-2">
-            <h2 className="text-28 font-semibold w-[8%] text-center">
-              Country
-            </h2>
-            <h2 className="text-28 font-semibold w-[12%] text-center">
-              Largest city
-            </h2>
-            <h2 className="text-28 font-semibold w-[7%] text-center">Import</h2>
-            <h2 className="text-28 font-semibold w-[14%] text-center">
-              GDP per capita
-            </h2>
-            <h2 className="text-28 font-semibold w-[13%] text-center">
-              Afforestation
-            </h2>
-            <h2 className="text-28 font-semibold w-[17%] text-center">
-              Natrual resources
-            </h2>
-            <h2 className="text-28 font-semibold w-[17%] text-center">
-              Urban population
-            </h2>
-          </div>
+      <section className="max-w-[1366px] mx-auto overflow-x-auto">
+        <div className="min-w-[1366px]">
+          {countries && countries[0] && (
+            <div className="w-full bg-white/80 mt-8 lg:mt-16 mx-2 1370:mx-0">
+              <div className="flex justify-between p-2 text-xl font-semibold ">
+                <h2 className="w-[111px] text-center shrink">Country</h2>
+                <h2 className="w-[160px] text-center shrink">Largest city</h2>
+                <h2 className="w-[90px] text-center shrink">Export</h2>
+                <h2 className="w-[203px] text-center shrink">GDP per capita</h2>
+                <h2 className="w-[179px] text-center shrink">Afforestation</h2>
+                <h2 className="w-[242px] text-center shrink">
+                  Natrual resources
+                </h2>
+                <h2 className="w-[234px] text-center shrink">
+                  Urban population
+                </h2>
+              </div>
+            </div>
+          )}
+
+          <ul className="w-full max-w-[1366px] w-full mx-auto mb-6 z-10">
+            {countries
+              ? countries.map((country: CountryData, index: number) => {
+                  return (
+                    <div key={index} className="flex flex-col mx-2">
+                      <Country country={country} itemsDelay={0.2} />
+
+                      {loading && index === countries.length - 1 && (
+                        <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
+                      )}
+                    </div>
+                  );
+                })
+              : null}
+            {loading && countries.length < 1 && (
+              <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
+            )}
+            <div ref={scrollRef} />
+          </ul>
         </div>
+      </section>
+
+      {winnerPopupIsVisible && (
+        <WinnerPopup
+          setWinnerPopupIsVisible={setWinnerPopupIsVisible}
+          setIsWinner={setIsWinner}
+        />
       )}
-
-      <ul className="w-full max-w-[1366px] w-full mx-auto mb-6 z-10">
-        {countries
-          ? countries.map((country: CountryData, index: number) => {
-              return (
-                <div key={index} className="flex flex-col mx-2">
-                  <Country country={country} itemsDelay={0.2} />
-
-                  {loading && index === countries.length - 1 && (
-                    <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
-                  )}
-                </div>
-              );
-            })
-          : null}
-        {loading && countries.length < 1 && (
-          <div className="h-12 w-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin mx-auto mt-4"></div>
-        )}
-        <div ref={scrollRef} />
-        {winnerPopupIsVisible && (
-          <WinnerPopup
-            setWinnerPopupIsVisible={setWinnerPopupIsVisible}
-            setIsWinner={setIsWinner}
-          />
-        )}
-        {helpPopupIsVisible && (
-          <HelpPopup setHelpPopupIsVisible={setHelpPopupIsVisible} />
-        )}
-      </ul>
+      {helpPopupIsVisible && (
+        <HelpPopup setHelpPopupIsVisible={setHelpPopupIsVisible} />
+      )}
     </main>
   );
 }

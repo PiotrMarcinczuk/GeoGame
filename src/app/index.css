@@ -22,4 +22,7 @@
 
 @theme {
   --text-28: 1.7rem;
+
+  --breakpoint-1370: 85.625rem;
+  --breakpoint-1091: 68.188rem;
 }

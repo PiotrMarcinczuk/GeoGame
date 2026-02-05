@@ -1,9 +1,9 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../interfaces/shared.types";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Format from "../utils/Format";
 
@@ -11,7 +11,13 @@ import { CountryData } from "../interfaces/shared.types";
 import { CountryProps } from "./Country.types";
 
 const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
-  const { formatToMilions, formatGDP, compareCountries } = Format();
+  const {
+    checkCountryNameIsLong,
+    formatToMilions,
+    formatGDP,
+    compareCountries,
+  } = Format();
+  const [activeCountry, setActiveCountry] = useState<string | null>(null);
   const correctCountry = useSelector(
     (state: RootState): CountryData => state.correctCountry,
   );
@@ -58,28 +64,57 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
     visible: { opacity: 1, x: 0 },
   };
 
+  const countryNameVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { type: "tween", duration: 0.25 },
+    },
+    exit: {
+      opacity: 0,
+      x: -200,
+      transition: { type: "tween", duration: 0.25 },
+    },
+  };
+
+  console.log(activeCountry);
   return (
     <motion.li
       initial="hidden"
       animate="visible"
       variants={listVariants}
-      className="w-full mt-4 flex "
+      className="w-full mt-4 flex text-28 mx-2 lg:mx-0 font-medium"
     >
       <div className="flex justify-between w-full items-center">
         <motion.div
           variants={itemVariants}
-          className="bg-white/40 flex flex-col justify-center items-center px-2 py-2 w-[8%]"
+          onHoverStart={() => setActiveCountry(countryName)}
+          onHoverEnd={() => setActiveCountry(null)}
+          className="relative bg-white/40 flex flex-col justify-center items-center px-2 py-2 w-[111px] min-h-[71px]"
         >
           <img
             src={`https://flagcdn.com/${codeISO.toLowerCase()}.svg`}
             alt="flag"
-            className="w-16"
           ></img>
-          <p className="font-medium text-center mt-1">{countryName}</p>
+          <AnimatePresence>
+            {activeCountry === countryName && (
+              <motion.div
+                key={countryName}
+                variants={countryNameVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="flex text-xl flex-col items-center justify-center bg-white rounded-xs px-4 py-1 absolute top-0 left-0 text-nowrap h-full min-w-full"
+              >
+                {countryName}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
-        <motion.div variants={itemVariants} className="w-[12%] h-full">
+        <motion.div variants={itemVariants} className="w-[160px] h-full">
           <div
-            className={`p-4 h-full rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
+            className={`p-4 h-full rounded-xs flex items-center justify-center ${compareCountries(
               Number(largestCityPopulation),
               Number(correctExportData),
             )} `}
@@ -89,9 +124,9 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
             </p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="w-[7%] h-full">
+        <motion.div variants={itemVariants} className="w-[90px] h-full">
           <div
-            className={`p-4 h-full rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
+            className={`p-4 h-full rounded-xs flex items-center justify-center ${compareCountries(
               Number(importData),
               Number(correctImportData),
             )} `}
@@ -101,9 +136,9 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
             </p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="w-[14%] h-full">
+        <motion.div variants={itemVariants} className="w-[203px] h-full">
           <div
-            className={`h-full p-4 rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
+            className={`h-full p-4 rounded-xs flex items-center justify-center ${compareCountries(
               Number(gdpData && gdpData.replace(/\s+/g, "")),
               Number(correctGdpData && correctGdpData.replace(/\s+/g, "")),
             )} `}
@@ -112,9 +147,9 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="w-[13%] h-full">
+        <motion.div variants={itemVariants} className="w-[179px] h-full">
           <div
-            className={`h-full p-4 rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
+            className={`h-full p-4 rounded-xs flex items-center justify-center ${compareCountries(
               Number(forestationData),
               Number(correctForestationData),
             )} `}
@@ -124,9 +159,9 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
             </p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="w-[17%] h-full">
+        <motion.div variants={itemVariants} className="w-[242px] h-full">
           <div
-            className={`h-full p-4 rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
+            className={`h-full p-4 rounded-xs flex items-center justify-center ${compareCountries(
               Number(resourcesData),
               Number(correctResourcesData),
             )} `}
@@ -136,9 +171,9 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
             </p>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="w-[17%] h-full">
+        <motion.div variants={itemVariants} className="w-[234px] h-full">
           <div
-            className={`h-full p-4 rounded-xs text-28 font-medium flex items-center justify-center ${compareCountries(
+            className={`h-full p-4 rounded-xs flex items-center justify-center ${compareCountries(
               Number(urbanPDataBeforeFormat),
               Number(correctUrbanPDataBeforeFormat),
             )} `}

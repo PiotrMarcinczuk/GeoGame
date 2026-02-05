@@ -43,6 +43,13 @@ export default function Format() {
     return "bg-[#FF0000]/80";
   };
 
+  const checkCountryNameIsLong = (name: string) => {
+    if (name.length > 7) {
+      return name.slice(0, 7).trim() + "..";
+    }
+    return name;
+  };
+
   const extractCountryData = (obj: CountryData) => ({
     codeISO: obj["EN.URB.LCTY.UR.ZS"][0].country.id,
     exportData: obj["EN.URB.LCTY.UR.ZS"][0].value?.toFixed(0),
@@ -90,5 +97,6 @@ export default function Format() {
     formatGDP,
     compareCountries,
     checkIfCountryIsCorrect,
+    checkCountryNameIsLong,
   };
 }

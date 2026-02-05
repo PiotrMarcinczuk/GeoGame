@@ -120,35 +120,37 @@ const CustomInput = function CustomInput() {
           );
         }
       }}
-      className="max-w-[1135px] relative text-3xl w-full mx-auto flex -mt-8 z-50"
+      className="max-w-[1135px] relative text-2xl md:text-3xl w-full mx-auto flex mt-8 lg:-mt-8 z-50 "
     >
-      <input
-        autoComplete="off"
-        ref={inputRef}
-        onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-          if (searchValue.current == "Enter country name...") {
-            (e.target as HTMLInputElement).value = "";
-          }
-        }}
-        id="country"
-        className={`outline-none bg-white p-3 w-full ${searchValue ? "text-black" : "text-[#929090]"}`}
-        onChange={handleChange}
-        placeholder="Enter country name..."
-      />
-      <button className="bg-white rounded-r-2xl p-3 ml-2 hover:bg-[#ECECEC] hover:cursor-pointer tranistion-all duration-300 ease-out">
-        <img src={arrow} alt="arrow_nav" />
-      </button>
-
-      {searchValue.current && suggestionArr && isOpen && (
-        <SuggestionList
-          suggestionArr={suggestionArr}
-          searchValue={searchValue}
-          ulRef={ulRef}
-          inputRef={inputRef}
-          activeIndex={activeIndex}
-          handleSubmit={loading ? (e) => e.preventDefault() : handleSubmit}
+      <div className="flex w-full mx-2 xl:mx-0">
+        <input
+          autoComplete="off"
+          ref={inputRef}
+          onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+            if (searchValue.current == "Enter country name...") {
+              (e.target as HTMLInputElement).value = "";
+            }
+          }}
+          id="country"
+          className={`mx-2 xl:mx-0 outline-none bg-white p-3 w-full ${searchValue ? "text-black" : "text-[#929090]"}`}
+          onChange={handleChange}
+          placeholder="Enter country name..."
         />
-      )}
+        <button className="bg-white rounded-r-2xl p-3 xl:ml-2 hover:bg-[#ECECEC] hover:cursor-pointer tranistion-all duration-300 ease-out">
+          <img src={arrow} alt="arrow_nav" />
+        </button>
+
+        {searchValue.current && suggestionArr && isOpen && (
+          <SuggestionList
+            suggestionArr={suggestionArr}
+            searchValue={searchValue}
+            ulRef={ulRef}
+            inputRef={inputRef}
+            activeIndex={activeIndex}
+            handleSubmit={loading ? (e) => e.preventDefault() : handleSubmit}
+          />
+        )}
+      </div>
     </form>
   );
 };
