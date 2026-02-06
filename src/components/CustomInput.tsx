@@ -1,17 +1,11 @@
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useMemo, useState, useCallback, useEffect } from "react";
 
 import useCountrySearch from "../hooks/useCountrySearch";
 import { useAppSelector } from "../hooks/useReduxType";
 
 import SuggestionList from "./SuggestionList";
 
-import {
-  RootState,
-  CountryData,
-  SugestionData,
-} from "../interfaces/shared.types";
-
-import isEqual from "lodash.isequal"; // check prev state with new state
+import { RootState, CountryData } from "../interfaces/shared.types";
 
 import countries_iso from "../assets/countries_iso.json";
 import arrow from "../assets/img/arrow.svg";
@@ -19,62 +13,64 @@ import arrow from "../assets/img/arrow.svg";
 const CustomInput = function CustomInput() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
-  const [searchTerm, setSearchTerm] = useState<string | null>("");
-  const [suggestionArr, setSuggestionArr] = useState<SugestionData[]>();
+  const [inputValue, setInputValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
 
   const ulRef = useRef<HTMLUListElement>(null);
   const dropdownRef = useRef<HTMLFormElement>(null);
-  const searchValue = useRef<string | null>("s");
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const countries = useAppSelector(
     (state: RootState): CountryData[] => state.countries,
   );
   const loading = useAppSelector((state: RootState): boolean => state.loading);
-  useCountrySearch(searchTerm, setSearchTerm);
+
+  const suggestionArr = useMemo(() => {
+    return countries_iso
+      .filter((item) =>
+        item.name.toLowerCase().includes(inputValue.toLowerCase()),
+      )
+      .slice(0, 5);
+  }, [inputValue]);
+
+  useCountrySearch(searchValue); // IMPORTANT LINE, FORCE FETCH
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    searchValue.current = event.target.value;
-    const filtered = countries_iso.filter((item) => {
-      return item.name
-        .toLowerCase()
-        .includes(searchValue.current!.toLowerCase());
-    });
+    const value = event.target.value;
+    setInputValue(value);
+    if (!value) return;
+
     setIsOpen(true); // posibble bugs
-    if (!isEqual(filtered, suggestionArr)) {
-      setSuggestionArr(filtered.slice(0, 5));
-    }
   };
 
   const handleSubmit = useCallback(
-    async (event: any, flag = false) => {
+    async (event: any, forcedValue?: string) => {
       event.preventDefault();
 
-      if (flag) searchValue.current = event.currentTarget.textContent;
+      const valueToSubmit =
+        forcedValue ??
+        (activeIndex >= 0 ? suggestionArr[activeIndex].name : inputValue);
+      if (!valueToSubmit) return;
 
-      const previous = countries.some(
+      const alreadyFetched = countries.some(
         (item: CountryData) =>
-          item.countryName.toLowerCase() === searchValue.current!.toLowerCase(),
+          item.countryName.toLowerCase() === valueToSubmit!.toLowerCase(),
       );
 
-      const isExist = suggestionArr?.some(
-        (item) =>
-          item.name.toLowerCase() === searchValue.current?.toLowerCase(),
+      const existsInSuggestions = suggestionArr?.some(
+        (item) => item.name.toLowerCase() === valueToSubmit?.toLowerCase(),
       );
 
-      if (previous || suggestionArr!.length < 1 || !isExist) {
-        searchValue.current = "";
+      if (alreadyFetched || suggestionArr!.length < 1 || !existsInSuggestions) {
         return;
       }
 
-      setSearchTerm(searchValue.current);
+      setSearchValue(valueToSubmit); // triggers fetch
       setActiveIndex(-1);
-      searchValue.current = "";
-      if (inputRef.current) {
-        inputRef.current.value = "";
-      }
+      setInputValue("");
+
+      setTimeout(() => setSearchValue(""), 50);
     },
-    [countries, suggestionArr],
+    [inputValue, countries, suggestionArr, activeIndex],
   );
 
   useEffect(() => {
@@ -87,36 +83,31 @@ const CustomInput = function CustomInput() {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  useEffect(() => {
-    if (!ulRef.current) return;
-    const li = ulRef.current.children[activeIndex] as HTMLLIElement | undefined;
-    if (!li) return;
-    searchValue.current = li.textContent;
-  }, [activeIndex]);
-
   return (
     <form
       autoComplete="off"
-      onSubmit={loading ? (e) => e.preventDefault() : handleSubmit}
+      onSubmit={handleSubmit}
       ref={dropdownRef}
       onKeyDown={(e) => {
-        if (e.key === "Enter" && !loading) {
-          handleSubmit(e);
-        }
-        if (!suggestionArr) return;
+        if (!suggestionArr.length) return;
+
         if (e.key === "ArrowDown") {
+          e.preventDefault();
           setActiveIndex((prev) =>
-            prev < suggestionArr!.length - 1 ? prev + 1 : 0,
+            prev < suggestionArr.length - 1 ? prev + 1 : 0,
           );
         }
+
         if (e.key === "ArrowUp") {
+          e.preventDefault();
           setActiveIndex((prev) =>
-            prev < 1 ? suggestionArr!.length - 1 : prev - 1,
+            prev <= 0 ? suggestionArr.length - 1 : prev - 1,
           );
         }
       }}
@@ -125,14 +116,9 @@ const CustomInput = function CustomInput() {
       <div className="flex w-full mx-2 xl:mx-0">
         <input
           autoComplete="off"
-          ref={inputRef}
-          onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-            if (searchValue.current == "Enter country name...") {
-              (e.target as HTMLInputElement).value = "";
-            }
-          }}
+          value={inputValue || ""}
           id="country"
-          className={`mx-2 xl:mx-0 text-xl sm:text-2xl outline-none rounded-l-xs bg-white p-3 w-full ${searchValue ? "text-black" : "text-[#929090]"}`}
+          className={`mx-2 xl:mx-0 text-xl sm:text-2xl outline-none rounded-l-xs bg-white p-3 w-full ${inputValue ? "text-black" : "text-[#929090]"}`}
           onChange={handleChange}
           placeholder="Enter country name..."
         />
@@ -140,12 +126,12 @@ const CustomInput = function CustomInput() {
           <img src={arrow} alt="arrow_nav" />
         </button>
 
-        {searchValue.current && suggestionArr && isOpen && (
+        {inputValue && suggestionArr && isOpen && (
           <SuggestionList
             suggestionArr={suggestionArr}
             searchValue={searchValue}
+            setInputValue={setInputValue}
             ulRef={ulRef}
-            inputRef={inputRef}
             activeIndex={activeIndex}
             handleSubmit={loading ? (e) => e.preventDefault() : handleSubmit}
           />

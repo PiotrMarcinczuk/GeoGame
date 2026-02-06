@@ -1,35 +1,32 @@
 import { useMemo } from "react";
 
 import { CountryData } from "../interfaces/shared.types";
+import { current } from "@reduxjs/toolkit";
 
 export default function Format() {
-  const formatToMilions = useMemo(() => {
+  const formatToMillions = useMemo(() => {
     return (value: number) => {
       if (value >= 1000000) {
-        return (value / 1000000).toFixed(2) + " M";
+        return (value / 1000000).toFixed(2);
       } else if (value >= 1000) {
-        return (value / 1000).toFixed(2) + " K";
-      } else {
-        return value.toString();
+        return (value / 1000).toFixed(2);
       }
     };
   }, []);
 
-  const formatGDP = useMemo(() => {
-    return (value: number) => {
-      if (!value) return false;
-      let strValue = String(value);
-      if (strValue.length > 4 && strValue.length < 6) {
-        strValue =
-          strValue.slice(0, 2) + " " + strValue.slice(2, strValue.length);
-      }
-      if (strValue.length >= 6) {
-        strValue =
-          strValue.slice(0, 3) + " " + strValue.slice(3, strValue.length);
-      }
-      return strValue;
-    };
-  }, []);
+  const formatGDP = (value: number) => {
+    if (!value) return false;
+    let strValue = String(value);
+    if (strValue.length > 4 && strValue.length < 6) {
+      strValue =
+        strValue.slice(0, 2) + " " + strValue.slice(2, strValue.length);
+    }
+    if (strValue.length >= 6) {
+      strValue =
+        strValue.slice(0, 3) + " " + strValue.slice(3, strValue.length);
+    }
+    return strValue;
+  };
 
   const compareCountries = (value: number, correctValue: number) => {
     if (value > correctValue) {
@@ -53,7 +50,7 @@ export default function Format() {
   const extractCountryData = (obj: CountryData) => ({
     codeISO: obj["EN.URB.LCTY.UR.ZS"][0].country.id,
     exportData: obj["EN.URB.LCTY.UR.ZS"][0].value?.toFixed(0),
-    importData: obj["NE.IMP.GNFS.ZS"][0].value?.toFixed(0),
+    importData: obj["NE.EXP.GNFS.ZS"][0].value?.toFixed(0),
     gdpData: formatGDP(Number(obj["NY.GDP.PCAP.CD"][0].value?.toFixed(0))),
     forestationData: obj["AG.LND.FRST.ZS"][0].value?.toFixed(0),
     resourcesData: obj["TX.VAL.MMTL.ZS.UN"][0].value?.toFixed(0),
@@ -63,7 +60,6 @@ export default function Format() {
   const checkIfCountryIsCorrect = (
     countryObj: CountryData,
     correctCountryObj: CountryData,
-    itemsDelay: number,
     setWinnerPopupIsVisible: (value: boolean) => void,
   ) => {
     const countryData = extractCountryData(countryObj);
@@ -82,18 +78,15 @@ export default function Format() {
     }
 
     if (isMatch) {
-      setTimeout(
-        () => {
-          setWinnerPopupIsVisible(true);
-        },
-        itemsDelay * 10000 - itemsDelay * 1300,
-      );
+      setTimeout(() => {
+        setWinnerPopupIsVisible(true);
+      }, 2500);
     }
     return isMatch;
   };
 
   return {
-    formatToMilions,
+    formatToMillions,
     formatGDP,
     compareCountries,
     checkIfCountryIsCorrect,

@@ -1,35 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchData from "../utils/http";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "./useReduxType";
 import { setCountryData } from "../counters/countrySlice";
 import { incrementCountOfAttempt } from "../counters/countOfAttempSlice";
 import { setLoading } from "../counters/loadingSlice";
 
-export default function useCountrySearch(
-  searchTerm: string | null,
-  setSearchTerm: string | null | any,
-) {
+export default function useCountrySearch(searchValue: string) {
   const dispatch = useAppDispatch();
-  const { data, isPending, isFetching, isError, error }: any = useQuery({
-    queryKey: ["countries", searchTerm],
-    queryFn: () => fetchData(searchTerm || null),
-    enabled: !!searchTerm,
+
+  const query = useQuery({
+    queryKey: ["countries", searchValue],
+    queryFn: () => fetchData(searchValue),
+    enabled: !!searchValue,
   });
 
   useEffect(() => {
-    if (data) {
-      dispatch(setCountryData(data));
+    if (query.data) {
+      dispatch(setCountryData(query.data));
       dispatch(incrementCountOfAttempt());
-      setSearchTerm(); // propably not needed, but just in case
     }
-
-    setSearchTerm(null);
-  }, [data, dispatch, setSearchTerm]);
+  }, [query.data, dispatch]);
 
   useEffect(() => {
-    dispatch(setLoading(isFetching));
-  }, [isFetching, dispatch]);
+    dispatch(setLoading(query.isFetching));
+  }, [query.isFetching, dispatch]);
 
-  return { data, isFetching, isError, error };
+  return query;
 }

@@ -9,7 +9,7 @@ const fetchData = async (country: string | null) => {
     (item) => item.name.toLowerCase() === country!.toLowerCase(),
   );
   const codeISO = seletedCountry[0].alpha2;
-  const year = 2024;
+  const year = 2023;
   const ForestationAndResourcesYear = 2021;
   try {
     const responsePopulationLargestCity = await axios.get(
@@ -34,7 +34,7 @@ const fetchData = async (country: string | null) => {
     return {
       countryName: seletedCountry[0].name,
       "EN.URB.LCTY.UR.ZS": responsePopulationLargestCity.data[1],
-      "NE.IMP.GNFS.ZS": responseExport.data[1],
+      "NE.EXP.GNFS.ZS": responseExport.data[1],
       "NY.GDP.PCAP.CD": responseGDP.data[1],
       "AG.LND.FRST.ZS": responseForestation.data[1],
       "TX.VAL.MMTL.ZS.UN": responseResources.data[1],

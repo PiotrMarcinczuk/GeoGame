@@ -33,7 +33,7 @@ export default function HelpPopup({ setHelpPopupIsVisible }: HelpPopupProps) {
                   </li>
                   <li>
                     Largest city, Export, GDP per capita, and Urban population
-                    are from 2024, Afforestation and Natural Resources are from
+                    are from 2023, Afforestation and Natural Resources are from
                     2021.
                   </li>
                 </ul>

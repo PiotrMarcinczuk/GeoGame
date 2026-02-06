@@ -11,44 +11,89 @@ import { CountryData } from "../interfaces/shared.types";
 import { CountryProps } from "./Country.types";
 
 const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
-  const {
-    checkCountryNameIsLong,
-    formatToMilions,
-    formatGDP,
-    compareCountries,
-  } = Format();
+  const { formatToMillions, formatGDP, compareCountries } = Format();
   const [activeCountry, setActiveCountry] = useState<string | null>(null);
   const correctCountry = useSelector(
     (state: RootState): CountryData => state.correctCountry,
   );
 
-  const correctExportData =
+  // CORRECT
+  const correctLargestCityData =
     correctCountry["EN.URB.LCTY.UR.ZS"][0].value?.toFixed(0);
-  const correctImportData =
-    correctCountry["NE.IMP.GNFS.ZS"][0].value?.toFixed(0);
-  const correctGdpData = formatGDP(
-    Number(correctCountry["NY.GDP.PCAP.CD"][0].value?.toFixed(0)),
+  const correctExportData =
+    correctCountry["NE.EXP.GNFS.ZS"][0].value?.toFixed(0);
+  const correctGdpData = Number(
+    correctCountry["NY.GDP.PCAP.CD"][0].value?.toFixed(0),
   );
+
   const correctForestationData =
     correctCountry["AG.LND.FRST.ZS"][0].value?.toFixed(0);
   const correctResourcesData =
     correctCountry["TX.VAL.MMTL.ZS.UN"][0].value?.toFixed(0);
-  const correctUrbanPDataBeforeFormat = correctCountry["SP.URB.TOTL"][0].value;
 
+  const urbanPCorrectDataBeforeFormat =
+    correctCountry["SP.URB.TOTL"][0].value || 0;
+  const urbanPCorrectData = Number(urbanPCorrectDataBeforeFormat.toFixed(0));
+
+  // SEARCHED
   const countryName = country.countryName;
   if (!country["EN.URB.LCTY.UR.ZS"]) return null;
 
   const codeISO = country["EN.URB.LCTY.UR.ZS"][0].country.id;
   const largestCityPopulation =
     country["EN.URB.LCTY.UR.ZS"][0].value?.toFixed(0);
-  const importData = country["NE.IMP.GNFS.ZS"][0].value?.toFixed(0);
-  const gdpData = formatGDP(
-    Number(country["NY.GDP.PCAP.CD"][0].value?.toFixed(0)),
-  );
+  const exportData = country["NE.EXP.GNFS.ZS"][0].value?.toFixed(0);
+  const gdpData = Number(country["NY.GDP.PCAP.CD"][0].value?.toFixed(0));
+
   const forestationData = country["AG.LND.FRST.ZS"][0].value?.toFixed(0);
   const resourcesData = country["TX.VAL.MMTL.ZS.UN"][0].value?.toFixed(0);
   const urbanPDataBeforeFormat = country["SP.URB.TOTL"][0].value || 0;
-  const urbanPData = formatToMilions(Number(urbanPDataBeforeFormat.toFixed(0)));
+  const urbanPData = Number(urbanPDataBeforeFormat.toFixed(0));
+
+  const metrics = [
+    {
+      value: largestCityPopulation,
+      correct: correctLargestCityData,
+      content: largestCityPopulation,
+      label: "%",
+      width: 160,
+    },
+    {
+      value: exportData,
+      correct: correctExportData,
+      content: exportData,
+      label: "%",
+      width: 90,
+    },
+    {
+      value: gdpData,
+      correct: correctGdpData,
+      content: formatGDP(gdpData),
+      label: "$",
+      width: 203,
+    },
+    {
+      value: forestationData,
+      correct: correctForestationData,
+      content: forestationData,
+      label: "%",
+      width: 179,
+    },
+    {
+      value: resourcesData,
+      correct: correctResourcesData,
+      content: resourcesData,
+      label: "%",
+      width: 242,
+    },
+    {
+      value: urbanPData,
+      correct: urbanPCorrectData,
+      content: formatToMillions(urbanPData),
+      label: `${urbanPData > 1000000 ? " M" : " K"}`,
+      width: 234,
+    },
+  ];
 
   const listVariants = {
     hidden: {},
@@ -78,7 +123,6 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
     },
   };
 
-  console.log(activeCountry);
   return (
     <motion.li
       initial="hidden"
@@ -115,75 +159,26 @@ const Country = memo(function Country({ country, itemsDelay }: CountryProps) {
             )}
           </AnimatePresence>
         </motion.div>
-        <motion.div variants={itemVariants} className="w-[160px] h-full">
-          <div
-            className={`p-4 h-full rounded-xs flex items-center justify-center ${compareCountries(
-              Number(largestCityPopulation),
-              Number(correctExportData),
-            )} `}
+        {metrics.map(({ value, correct, content, label, width }, index) => (
+          <motion.div
+            key={index}
+            variants={itemVariants}
+            className={`w-[${width}px] h-full`}
           >
-            <p className="text-center">
-              {largestCityPopulation ? largestCityPopulation + "%" : "N/A"}
-            </p>
-          </div>
-        </motion.div>
-        <motion.div variants={itemVariants} className="w-[90px] h-full">
-          <div
-            className={`p-4 h-full rounded-xs flex items-center justify-center ${compareCountries(
-              Number(importData),
-              Number(correctImportData),
-            )} `}
-          >
-            <p className="text-center">
-              {importData ? importData + "%" : "N/A"}
-            </p>
-          </div>
-        </motion.div>
-        <motion.div variants={itemVariants} className="w-[203px] h-full">
-          <div
-            className={`h-full p-4 rounded-xs flex items-center justify-center ${compareCountries(
-              Number(gdpData && gdpData.replace(/\s+/g, "")),
-              Number(correctGdpData && correctGdpData.replace(/\s+/g, "")),
-            )} `}
-          >
-            <p className="text-center">{gdpData ? gdpData + " $" : "N/A"}</p>
-          </div>
-        </motion.div>
-
-        <motion.div variants={itemVariants} className="w-[179px] h-full">
-          <div
-            className={`h-full p-4 rounded-xs flex items-center justify-center ${compareCountries(
-              Number(forestationData),
-              Number(correctForestationData),
-            )} `}
-          >
-            <p className="text-center">
-              {forestationData ? forestationData + "%" : "N/A"}
-            </p>
-          </div>
-        </motion.div>
-        <motion.div variants={itemVariants} className="w-[242px] h-full">
-          <div
-            className={`h-full p-4 rounded-xs flex items-center justify-center ${compareCountries(
-              Number(resourcesData),
-              Number(correctResourcesData),
-            )} `}
-          >
-            <p className="text-center">
-              {resourcesData ? resourcesData + "%" : "N/A"}
-            </p>
-          </div>
-        </motion.div>
-        <motion.div variants={itemVariants} className="w-[234px] h-full">
-          <div
-            className={`h-full p-4 rounded-xs flex items-center justify-center ${compareCountries(
-              Number(urbanPDataBeforeFormat),
-              Number(correctUrbanPDataBeforeFormat),
-            )} `}
-          >
-            <p className="text-center">{urbanPData ? urbanPData : "N/A"}</p>
-          </div>
-        </motion.div>
+            <div
+              className={`h-full p-4 rounded-xs flex items-center justify-center ${compareCountries(
+                Number(value),
+                Number(correct),
+              )}`}
+            >
+              <p className="text-center">
+                {content !== undefined && content !== null
+                  ? content + label
+                  : "N/A"}
+              </p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </motion.li>
   );
